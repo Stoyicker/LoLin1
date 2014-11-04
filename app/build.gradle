@@ -1,0 +1,64 @@
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/repo' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.14.3'
+    }
+}
+
+android {
+    compileSdkVersion 15
+    buildToolsVersion "21.0.2"
+
+    productFlavors {
+        googlePlay {
+            minSdkVersion 15
+            versionCode 38
+            versionName "2.0"
+        }
+    }
+
+    signingConfigs {
+        release {
+            storeFile new File("lolin1gplaykey.keystore")
+            storePassword(new File("lolin1storage.pwd").text)
+            keyAlias(new File("lolin1.alias").text)
+            keyPassword new File("lolin1key.pwd").text
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles 'proguard-rules.pro'
+            zipAlignEnabled true
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            minifyEnabled false
+            zipAlignEnabled false
+        }
+    }
+}
+
+repositories {
+    maven { url 'https://maven.fabric.io/repo' }
+}
+
+dependencies {
+    compile project(':chat')
+    compile('com.crashlytics.sdk.android:crashlytics:2.0.1@aar') {
+        transitive = true;
+    }
+}
