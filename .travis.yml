@@ -3,6 +3,9 @@ android:
   components:
     - build-tools-21.0.2
 before install:
+  - echo "stub keystore" > lbudget.keystore
+  - echo "stub storage pwd" > lbudgetstorage.pwd
+  - echo "stub key pwd" > lbudgetkey.pwd
   - chmod +x gradlew
 script:
   - ./gradlew assembleGooglePlayDebug
