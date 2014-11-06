@@ -27,7 +27,7 @@ android {
         release {
             storeFile new File("lolin1gplaykey.keystore")
             storePassword(new File("lolin1storage.pwd").text)
-            keyAlias(new File("lolin1.alias").text)
+            keyAlias("lolin1")
             keyPassword new File("lolin1key.pwd").text
         }
     }
