@@ -1,0 +1,8 @@
+language: android
+android:
+  components:
+    - build-tools-21.0.2
+before install:
+  - chmod +x gradlew
+script:
+  - ./gradlew assembleGooglePlayDebug
