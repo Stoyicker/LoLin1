@@ -2,10 +2,13 @@ language: android
 android:
   components:
     - build-tools-21.0.2
+branches:
+  only:
+    - master
 before_install:
-  - echo "stub keystore" > lolin1.keystore
-  - echo "stub storage pwd" > lolin1storage.pwd
-  - echo "stub key pwd" > lolin1key.pwd
-  - chmod +x gradlew
+    - echo "stub keystore" > lolin1.keystore
+    - echo "stub storage pwd" > lolin1storage.pwd
+    - echo "stub key pwd" > lolin1key.pwd
+    - chmod +x gradlew
 script:
-  - ./gradlew clean assembleGooglePlayDebug
+    - ./gradlew clean assembleGooglePlayDebug
