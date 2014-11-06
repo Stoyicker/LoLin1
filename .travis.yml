@@ -3,9 +3,10 @@ android:
   components:
     - build-tools-21.0.2
 before install:
-  - echo "stub keystore" > lolin1.keystore
-  - echo "stub storage pwd" > lolin1storage.pwd
-  - echo "stub key pwd" > lolin1key.pwd
+  - echo "y"
+  - echo "stub keystore" > app/lolin1.keystore
+  - echo "stub storage pwd" > app/lolin1storage.pwd
+  - echo "stub key pwd" > app/lolin1key.pwd
   - chmod +x gradlew
 script:
   - ./gradlew assembleGooglePlayDebug
