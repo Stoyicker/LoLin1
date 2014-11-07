@@ -26,6 +26,8 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
+        android:name=".LoLin1Application"
+        android:theme="@style/AppTheme"
         tools:replace="android:label">
         <meta-data
             android:name="com.crashlytics.ApiKey"
@@ -33,11 +35,15 @@
 
         <activity
             android:name=".ui.activity.InitialActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@style/AppTheme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activity.HomeActivity">
+            <intent-filter>
+                <action android:name="org.jorge.lolin1.action.VIEW_NEWS" />
             </intent-filter>
         </activity>
     </application>

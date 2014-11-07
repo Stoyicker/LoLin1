@@ -19,6 +19,7 @@ package org.jorge.lolin1.ui.activity;
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
@@ -36,9 +37,16 @@ public class InitialActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(LoLin1Application.getInstance().getContext(), new Crashlytics());
         initContext();
+        Fabric.with(LoLin1Application.getInstance().getContext(), new Crashlytics());
         flushCacheIfNecessary();
+        launchHomeActivity();
+    }
+
+    private void launchHomeActivity() {
+        final Intent splashIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        finish();
+        startActivity(splashIntent);
     }
 
     private void initContext() {
