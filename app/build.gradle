@@ -12,8 +12,8 @@ buildscript {
 }
 
 android {
-    compileSdkVersion 15
-    buildToolsVersion "21.0.2"
+    compileSdkVersion 21
+    buildToolsVersion "21.1.1"
 
     productFlavors {
         googlePlay {
@@ -61,4 +61,5 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.0.1@aar') {
         transitive = true;
     }
+    compile "com.android.support:appcompat-v7:21.0.0"
 }
