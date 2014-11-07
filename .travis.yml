@@ -11,4 +11,4 @@ before_install:
     - echo "stub key pwd" > lolin1key.pwd
     - chmod +x gradlew
 script:
-    - ./gradlew clean assembleGooglePlayDebug
+    - ./gradlew clean assembleGooglePlayTravis

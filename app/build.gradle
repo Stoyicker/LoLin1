@@ -49,6 +49,12 @@ android {
             minifyEnabled false
             zipAlignEnabled false
         }
+
+        travis {
+            minifyEnabled true
+            proguardFiles 'proguard-rules.pro'
+            zipAlignEnabled true
+        }
     }
 }
 
