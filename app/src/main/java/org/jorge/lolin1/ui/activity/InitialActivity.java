@@ -26,7 +26,7 @@ import android.support.v7.app.ActionBarActivity;
 import com.crashlytics.android.Crashlytics;
 
 import org.jorge.lolin1.LoLin1Application;
-import org.jorge.lolin1.utils.FileManager;
+import org.jorge.lolin1.io.file.FileManager;
 
 import java.io.File;
 

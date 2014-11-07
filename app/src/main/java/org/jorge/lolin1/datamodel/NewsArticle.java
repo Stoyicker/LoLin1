@@ -1,9 +1,3 @@
-package org.jorge.lolin1.utils;
-
-import android.support.annotation.NonNull;
-
-import java.io.File;
-
 /*
  * This file is part of LoLin1.
  *
@@ -23,19 +17,7 @@ import java.io.File;
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
-public abstract class FileManager {
+package org.jorge.lolin1.datamodel;
 
-    public static Boolean recursivelyDelete(@NonNull File file) {
-        if (file.isDirectory()) {
-            String[] children = file.list();
-            for (String aChildren : children) {
-                Boolean success = recursivelyDelete(new File(file, aChildren));
-                if (!success) {
-                    return false;
-                }
-            }
-        }
-
-        return file.delete();
-    }
+public class NewsArticle {
 }

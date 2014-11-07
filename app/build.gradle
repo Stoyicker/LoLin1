@@ -67,5 +67,6 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.0.1@aar') {
         transitive = true;
     }
-    compile "com.android.support:appcompat-v7:21.0.0"
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:recyclerview-v7:21.0.0'
 }
