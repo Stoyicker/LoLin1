@@ -44,9 +44,9 @@ public class InitialActivity extends ActionBarActivity {
     }
 
     private void launchHomeActivity() {
-        final Intent splashIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        final Intent homeIntent = new Intent(getApplicationContext(), HomeActivity.class);
         finish();
-        startActivity(splashIntent);
+        startActivity(homeIntent);
     }
 
     private void initContext() {
