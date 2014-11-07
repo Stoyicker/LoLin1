@@ -1,3 +1,21 @@
+<!--
+  ~ This file is part of LoLin1.
+  ~
+  ~ LoLin1 is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ LoLin1 is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with LoLin1. If not, see <http://www.gnu.org/licenses/>.
+  ~
+  ~ Created by Jorge Antonio Diaz-Benito Soriano on 07/11/2014.
+  -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="org.jorge.lolin1">
@@ -6,19 +24,19 @@
 
     <application
         android:allowBackup="true"
-        android:label="@string/app_name"
         android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
         tools:replace="android:label">
-
         <meta-data
             android:name="com.crashlytics.ApiKey"
             android:value="86e97245af3721940bc1f7a5fff3927950c2ac7c" />
 
         <activity
-            android:name="org.jorge.com.ui.activities.InitialActivity"
+            android:name=".ui.activity.InitialActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
