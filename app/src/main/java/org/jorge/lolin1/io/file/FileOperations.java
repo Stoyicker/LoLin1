@@ -23,7 +23,7 @@ import java.io.File;
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
-public abstract class FileManager {
+public abstract class FileOperations {
 
     public static Boolean recursivelyDelete(@NonNull File file) {
         if (file.isDirectory()) {
