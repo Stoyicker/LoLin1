@@ -42,7 +42,9 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void showInitialFragment() {
-        getFragmentManager().beginTransaction().add(R.id.content_fragment_container, findNewsListFragment()).commit();
+        if (mContentFragments == null)
+            mContentFragments = new Fragment[1];
+        getSupportFragmentManager().beginTransaction().add(R.id.content_fragment_container, findNewsListFragment()).commit();
     }
 
     private Fragment findNewsListFragment() {

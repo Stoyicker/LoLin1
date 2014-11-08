@@ -36,6 +36,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private final List<NewsArticle> items = new ArrayList<>();
 
+    public NewsAdapter() {
+        items.add(new NewsArticle());
+        items.add(new NewsArticle());
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, final int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_news_article, viewGroup, Boolean.FALSE);

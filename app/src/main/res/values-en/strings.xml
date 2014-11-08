@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ This file is part of LoLin1.
   ~
   ~ LoLin1 is free software: you can redistribute it and/or modify
@@ -18,4 +17,6 @@
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
 
-<resources></resources>
+<resources>
+    <string name="no_news_articles">There are no news right now.</string>
+</resources>

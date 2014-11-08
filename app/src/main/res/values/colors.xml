@@ -20,4 +20,5 @@
 <resources>
     <color name="news_article_on_list_text">@android:color/black</color>
     <color name="news_article_on_list_text_shadow">@android:color/white</color>
+    <color name="empty_list_background_color">@android:color/holo_blue_dark</color>
 </resources>

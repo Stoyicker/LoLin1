@@ -26,7 +26,7 @@ import android.support.v7.app.ActionBarActivity;
 import com.crashlytics.android.Crashlytics;
 
 import org.jorge.lolin1.LoLin1Application;
-import org.jorge.lolin1.io.file.FileManager;
+import org.jorge.lolin1.io.file.FileOperations;
 
 import java.io.File;
 
@@ -44,7 +44,7 @@ public class InitialActivity extends ActionBarActivity {
     }
 
     private void launchHomeActivity() {
-        final Intent homeIntent = new Intent(getApplicationContext(), HomeActivity.class);
+        final Intent homeIntent = new Intent(getApplicationContext(), MainActivity.class);
         finish();
         startActivity(homeIntent);
     }
@@ -57,7 +57,7 @@ public class InitialActivity extends ActionBarActivity {
         File cacheDir;
         int CACHE_SIZE_LIMIT_BYTES = 1048576;
         if ((cacheDir = LoLin1Application.getInstance().getContext().getCacheDir()).length() > CACHE_SIZE_LIMIT_BYTES) {
-            FileManager.recursivelyDelete(cacheDir);
+            FileOperations.recursivelyDelete(cacheDir);
         }
     }
 }
