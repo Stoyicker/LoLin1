@@ -17,36 +17,37 @@
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
-package org.jorge.lolin1.ui.fragment;
+package org.jorge.lolin1.ui.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.support.v7.app.ActionBarActivity;
 
 import org.jorge.lolin1.LoLin1Application;
-import org.jorge.lolin1.ui.adapter.NewsAdapter;
+import org.jorge.lolin1.R;
+import org.jorge.lolin1.ui.fragment.NewsListFragment;
 
-public class NewsReaderFragment extends Fragment {
+public class MainActivity extends ActionBarActivity {
 
-    private RecyclerView mNewsView;
     private Context mContext;
+    private Fragment[] mContentFragments;
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mContext = LoLin1Application.getInstance().getContext();
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mContext = LoLin1Application.getInstance().getApplicationContext();
+        showInitialFragment();
     }
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        mNewsView.setLayoutManager(new LinearLayoutManager(mContext));
-        mNewsView.setItemAnimator(new DefaultItemAnimator());
-        mNewsView.setAdapter(new NewsAdapter());
+    private void showInitialFragment() {
+        getFragmentManager().beginTransaction().add(R.id.content_fragment_container, findNewsListFragment()).commit();
+    }
+
+    private Fragment findNewsListFragment() {
+        if (mContentFragments[0] == null)
+            mContentFragments[0] = Fragment.instantiate(mContext, NewsListFragment.class.getName());
+        return mContentFragments[0];
     }
 }
