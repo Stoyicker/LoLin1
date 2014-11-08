@@ -16,7 +16,9 @@
   ~
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
-
-<resources>
-    <dimen name="news_article_on_list_title">20sp</dimen>
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:startColor="#FF000000"
+        android:endColor="#00000000"
+        android:angle="90" />
+</shape>

@@ -18,7 +18,8 @@
   -->
 
 <resources>
-    <color name="news_article_on_list_text">@android:color/black</color>
-    <color name="news_article_on_list_text_shadow">@android:color/white</color>
+    <color name="news_article_on_list_title">@android:color/white</color>
+    <color name="news_article_on_list_title_shadow">@android:color/holo_blue_dark</color>
     <color name="empty_list_background_color">@android:color/holo_blue_dark</color>
+    <color name="news_article_on_list_title_background">#33000000</color>
 </resources>

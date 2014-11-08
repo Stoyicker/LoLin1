@@ -19,21 +19,21 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="@dimen/list_item_news_article_padding"
     cardview:cardElevation="@dimen/list_item_news_article_elevation"
-    android:background="?android:selectableItemBackground">
+    android:background="?android:selectableItemBackground"
+    android:gravity="center">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center">
 
         <ImageView xmlns:tools="http://schemas.android.com/tools"
             android:id="@android:id/icon"
-            android:src="@drawable/news_article_image_stub"
             android:scaleType="fitEnd"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:ignore="ContentDescription"
             android:adjustViewBounds="true" />
@@ -43,7 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/news_article_on_list_title_padding"
-            style="@style/news_article_on_list_title_text"
+            android:background="@drawable/news_article_on_list_title_background"
+            style="@style/news_article_on_list_title_title"
             android:layout_alignBottom="@android:id/icon" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

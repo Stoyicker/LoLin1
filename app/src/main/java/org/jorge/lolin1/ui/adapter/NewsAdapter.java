@@ -39,6 +39,14 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     public NewsAdapter() {
         items.add(new NewsArticle());
         items.add(new NewsArticle());
+        items.add(new NewsArticle());
+        items.add(new NewsArticle());
+        items.add(new NewsArticle());
+        items.add(new NewsArticle());
+        items.add(new NewsArticle());
+        items.add(new NewsArticle());
+        items.add(new NewsArticle());
+        items.add(new NewsArticle());
     }
 
     @Override
