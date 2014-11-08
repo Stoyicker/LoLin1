@@ -19,5 +19,30 @@
 
 package org.jorge.lolin1.datamodel;
 
+import android.graphics.drawable.Drawable;
+
+import org.jorge.lolin1.LoLin1Application;
+import org.jorge.lolin1.R;
+
 public class NewsArticle {
+    private final String title = "Champion Spotlight: Karthus, the Deathsinger", url = "http://euw.leagueoflegends.com/es/news/champions-skins/champion-update/blog-des-actualizacion-de-campeones";
+
+    //TODO Uncomment this
+//    public NewsArticle(@NonNull String _title, @NonNull String _url) {
+//        this.title = _title;
+//        this.url = _url;
+//    }
+
+    public Drawable getImageAsDrawable() {
+        //TODO getImageAsDrawable()
+        return LoLin1Application.getInstance().getContext().getResources().getDrawable(R.drawable.news_article_image_stub);
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
 }
