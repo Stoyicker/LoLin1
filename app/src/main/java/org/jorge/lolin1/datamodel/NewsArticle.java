@@ -35,7 +35,7 @@ public class NewsArticle {
 
     public Drawable getImageAsDrawable() {
         //TODO getImageAsDrawable()
-        return LoLin1Application.getInstance().getContext().getResources().getDrawable(R.drawable.news_article_image_stub_blank);
+        return LoLin1Application.getInstance().getContext().getResources().getDrawable(R.drawable.news_article_image_stub);
     }
 
     public String getTitle() {
