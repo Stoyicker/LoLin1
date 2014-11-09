@@ -20,36 +20,55 @@
 package org.jorge.lolin1.ui.activity;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
-import org.jorge.lolin1.ui.fragment.NewsListFragment;
+import org.jorge.lolin1.ui.fragment.FeedListFragment;
 
 public class MainActivity extends ActionBarActivity {
 
     private Context mContext;
     private Fragment[] mContentFragments;
+    private Integer mActiveFragment = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = LoLin1Application.getInstance().getApplicationContext();
-        showInitialFragment();
+        if (getSupportFragmentManager().getFragments() == null)
+            showInitialFragment();
     }
 
     private void showInitialFragment() {
         if (mContentFragments == null)
             mContentFragments = new Fragment[1];
-        getSupportFragmentManager().beginTransaction().add(R.id.content_fragment_container, findNewsListFragment()).commit();
+        if (mContext.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE)
+            getSupportFragmentManager().beginTransaction().add(R.id.content_fragment_container, findNewsListFragment()).commit();
     }
 
     private Fragment findNewsListFragment() {
         if (mContentFragments[0] == null)
-            mContentFragments[0] = Fragment.instantiate(mContext, NewsListFragment.class.getName());
+            mContentFragments[0] = Fragment.instantiate(mContext, FeedListFragment.class.getName());
         return mContentFragments[0];
+    }
+
+    public interface IOnBackPressed {
+
+        public Boolean onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mContentFragments[mActiveFragment] instanceof IOnBackPressed) {
+            Boolean handled = ((IOnBackPressed) mContentFragments[mActiveFragment]).onBackPressed();
+            if (!handled) {
+                super.onBackPressed();
+            }
+        }
     }
 }

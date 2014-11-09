@@ -19,24 +19,18 @@
 
 package org.jorge.lolin1.datamodel;
 
-import android.graphics.drawable.Drawable;
-
-import org.jorge.lolin1.LoLin1Application;
-import org.jorge.lolin1.R;
-
-public class NewsArticle {
-    private final String title = "Champion Spotlight: Karthus, the Deathsinger", url = "http://euw.leagueoflegends.com/es/news/champions-skins/champion-update/blog-des-actualizacion-de-campeones";
+public class FeedArticle {
+    private final String title = "Champion Spotlight: Karthus, the Deathsinger",
+            url = "http://euw.leagueoflegends.com/es/news/champions-skins/champion-update/blog-des-actualizacion-de-campeones",
+            imageUrl = "http://euw.leagueoflegends.com/sites/default/files/styles/wide_small/public/upload/viktor_0_base1_1920.jpg?itok=vdCKicyL";
+    private boolean read = Boolean.FALSE;
 
     //TODO Uncomment this
-//    public NewsArticle(@NonNull String _title, @NonNull String _url) {
+//    public NewsArticle(@NonNull String _title, @NonNull String _url, @NonNull String _imageUrl) {
 //        this.title = _title;
 //        this.url = _url;
+//    this.imageUrl = _imageUrl;
 //    }
-
-    public Drawable getImageAsDrawable() {
-        //TODO getImageAsDrawable()
-        return LoLin1Application.getInstance().getContext().getResources().getDrawable(R.drawable.news_article_image_stub);
-    }
 
     public String getTitle() {
         return title;
@@ -44,5 +38,19 @@ public class NewsArticle {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public Boolean isRead() {
+        return read;
+    }
+
+    public void markAsRead() {
+        if (read)
+            throw new IllegalStateException("Article was already marked as read.");
+        read = Boolean.TRUE;
     }
 }

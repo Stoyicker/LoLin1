@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ This file is part of LoLin1.
   ~
   ~ LoLin1 is free software: you can redistribute it and/or modify
@@ -17,14 +16,7 @@
   ~
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
+
 <resources>
-    <declare-styleable name="FloatingActionButton">
-        <attr name="fab_colorPressed" format="color"/>
-        <attr name="fab_colorNormal" format="color"/>
-        <attr name="fab_shadow" format="boolean"/>
-        <attr name="fab_type" format="enum">
-            <enum name="normal" value="0"/>
-            <enum name="mini" value="1"/>
-        </attr>
-    </declare-styleable>
+    <integer name="feed_article_on_list_title_unread">20</integer>
 </resources>

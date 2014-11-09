@@ -18,8 +18,25 @@
   -->
 
 <resources>
-    <color name="news_article_on_list_title">@android:color/white</color>
-    <color name="news_article_on_list_title_shadow">@android:color/holo_blue_dark</color>
-    <color name="empty_list_background_color">@android:color/holo_blue_dark</color>
-    <color name="news_article_on_list_title_background">#33000000</color>
+    <color name="material_green_500">#4CAF50</color>
+    <color name="material_green_800">#2E7D32</color>
+    <color name="material_blue_800">#0277BD</color>
+
+    <color name="feed_article_on_list_title">@android:color/white</color>
+    <color name="feed_article_on_list_title_shadow">@color/material_blue_500</color>
+    <color name="empty_list_background_color">@color/material_blue_500</color>
+    <color name="feed_article_on_list_title_background">#33000000</color>
+    <color name="share_floating_action_button_background_state_normal">
+        @color/material_green_500
+    </color>
+    <color name="share_floating_action_button_background_state_pressed">
+        @color/material_green_800
+    </color>
+    <color name="feed_article_selected_overlay">#AA0277BD</color>
+    <color name="mark_as_read_floating_action_button_background_state_normal">
+        @color/material_blue_500
+    </color>
+    <color name="mark_as_read_floating_action_button_background_state_pressed">
+        @color/material_blue_800
+    </color>
 </resources>

@@ -19,62 +19,147 @@
 
 package org.jorge.lolin1.ui.adapter;
 
+import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.melnykov.fab.FloatingActionButton;
+import com.squareup.picasso.Picasso;
+
 import org.jorge.lolin1.R;
-import org.jorge.lolin1.datamodel.NewsArticle;
+import org.jorge.lolin1.datamodel.FeedArticle;
+import org.jorge.lolin1.ui.fragment.FeedListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
-    private final List<NewsArticle> items = new ArrayList<>();
+    private static Float SELECTED_ITEM_ALPHA, UNSELECTED_ITEM_ALPHA;
+    private final List<FeedArticle> items = new ArrayList<>();
+    private final Context mContext;
+    private final FloatingActionButton mFabShareButton, mFabMarkAsReadButton;
+    private int mSelectedIndex = FeedListFragment.NO_ITEM_SELECTED, mDefaultImageId;
+    private final IOnItemSelectedListener mCallback;
 
-    public NewsAdapter() {
-        items.add(new NewsArticle());
-        items.add(new NewsArticle());
-        items.add(new NewsArticle());
-        items.add(new NewsArticle());
-        items.add(new NewsArticle());
-        items.add(new NewsArticle());
-        items.add(new NewsArticle());
-        items.add(new NewsArticle());
-        items.add(new NewsArticle());
-        items.add(new NewsArticle());
+    public NewsAdapter(Context context, FloatingActionButton fabButtonMarkAsRead, FloatingActionButton fabButtonShare, IOnItemSelectedListener onItemSelectedListener, Integer defaultImageId) {
+        this.mContext = context;
+        this.mFabShareButton = fabButtonShare;
+        this.mFabMarkAsReadButton = fabButtonMarkAsRead;
+        this.mDefaultImageId = defaultImageId;
+        this.mCallback = onItemSelectedListener;
+
+        items.add(new FeedArticle());
+        items.add(new FeedArticle());
+        items.add(new FeedArticle());
+        items.add(new FeedArticle());
+        items.add(new FeedArticle());
+        items.add(new FeedArticle());
+        items.add(new FeedArticle());
+        items.add(new FeedArticle());
+        items.add(new FeedArticle());
+        items.add(new FeedArticle());
+
+        TypedValue outValue = new TypedValue();
+        mContext.getResources().getValue(R.dimen.feed_article_selected_alpha, outValue, true);
+        SELECTED_ITEM_ALPHA = outValue.getFloat();
+        mContext.getResources().getValue(R.dimen.feed_article_unselected_alpha, outValue, true);
+        UNSELECTED_ITEM_ALPHA = outValue.getFloat();
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, final int i) {
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_news_article, viewGroup, Boolean.FALSE);
-        v.setOnLongClickListener(new View.OnLongClickListener() {
+        return new ViewHolder(v);
+    }
+
+    private void hideSelectedItemButtons() {
+        hideMarkAsReadButton();
+        hideShareButton();
+    }
+
+    private void hideMarkAsReadButton() {
+        mFabMarkAsReadButton.hide();
+    }
+
+    private void hideShareButton() {
+        mFabShareButton.hide();
+    }
+
+    private void showSelectedItemButtons(int itemIndex) {
+        if (!items.get(itemIndex).isRead())
+            showMarkAsReadButton();
+        showShareButton();
+    }
+
+    private void showMarkAsReadButton() {
+        mFabMarkAsReadButton.setVisibility(View.VISIBLE);
+        mFabMarkAsReadButton.show();
+    }
+
+    private void showShareButton() {
+        mFabShareButton.setVisibility(View.VISIBLE);
+        mFabShareButton.show();
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, final int i) {
+        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                //TODO Show FABs to (1) mark article as read if unread and (2) share the article
-                return false;
+                setSelectedIndex(i);
+                return Boolean.TRUE;
             }
         });
-        v.setOnClickListener(new View.OnClickListener() {
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //TODO Show preview of article or launch web intent depending on setting
             }
         });
-        return new ViewHolder(v);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
-        NewsArticle item = items.get(i);
+        FeedArticle item = items.get(i);
+        if (!item.isRead()) {
+            viewHolder.titleView.setTextSize(mContext.getResources().getInteger(R.integer.feed_article_on_list_title_unread));
+            viewHolder.titleView.setTypeface(null, Typeface.BOLD_ITALIC);
+        }
         final String title = item.getTitle();
         viewHolder.titleView.setText(title);
-        viewHolder.imageView.setImageDrawable(item.getImageAsDrawable());
+        Picasso.with(mContext)
+                .load(item.getImageUrl())
+                .error(mDefaultImageId)
+                .into(viewHolder.imageView);
         viewHolder.imageView.setContentDescription(title);
+        final int selectedIndex = getSelectedItemIndex();
+        if (selectedIndex == i || selectedIndex == FeedListFragment.NO_ITEM_SELECTED) {
+            if (selectedIndex != FeedListFragment.NO_ITEM_SELECTED)
+                showSelectedItemButtons(i);
+            viewHolder.imageView.setAlpha(SELECTED_ITEM_ALPHA);
+        } else {
+            viewHolder.imageView.setAlpha(UNSELECTED_ITEM_ALPHA);
+        }
+    }
+
+    private void setSelectedIndex(int index) {
+        mSelectedIndex = index;
+        notifyDataSetChanged();
+        mCallback.setSelectedIndex(index);
+    }
+
+    public void clearSelection() {
+        mSelectedIndex = FeedListFragment.NO_ITEM_SELECTED;
+        notifyDataSetChanged();
+        hideSelectedItemButtons();
+        mCallback.clearSelection();
+    }
+
+    private int getSelectedItemIndex() {
+        return mSelectedIndex;
     }
 
     @Override
@@ -91,5 +176,12 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             titleView = (TextView) itemView.findViewById(android.R.id.title);
             imageView = (ImageView) itemView.findViewById(android.R.id.icon);
         }
+    }
+
+    public interface IOnItemSelectedListener {
+
+        public void setSelectedIndex(int selectedIndex);
+
+        public void clearSelection();
     }
 }
