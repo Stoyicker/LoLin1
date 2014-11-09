@@ -19,4 +19,5 @@
 
 <resources>
     <integer name="feed_article_on_list_title_unread">20</integer>
+    <integer name="feed_article_on_list_title_read">16</integer>
 </resources>

@@ -59,7 +59,7 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View ret = inflater.inflate(R.layout.fragment_news_article_list, container, Boolean.FALSE);
+        final View ret = inflater.inflate(R.layout.fragment_feed_article_list, container, Boolean.FALSE);
         mFabShareButton = ((FloatingActionButton) ret.findViewById(R.id.fab_button_share));
         mFabShareButton.hide();
         mFabMarkAsReadButton = ((FloatingActionButton) ret.findViewById(R.id.fab_button_mark_as_read));

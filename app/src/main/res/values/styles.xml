@@ -33,7 +33,6 @@
 
     <style name="news_article_on_list_title_read">
         <item name="android:textColor">@color/feed_article_on_list_title</item>
-        <item name="android:textSize">@dimen/feed_article_on_list_title_read</item>
         <item name="android:shadowColor">@color/feed_article_on_list_title_shadow</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">0</item>

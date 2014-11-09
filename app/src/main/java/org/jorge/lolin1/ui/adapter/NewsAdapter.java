@@ -71,11 +71,19 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         SELECTED_ITEM_ALPHA = outValue.getFloat();
         mContext.getResources().getValue(R.dimen.feed_article_unselected_alpha, outValue, true);
         UNSELECTED_ITEM_ALPHA = outValue.getFloat();
+
+        mFabMarkAsReadButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                items.get(mSelectedIndex).markAsRead();
+                notifyItemChanged(mSelectedIndex);
+            }
+        });
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_news_article, viewGroup, Boolean.FALSE);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_feed_article, viewGroup, Boolean.FALSE);
         return new ViewHolder(v);
     }
 
@@ -95,6 +103,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private void showSelectedItemButtons(int itemIndex) {
         if (!items.get(itemIndex).isRead())
             showMarkAsReadButton();
+        else
+            hideMarkAsReadButton();
         showShareButton();
     }
 
@@ -127,6 +137,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         if (!item.isRead()) {
             viewHolder.titleView.setTextSize(mContext.getResources().getInteger(R.integer.feed_article_on_list_title_unread));
             viewHolder.titleView.setTypeface(null, Typeface.BOLD_ITALIC);
+        } else{
+            viewHolder.titleView.setTextSize(mContext.getResources().getInteger(R.integer.feed_article_on_list_title_read));
+            viewHolder.titleView.setTypeface(null, Typeface.NORMAL);
         }
         final String title = item.getTitle();
         viewHolder.titleView.setText(title);
