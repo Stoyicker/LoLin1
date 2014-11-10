@@ -75,8 +75,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         mFabMarkAsReadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                items.get(mSelectedIndex).markAsRead();
-                notifyItemChanged(mSelectedIndex);
+                markAsRead(mSelectedIndex);
             }
         });
     }
@@ -137,7 +136,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         if (!item.isRead()) {
             viewHolder.titleView.setTextSize(mContext.getResources().getInteger(R.integer.feed_article_on_list_title_unread));
             viewHolder.titleView.setTypeface(null, Typeface.BOLD_ITALIC);
-        } else{
+        } else {
             viewHolder.titleView.setTextSize(mContext.getResources().getInteger(R.integer.feed_article_on_list_title_read));
             viewHolder.titleView.setTypeface(null, Typeface.NORMAL);
         }
@@ -188,6 +187,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
             super(itemView);
             titleView = (TextView) itemView.findViewById(android.R.id.title);
             imageView = (ImageView) itemView.findViewById(android.R.id.icon);
+        }
+    }
+
+    private void markAsRead(int i) {
+        if (i >= 0 && i < items.size()) {
+            items.get(i).markAsRead();
+            notifyItemChanged(i);
         }
     }
 
