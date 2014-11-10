@@ -18,6 +18,7 @@ android {
 
     productFlavors {
         googlePlay {
+            applicationId "org.jorge.lolin1"
             minSdkVersion 15
             versionCode 38
             versionName "2.0"
