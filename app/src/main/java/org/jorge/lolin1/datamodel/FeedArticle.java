@@ -24,12 +24,14 @@ public class FeedArticle {
             url = "http://euw.leagueoflegends.com/es/news/champions-skins/champion-update/blog-des-actualizacion-de-campeones",
             imageUrl = "http://euw.leagueoflegends.com/sites/default/files/styles/wide_small/public/upload/viktor_0_base1_1920.jpg?itok=vdCKicyL";
     private boolean read = Boolean.FALSE;
+    private final String previewText = "preview";
 
     //TODO Uncomment this
-//    public NewsArticle(@NonNull String _title, @NonNull String _url, @NonNull String _imageUrl) {
+//    public NewsArticle(@NonNull String _title, @NonNull String _url, @NonNull String _imageUrl, @NonNull String _previewText) {
 //        this.title = _title;
 //        this.url = _url;
-//    this.imageUrl = _imageUrl;
+//        this.imageUrl = _imageUrl;
+//        this.previewText = _previewText;
 //    }
 
     public String getTitle() {
@@ -52,5 +54,9 @@ public class FeedArticle {
         if (read)
             throw new IllegalStateException("Article was already marked as read.");
         read = Boolean.TRUE;
+    }
+
+    public String getPreviewText() {
+        return previewText;
     }
 }

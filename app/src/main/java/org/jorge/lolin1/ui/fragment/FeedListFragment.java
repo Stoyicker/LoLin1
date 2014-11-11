@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.squareup.picasso.Picasso;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
@@ -49,11 +50,21 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
     public static final int NO_ITEM_SELECTED = -1;
     private Integer mSelectedIndex = NO_ITEM_SELECTED;
     private FloatingActionButton mFabMarkAsReadButton;
+    private String TAG;
+    private static final String TAG_KEY = "TAG";
+
+    public static Fragment newInstance(Context context, String _tag) {
+        Bundle args = new Bundle();
+        args.putString(TAG_KEY, _tag);
+
+        return Fragment.instantiate(context, _tag, args);
+    }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mContext = LoLin1Application.getInstance().getContext();
+        TAG = getArguments().getString(TAG_KEY);
     }
 
     @Override
@@ -89,11 +100,17 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Picasso.with(mContext).cancelTag(TAG);
+    }
+
+    @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mNewsAdapter =
                 new NewsAdapter(
-                        mContext, mFabMarkAsReadButton, mFabShareButton, this, R.drawable.news_article_placeholder);
+                        mContext, mFabMarkAsReadButton, mFabShareButton, this, R.drawable.news_article_placeholder, TAG);
         mNewsAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {

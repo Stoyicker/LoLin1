@@ -31,11 +31,12 @@ import java.io.IOException;
 
 public abstract class PicassoUtils {
 
-    public static void loadInto(Context context, String path, int errorResId, ImageView target) {
+    public static void loadInto(Context context, String path, int errorResId, ImageView target, Object tag) {
         if (ConnectionUtils.isInternetWifi(context))
             Picasso.with(context)
                     .load(path)
                     .error(errorResId)
+                    .tag(tag)
                     .into(target);
         else
             new Picasso.Builder(context).downloader(new UrlConnectionDownloader(context) {
@@ -45,6 +46,7 @@ public abstract class PicassoUtils {
                 }
             }).build().load(path)
                     .error(errorResId)
+                    .tag(tag)
                     .into(target);
     }
 }

@@ -53,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Fragment findNewsListFragment() {
         if (mContentFragments[0] == null)
-            mContentFragments[0] = Fragment.instantiate(mContext, FeedListFragment.class.getName());
+            mContentFragments[0] = FeedListFragment.newInstance(mContext, FeedListFragment.class.getName());
         return mContentFragments[0];
     }
 

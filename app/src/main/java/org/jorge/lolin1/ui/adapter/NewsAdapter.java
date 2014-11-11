@@ -20,6 +20,7 @@
 package org.jorge.lolin1.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -48,8 +49,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private final FloatingActionButton mFabShareButton, mFabMarkAsReadButton;
     private int mSelectedIndex = FeedListFragment.NO_ITEM_SELECTED, mDefaultImageId;
     private final IOnItemSelectedListener mCallback;
+    private final Object mTag;
 
-    public NewsAdapter(Context context, FloatingActionButton fabButtonMarkAsRead, FloatingActionButton fabButtonShare, IOnItemSelectedListener onItemSelectedListener, Integer defaultImageId) {
+    public NewsAdapter(Context context, FloatingActionButton fabButtonMarkAsRead, FloatingActionButton fabButtonShare, IOnItemSelectedListener onItemSelectedListener, Integer defaultImageId, Object _tag) {
         this.mContext = context;
         this.mFabShareButton = fabButtonShare;
         this.mFabMarkAsReadButton = fabButtonMarkAsRead;
@@ -72,6 +74,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         SELECTED_ITEM_ALPHA = outValue.getFloat();
         mContext.getResources().getValue(R.dimen.feed_article_unselected_alpha, outValue, true);
         UNSELECTED_ITEM_ALPHA = outValue.getFloat();
+        mTag = _tag;
 
         mFabMarkAsReadButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,6 +82,22 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
                 markAsRead(mSelectedIndex);
             }
         });
+        mFabShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO Send share intent
+                clearSelection();
+            }
+        });
+    }
+
+    private void sendShareIntent(FeedArticle item) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TITLE, item.getTitle());
+        intent.putExtra(Intent.EXTRA_TEXT, item.getPreviewText());
+        mContext.startActivity(Intent.createChooser(intent, mContext.getResources().getString(R.string.abc_shareactionprovider_share_with)));
     }
 
     @Override
@@ -143,7 +162,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
         final String title = item.getTitle();
         viewHolder.titleView.setText(title);
-        PicassoUtils.loadInto(mContext, item.getImageUrl(), mDefaultImageId, viewHolder.imageView);
+        PicassoUtils.loadInto(mContext, item.getImageUrl(), mDefaultImageId, viewHolder.imageView, mTag);
         viewHolder.imageView.setContentDescription(title);
         final int selectedIndex = getSelectedItemIndex();
         if (selectedIndex == i || selectedIndex == FeedListFragment.NO_ITEM_SELECTED) {
