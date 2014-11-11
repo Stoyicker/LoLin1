@@ -85,7 +85,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         mFabShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO Send share intent
+                if (mSelectedIndex == FeedListFragment.NO_ITEM_SELECTED)
+                    throw new IllegalStateException("Trying to share an item when no one is selected");
+                sendShareIntent(items.get(mSelectedIndex));
                 clearSelection();
             }
         });
