@@ -30,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
-import com.squareup.picasso.Picasso;
 
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
@@ -38,6 +37,8 @@ import org.jorge.lolin1.ui.fragment.FeedListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import util.PicassoUtils;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
@@ -142,10 +143,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
         }
         final String title = item.getTitle();
         viewHolder.titleView.setText(title);
-        Picasso.with(mContext)
-                .load(item.getImageUrl())
-                .error(mDefaultImageId)
-                .into(viewHolder.imageView);
+        PicassoUtils.loadInto(mContext, item.getImageUrl(), mDefaultImageId, viewHolder.imageView);
         viewHolder.imageView.setContentDescription(title);
         final int selectedIndex = getSelectedItemIndex();
         if (selectedIndex == i || selectedIndex == FeedListFragment.NO_ITEM_SELECTED) {
