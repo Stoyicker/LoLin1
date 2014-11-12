@@ -20,7 +20,7 @@
 package org.jorge.lolin1.datamodel;
 
 public class FeedArticle {
-    private final String title = "Champion Spotlight: Karthus, the Deathsinger",
+    private final String title = "New free champion rotation: Akali, Quinn, Thresh and more!",
             url = "http://euw.leagueoflegends.com/es/news/champions-skins/champion-update/blog-des-actualizacion-de-campeones",
             imageUrl = "http://euw.leagueoflegends.com/sites/default/files/styles/wide_small/public/upload/viktor_0_base1_1920.jpg?itok=vdCKicyL";
     private boolean read = Boolean.FALSE;
