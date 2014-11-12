@@ -151,7 +151,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO Show preview of article or launch web intent depending on setting
+                if (mSelectedIndex == FeedListFragment.NO_ITEM_SELECTED || mSelectedIndex == i) {
+                    //TODO Show preview of article or launch web intent depending on setting
+                }
+                clearSelection();
             }
         });
         FeedArticle item = items.get(i);
