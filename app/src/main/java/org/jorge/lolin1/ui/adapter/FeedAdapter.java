@@ -41,7 +41,7 @@ import java.util.List;
 
 import util.PicassoUtils;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
+public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     private static Float SELECTED_ITEM_ALPHA, UNSELECTED_ITEM_ALPHA;
     private final List<FeedArticle> items = new ArrayList<>();
@@ -51,7 +51,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
     private final IOnItemSelectedListener mCallback;
     private final Object mTag;
 
-    public NewsAdapter(Context context, FloatingActionButton fabButtonMarkAsRead, FloatingActionButton fabButtonShare, IOnItemSelectedListener onItemSelectedListener, Integer defaultImageId, Object _tag) {
+    public FeedAdapter(Context context, FloatingActionButton fabButtonMarkAsRead, FloatingActionButton fabButtonShare, IOnItemSelectedListener onItemSelectedListener, Integer defaultImageId, Object _tag) {
         this.mContext = context;
         this.mFabShareButton = fabButtonShare;
         this.mFabMarkAsReadButton = fabButtonMarkAsRead;

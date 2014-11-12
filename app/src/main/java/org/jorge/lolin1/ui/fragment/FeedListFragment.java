@@ -38,13 +38,13 @@ import com.squareup.picasso.Picasso;
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.ui.activity.MainActivity;
-import org.jorge.lolin1.ui.adapter.NewsAdapter;
+import org.jorge.lolin1.ui.adapter.FeedAdapter;
 
-public class FeedListFragment extends Fragment implements MainActivity.IOnBackPressed, NewsAdapter.IOnItemSelectedListener {
+public class FeedListFragment extends Fragment implements MainActivity.IOnBackPressed, FeedAdapter.IOnItemSelectedListener {
 
     private RecyclerView mNewsView;
     private Context mContext;
-    private NewsAdapter mNewsAdapter;
+    private FeedAdapter mFeedAdapter;
     private View mEmptyView;
     private FloatingActionButton mFabShareButton;
     public static final int NO_ITEM_SELECTED = -1;
@@ -92,7 +92,7 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
                             mNewsView.getLayoutManager().scrollToPosition(0);
                         }
                     }
-                mNewsAdapter.clearSelection();
+                mFeedAdapter.clearSelection();
             }
         });
         mEmptyView = ret.findViewById(android.R.id.empty);
@@ -108,10 +108,10 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mNewsAdapter =
-                new NewsAdapter(
+        mFeedAdapter =
+                new FeedAdapter(
                         mContext, mFabMarkAsReadButton, mFabShareButton, this, R.drawable.news_article_placeholder, TAG);
-        mNewsAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+        mFeedAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 super.onChanged();
@@ -120,12 +120,12 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
         });
         mNewsView.setLayoutManager(new LinearLayoutManager(mContext));
         mNewsView.setItemAnimator(new DefaultItemAnimator());
-        mNewsView.setAdapter(mNewsAdapter);
+        mNewsView.setAdapter(mFeedAdapter);
         checkAdapterIsEmpty();
     }
 
     private void checkAdapterIsEmpty() {
-        if (mNewsAdapter.getItemCount() == 0) {
+        if (mFeedAdapter.getItemCount() == 0) {
             mEmptyView.setVisibility(View.VISIBLE);
         } else {
             mEmptyView.setVisibility(View.GONE);
@@ -136,7 +136,7 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
     public Boolean onBackPressed() {
         Boolean ret = mSelectedIndex != NO_ITEM_SELECTED;
         if (ret)
-            mNewsAdapter.clearSelection();
+            mFeedAdapter.clearSelection();
         return ret;
     }
 
