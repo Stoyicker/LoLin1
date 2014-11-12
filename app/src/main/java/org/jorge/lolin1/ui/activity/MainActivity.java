@@ -27,7 +27,7 @@ import android.support.v7.app.ActionBarActivity;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
-import org.jorge.lolin1.ui.fragment.FeedListFragment;
+import org.jorge.lolin1.ui.fragment.NewsListFragment;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -53,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
 
     private Fragment findNewsListFragment() {
         if (mContentFragments[0] == null)
-            mContentFragments[0] = FeedListFragment.newInstance(mContext, FeedListFragment.class.getName());
+            mContentFragments[0] = NewsListFragment.newInstance(mContext);
         return mContentFragments[0];
     }
 

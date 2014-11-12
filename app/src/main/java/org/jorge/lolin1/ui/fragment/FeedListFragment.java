@@ -51,20 +51,15 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
     private Integer mSelectedIndex = NO_ITEM_SELECTED;
     private FloatingActionButton mFabMarkAsReadButton;
     private String TAG;
-    private static final String TAG_KEY = "TAG";
-
-    public static Fragment newInstance(Context context, String _tag) {
-        Bundle args = new Bundle();
-        args.putString(TAG_KEY, _tag);
-
-        return Fragment.instantiate(context, _tag, args);
-    }
+    protected static final String TAG_KEY = "TAG", ERROR_RES_ID_KEY = "ERROR";
+    private int mDefaultImageId;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mContext = LoLin1Application.getInstance().getContext();
         TAG = getArguments().getString(TAG_KEY);
+        mDefaultImageId = getArguments().getInt(ERROR_RES_ID_KEY);
     }
 
     @Override
@@ -110,7 +105,7 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
         super.onViewCreated(view, savedInstanceState);
         mFeedAdapter =
                 new FeedAdapter(
-                        mContext, mFabMarkAsReadButton, mFabShareButton, this, R.drawable.news_article_placeholder, TAG);
+                        mContext, mFabMarkAsReadButton, mFabShareButton, this, mDefaultImageId, TAG);
         mFeedAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {

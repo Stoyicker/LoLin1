@@ -1,0 +1,37 @@
+/*
+ * This file is part of LoLin1.
+ *
+ * LoLin1 is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * LoLin1 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with LoLin1. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Created by Jorge Antonio Diaz-Benito Soriano.
+ */
+
+package org.jorge.lolin1.ui.fragment;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+
+import org.jorge.lolin1.R;
+
+public class NewsListFragment extends FeedListFragment {
+
+    public static Fragment newInstance(Context context) {
+        Bundle args = new Bundle();
+        args.putString(FeedListFragment.TAG_KEY, NewsListFragment.class.getName());
+        args.putInt(FeedListFragment.ERROR_RES_ID_KEY, R.drawable.news_article_placeholder);
+
+        return FeedListFragment.instantiate(context, NewsListFragment.class.getName(), args);
+    }
+}
