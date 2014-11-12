@@ -201,6 +201,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return items.size();
     }
 
+    public FeedArticle getItem(Integer i) {
+        return items.get(i);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView imageView;
         private final TextView titleView;

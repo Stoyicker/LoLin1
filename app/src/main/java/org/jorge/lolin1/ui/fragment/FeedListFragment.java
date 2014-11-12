@@ -19,18 +19,23 @@
 
 package org.jorge.lolin1.ui.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
 import com.squareup.picasso.Picasso;
@@ -40,7 +45,7 @@ import org.jorge.lolin1.R;
 import org.jorge.lolin1.ui.activity.MainActivity;
 import org.jorge.lolin1.ui.adapter.FeedAdapter;
 
-public class FeedListFragment extends Fragment implements MainActivity.IOnBackPressed, FeedAdapter.IOnItemSelectedListener {
+public class FeedListFragment extends Fragment implements MainActivity.IOnBackPressed, FeedAdapter.IOnItemSelectedListener, ActionMode.Callback {
 
     private RecyclerView mNewsView;
     private Context mContext;
@@ -53,6 +58,7 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
     private String TAG;
     protected static final String TAG_KEY = "TAG", ERROR_RES_ID_KEY = "ERROR";
     private int mDefaultImageId;
+    private ActionMode mActionMode;
 
     @Override
     public void onAttach(Activity activity) {
@@ -138,10 +144,37 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
     @Override
     public void setSelectedIndex(int selectedIndex) {
         mSelectedIndex = selectedIndex;
+        mActionMode = ((ActionBarActivity) getActivity()).startSupportActionMode(this);
     }
 
     @Override
     public void clearSelection() {
-        mSelectedIndex = NO_ITEM_SELECTED;
+        if (mSelectedIndex != NO_ITEM_SELECTED) {
+            mSelectedIndex = NO_ITEM_SELECTED;
+            mActionMode.finish();
+        }
+    }
+
+    @Override
+    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+        @SuppressLint("InflateParams") TextView tv = (TextView) getActivity().getLayoutInflater().inflate(R.layout.action_mode_title, null);
+        tv.setText(mFeedAdapter.getItem(mSelectedIndex).getTitle());
+        actionMode.setCustomView(tv);
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+        return Boolean.FALSE;
+    }
+
+    @Override
+    public void onDestroyActionMode(ActionMode actionMode) {
+        mFeedAdapter.clearSelection();
     }
 }

@@ -31,11 +31,16 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <style name="news_article_on_list_title_read">
+    <style name="NewsArticleOnListTitleRead">
         <item name="android:textColor">@color/feed_article_on_list_title</item>
         <item name="android:shadowColor">@color/feed_article_on_list_title_shadow</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">0</item>
         <item name="android:shadowRadius">3</item>
+    </style>
+
+    <style name="CabTitle">
+        <item name="android:textColor">@color/cab_title</item>
+        <item name="android:textSize">@dimen/cab_title</item>
     </style>
 </resources>

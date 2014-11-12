@@ -39,4 +39,5 @@
     <color name="mark_as_read_floating_action_button_background_state_pressed">
         @color/material_blue_800
     </color>
+    <color name="cab_title">@android:color/white</color>
 </resources>
