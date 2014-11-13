@@ -167,8 +167,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         }
         final String title = item.getTitle();
         viewHolder.titleView.setText(title);
-        PicassoUtils.loadInto(mContext, item.getImageUrl(), mDefaultImageId, viewHolder.imageView, mTag);
-        viewHolder.imageView.setContentDescription(title);
+        if (viewHolder.imageView.getDrawable() == null) {
+            PicassoUtils.loadInto(mContext, item.getImageUrl(), mDefaultImageId, viewHolder.imageView, mTag);
+            viewHolder.imageView.setContentDescription(title);
+        }
         final int selectedIndex = getSelectedItemIndex();
         if (selectedIndex == i || selectedIndex == FeedListFragment.NO_ITEM_SELECTED) {
             if (selectedIndex != FeedListFragment.NO_ITEM_SELECTED)

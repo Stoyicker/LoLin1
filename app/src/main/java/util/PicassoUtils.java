@@ -20,33 +20,17 @@
 package util;
 
 import android.content.Context;
-import android.net.Uri;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Downloader;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.UrlConnectionDownloader;
-
-import java.io.IOException;
 
 public abstract class PicassoUtils {
 
     public static void loadInto(Context context, String path, int errorResId, ImageView target, Object tag) {
-        if (ConnectionUtils.isInternetWifi(context))
-            Picasso.with(context)
-                    .load(path)
-                    .error(errorResId)
-                    .tag(tag)
-                    .into(target);
-        else
-            new Picasso.Builder(context).downloader(new UrlConnectionDownloader(context) {
-                @Override
-                public Downloader.Response load(Uri uri, boolean localCacheOnly) throws IOException {
-                    return super.load(uri, Boolean.TRUE);
-                }
-            }).build().load(path)
-                    .error(errorResId)
-                    .tag(tag)
-                    .into(target);
+        Picasso.with(context)
+                .load(path)
+                .error(errorResId)
+                .tag(tag)
+                .into(target);
     }
 }
