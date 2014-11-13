@@ -144,7 +144,15 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
     @Override
     public void setSelectedIndex(int selectedIndex) {
         mSelectedIndex = selectedIndex;
-        mActionMode = ((ActionBarActivity) getActivity()).startSupportActionMode(this);
+        if (mActionMode == null)
+            mActionMode = ((ActionBarActivity) getActivity()).startSupportActionMode(this);
+        else {
+            if (mActionMode.getCustomView() == null) {
+                @SuppressLint("InflateParams") TextView tv = (TextView) getActivity().getLayoutInflater().inflate(R.layout.action_mode_title, null);
+                mActionMode.setCustomView(tv);
+            }
+            ((TextView) mActionMode.getCustomView()).setText(mFeedAdapter.getItem(mSelectedIndex).getTitle());
+        }
     }
 
     @Override
@@ -152,6 +160,7 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
         if (mSelectedIndex != NO_ITEM_SELECTED) {
             mSelectedIndex = NO_ITEM_SELECTED;
             mActionMode.finish();
+            mActionMode = null;
         }
     }
 
