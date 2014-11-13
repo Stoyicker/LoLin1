@@ -44,4 +44,14 @@
         <item name="android:textColor">@color/cab_title</item>
         <item name="android:textSize">@dimen/cab_title</item>
     </style>
+
+    <style name="NewsArticleTitle">
+        <item name="android:textColor">@color/news_article_title</item>
+        <item name="android:textSize">@dimen/news_article_title</item>
+    </style>
+
+    <style name="NewsArticleSubtitle">
+        <item name="android:textColor">@color/news_article_subtitle</item>
+        <item name="android:textSize">@dimen/news_article_subtitle</item>
+    </style>
 </resources>
