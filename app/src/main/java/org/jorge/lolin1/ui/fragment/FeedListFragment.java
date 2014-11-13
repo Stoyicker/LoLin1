@@ -87,11 +87,8 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
                         mNewsView.setPadding(0, 0, 0, 0);
                         actionBar.hide();
                     } else {
-                        if (mNewsView.getChildAt(0).getTop() == 0) {
-                            mNewsView.setPadding(0, BASE_TOP_PADDING, 0, 0);
-                            actionBar.show();
-                            mNewsView.getLayoutManager().scrollToPosition(0);
-                        }
+                        mNewsView.setPadding(0, BASE_TOP_PADDING, 0, 0);
+                        actionBar.show();
                     }
                 mFeedAdapter.clearSelection();
             }
@@ -148,7 +145,7 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
             mActionMode = ((ActionBarActivity) getActivity()).startSupportActionMode(this);
         else {
             if (mActionMode.getCustomView() == null) {
-                @SuppressLint("InflateParams") TextView tv = (TextView) getActivity().getLayoutInflater().inflate(R.layout.action_mode_title, null);
+                @SuppressLint("InflateParams") TextView tv = (TextView) getActivity().getLayoutInflater().inflate(R.layout.action_mode_feed_article_title, null);
                 mActionMode.setCustomView(tv);
             }
             ((TextView) mActionMode.getCustomView()).setText(mFeedAdapter.getItem(mSelectedIndex).getTitle());
@@ -166,7 +163,7 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
 
     @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-        @SuppressLint("InflateParams") TextView tv = (TextView) getActivity().getLayoutInflater().inflate(R.layout.action_mode_title, null);
+        @SuppressLint("InflateParams") TextView tv = (TextView) getActivity().getLayoutInflater().inflate(R.layout.action_mode_feed_article_title, null);
         tv.setText(mFeedAdapter.getItem(mSelectedIndex).getTitle());
         actionMode.setCustomView(tv);
         return Boolean.TRUE;

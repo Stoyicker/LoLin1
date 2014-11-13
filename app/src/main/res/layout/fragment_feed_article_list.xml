@@ -28,8 +28,8 @@
         android:layout_height="match_parent"
         android:requiresFadingEdge="vertical"
         android:fadeScrollbars="true"
-        android:paddingTop="?android:attr/actionBarSize"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:paddingTop="?attr/actionBarSize" />
 
     <LinearLayout
         android:orientation="horizontal"
