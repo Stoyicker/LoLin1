@@ -22,6 +22,7 @@
     android:layout_height="wrap_content"
     android:padding="@dimen/list_item_news_article_padding"
     cardview:cardElevation="@dimen/list_item_news_article_elevation"
+    cardview:cardPreventCornerOverlap="false"
     android:foreground="?android:selectableItemBackground"
     android:gravity="center"
     android:hapticFeedbackEnabled="true">

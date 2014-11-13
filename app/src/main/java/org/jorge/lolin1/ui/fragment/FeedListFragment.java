@@ -22,12 +22,15 @@ package org.jorge.lolin1.ui.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -119,7 +122,10 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
                 checkAdapterIsEmpty();
             }
         });
-        mNewsView.setLayoutManager(new LinearLayoutManager(mContext));
+        if (mContext.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+            mNewsView.setLayoutManager(new LinearLayoutManager(mContext));
+        else
+            mNewsView.setLayoutManager(new GridLayoutManager(mContext, 2));
         mNewsView.setItemAnimator(new DefaultItemAnimator());
         mNewsView.setAdapter(mFeedAdapter);
         checkAdapterIsEmpty();
