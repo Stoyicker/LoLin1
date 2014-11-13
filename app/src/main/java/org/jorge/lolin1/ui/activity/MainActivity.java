@@ -27,13 +27,18 @@ import android.support.v7.app.ActionBarActivity;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
+import org.jorge.lolin1.datamodel.FeedArticle;
+import org.jorge.lolin1.ui.fragment.ArticleReaderFragment;
+import org.jorge.lolin1.ui.fragment.FeedListFragment;
 import org.jorge.lolin1.ui.fragment.NewsListFragment;
+import org.jorge.lolin1.util.Interface;
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements Interface.IOnFeedArticleClickedListener {
 
     private Context mContext;
     private Fragment[] mContentFragments;
     private Integer mActiveFragment = 0;
+    private Fragment mArticleReaderFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +53,9 @@ public class MainActivity extends ActionBarActivity {
         if (mContentFragments == null)
             mContentFragments = new Fragment[1];
         if (mContext.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE)
-            getSupportFragmentManager().beginTransaction().add(R.id.content_fragment_container, findNewsListFragment()).commit();
+            getSupportFragmentManager().beginTransaction().
+                    setCustomAnimations(R.anim.fade_in_from_bottom, R.anim.fade_out_to_bottom, R.anim.fade_in_from_bottom, R.anim.fade_out_to_bottom).
+                    add(R.id.content_fragment_container, findNewsListFragment()).addToBackStack(null).commit();
     }
 
     private Fragment findNewsListFragment() {
@@ -57,18 +64,36 @@ public class MainActivity extends ActionBarActivity {
         return mContentFragments[0];
     }
 
-    public interface IOnBackPressed {
+    private Fragment prepareArticleReaderFragment(FeedArticle article, Class c) {
+        if (mArticleReaderFragment == null)
+            mArticleReaderFragment = ArticleReaderFragment.instantiate(mContext, ArticleReaderFragment.class.getName());
+        Bundle args = new Bundle();
+//        args.putParcelable(article); TODO Make FeedArticle implement Parcelable
+        int errorResId;
+        if (c == NewsListFragment.class)
+            errorResId = R.drawable.news_article_placeholder;
+        else
+            throw new IllegalArgumentException("Class " + c.getName() + " doesn't correspond to a feed reader");
+        args.putInt(FeedListFragment.ERROR_RES_ID_KEY, errorResId);
+        mArticleReaderFragment.setArguments(args);
 
-        public Boolean onBackPressed();
+        return mArticleReaderFragment;
+    }
+
+    @Override
+    public void onFeedArticleClicked(FeedArticle item, Class c) {
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in_from_bottom, R.anim.fade_out_to_bottom, R.anim.fade_in_from_bottom, R.anim.fade_out_to_bottom)
+                .replace(R.id.content_fragment_container, prepareArticleReaderFragment(item, c)).addToBackStack(null).commit();
     }
 
     @Override
     public void onBackPressed() {
-        if (mContentFragments[mActiveFragment] instanceof IOnBackPressed) {
-            Boolean handled = ((IOnBackPressed) mContentFragments[mActiveFragment]).onBackPressed();
-            if (!handled) {
-                super.onBackPressed();
-            }
+        Boolean handled = Boolean.FALSE;
+        if (mContentFragments[mActiveFragment] instanceof Interface.IOnBackPressed) {
+            handled = ((Interface.IOnBackPressed) mContentFragments[mActiveFragment]).onBackPressed();
+        }
+        if (!handled) {
+            super.onBackPressed();
         }
     }
 }

@@ -17,8 +17,26 @@
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
-package org.jorge.lolin1.ui.fragment;
+package org.jorge.lolin1.util;
 
-public class ArticleFragment {
+import org.jorge.lolin1.datamodel.FeedArticle;
 
+public abstract class Interface {
+    public interface IOnFeedArticleClickedListener {
+        public void onFeedArticleClicked(FeedArticle item, Class c);
+    }
+
+    public interface IOnBackPressed {
+
+        public Boolean onBackPressed();
+    }
+
+    public interface IOnItemInteractionListener {
+
+        public void setSelectedIndex(int selectedIndex);
+
+        public void clearSelection();
+
+        void onItemClick(FeedArticle item);
+    }
 }

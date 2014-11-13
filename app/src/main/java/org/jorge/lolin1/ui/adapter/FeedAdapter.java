@@ -35,6 +35,7 @@ import com.melnykov.fab.FloatingActionButton;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.ui.fragment.FeedListFragment;
+import org.jorge.lolin1.util.Interface;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,10 +49,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private final Context mContext;
     private final FloatingActionButton mFabShareButton, mFabMarkAsReadButton;
     private int mSelectedIndex = FeedListFragment.NO_ITEM_SELECTED, mDefaultImageId;
-    private final IOnItemSelectedListener mCallback;
+    private final Interface.IOnItemInteractionListener mCallback;
     private final Object mTag;
 
-    public FeedAdapter(Context context, FloatingActionButton fabButtonMarkAsRead, FloatingActionButton fabButtonShare, IOnItemSelectedListener onItemSelectedListener, Integer defaultImageId, Object _tag) {
+    public FeedAdapter(Context context, FloatingActionButton fabButtonMarkAsRead, FloatingActionButton fabButtonShare, Interface.IOnItemInteractionListener onItemSelectedListener, Integer defaultImageId, Object _tag) {
         this.mContext = context;
         this.mFabShareButton = fabButtonShare;
         this.mFabMarkAsReadButton = fabButtonMarkAsRead;
@@ -152,7 +153,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             @Override
             public void onClick(View v) {
                 if (mSelectedIndex == FeedListFragment.NO_ITEM_SELECTED || mSelectedIndex == i) {
-                    //TODO Show preview of article or launch web intent depending on setting
+                    mCallback.onItemClick(items.get(i));
                 }
                 clearSelection();
             }
@@ -223,12 +224,5 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             items.get(i).markAsRead();
             notifyItemChanged(i);
         }
-    }
-
-    public interface IOnItemSelectedListener {
-
-        public void setSelectedIndex(int selectedIndex);
-
-        public void clearSelection();
     }
 }

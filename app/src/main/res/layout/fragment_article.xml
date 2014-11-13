@@ -29,6 +29,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!--TODO Set the content description of this ImageView to the title-->
         <ImageView
             android:id="@id/image"
             android:scaleType="fitEnd"

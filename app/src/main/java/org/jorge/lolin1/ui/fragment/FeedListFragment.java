@@ -42,10 +42,11 @@ import com.squareup.picasso.Picasso;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
-import org.jorge.lolin1.ui.activity.MainActivity;
+import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.ui.adapter.FeedAdapter;
+import org.jorge.lolin1.util.Interface;
 
-public class FeedListFragment extends Fragment implements MainActivity.IOnBackPressed, FeedAdapter.IOnItemSelectedListener, ActionMode.Callback {
+public class FeedListFragment extends Fragment implements Interface.IOnBackPressed, Interface.IOnItemInteractionListener, ActionMode.Callback {
 
     private RecyclerView mNewsView;
     private Context mContext;
@@ -56,9 +57,12 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
     private Integer mSelectedIndex = NO_ITEM_SELECTED;
     private FloatingActionButton mFabMarkAsReadButton;
     private String TAG;
-    protected static final String TAG_KEY = "TAG", ERROR_RES_ID_KEY = "ERROR";
+    protected static final String TAG_KEY = "TAG";
+    public static final String ERROR_RES_ID_KEY = "ERROR";
     private int mDefaultImageId;
     private ActionMode mActionMode;
+    private ActionBarActivity mActivity;
+    private Interface.IOnFeedArticleClickedListener mCallback;
 
     @Override
     public void onAttach(Activity activity) {
@@ -66,6 +70,8 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
         mContext = LoLin1Application.getInstance().getContext();
         TAG = getArguments().getString(TAG_KEY);
         mDefaultImageId = getArguments().getInt(ERROR_RES_ID_KEY);
+        mActivity = (ActionBarActivity) activity;
+        mCallback = (Interface.IOnFeedArticleClickedListener) activity;
     }
 
     @Override
@@ -81,7 +87,7 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
         mNewsView.setOnScrollListener(new FloatingActionButton.FabRecyclerOnViewScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                ActionBar actionBar = ((ActionBarActivity) getActivity()).getSupportActionBar();
+                ActionBar actionBar = mActivity.getSupportActionBar();
                 if (actionBar != null)
                     if (dy > 0) {
                         mNewsView.setPadding(0, 0, 0, 0);
@@ -142,10 +148,10 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
     public void setSelectedIndex(int selectedIndex) {
         mSelectedIndex = selectedIndex;
         if (mActionMode == null)
-            mActionMode = ((ActionBarActivity) getActivity()).startSupportActionMode(this);
+            mActionMode = mActivity.startSupportActionMode(this);
         else {
             if (mActionMode.getCustomView() == null) {
-                @SuppressLint("InflateParams") TextView tv = (TextView) getActivity().getLayoutInflater().inflate(R.layout.action_mode_feed_article_title, null);
+                @SuppressLint("InflateParams") TextView tv = (TextView) mActivity.getLayoutInflater().inflate(R.layout.action_mode_feed_article_title, null);
                 mActionMode.setCustomView(tv);
             }
             ((TextView) mActionMode.getCustomView()).setText(mFeedAdapter.getItem(mSelectedIndex).getTitle());
@@ -162,8 +168,14 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
     }
 
     @Override
+    public void onItemClick(FeedArticle item) {
+        mCallback.onFeedArticleClicked(item, ((Object) this).getClass());
+        mActivity.getSupportActionBar().show();
+    }
+
+    @Override
     public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-        @SuppressLint("InflateParams") TextView tv = (TextView) getActivity().getLayoutInflater().inflate(R.layout.action_mode_feed_article_title, null);
+        @SuppressLint("InflateParams") TextView tv = (TextView) mActivity.getLayoutInflater().inflate(R.layout.action_mode_feed_article_title, null);
         tv.setText(mFeedAdapter.getItem(mSelectedIndex).getTitle());
         actionMode.setCustomView(tv);
         return Boolean.TRUE;
@@ -183,4 +195,6 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
     public void onDestroyActionMode(ActionMode actionMode) {
         mFeedAdapter.clearSelection();
     }
+
+
 }
