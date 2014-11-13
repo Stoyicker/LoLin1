@@ -42,6 +42,6 @@
     <color name="cab_title">@android:color/white</color>
     <color name="article_text_background">@android:color/white</color>
     <color name="default_ripple">@color/ripple_material_light</color>
-    <color name="news_article_title">@android:color/white</color>
-    <color name="news_article_subtitle">#77000000</color>
+    <color name="feed_article_title">@android:color/white</color>
+    <color name="feed_article_subtitle">#77000000</color>
 </resources>

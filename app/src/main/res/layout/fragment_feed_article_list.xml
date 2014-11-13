@@ -20,10 +20,10 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/news_article_list_background">
+    android:background="@drawable/feed_article_list_background">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/news_article_list_view"
+        android:id="@+id/feed_article_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:requiresFadingEdge="vertical"
@@ -49,7 +49,7 @@
         android:scaleType="centerInside"
         android:src="@drawable/empty_list"
         android:gravity="center"
-        android:contentDescription="@string/no_news_articles"
+        android:contentDescription="@string/no_feed_articles"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </FrameLayout>

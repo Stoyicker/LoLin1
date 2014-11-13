@@ -32,7 +32,7 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <style name="NewsArticleOnListTitleRead">
+    <style name="FeedArticleOnListTitleRead">
         <item name="android:textColor">@color/feed_article_on_list_title</item>
         <item name="android:shadowColor">@color/feed_article_on_list_title_shadow</item>
         <item name="android:shadowDx">0</item>
@@ -45,13 +45,13 @@
         <item name="android:textSize">@dimen/cab_title</item>
     </style>
 
-    <style name="NewsArticleTitle">
-        <item name="android:textColor">@color/news_article_title</item>
-        <item name="android:textSize">@dimen/news_article_title</item>
+    <style name="FeedArticleTitle">
+        <item name="android:textColor">@color/feed_article_title</item>
+        <item name="android:textSize">@dimen/feed_article_title</item>
     </style>
 
-    <style name="NewsArticleSubtitle">
-        <item name="android:textColor">@color/news_article_subtitle</item>
-        <item name="android:textSize">@dimen/news_article_subtitle</item>
+    <style name="FeedArticleSubtitle">
+        <item name="android:textColor">@color/feed_article_subtitle</item>
+        <item name="android:textSize">@dimen/feed_article_subtitle</item>
     </style>
 </resources>

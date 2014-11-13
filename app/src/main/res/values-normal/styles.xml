@@ -19,6 +19,6 @@
   -->
 
 <resources>
-    <dimen name="news_article_title">12sp</dimen>
-    <dimen name="news_article_subtitle">8sp</dimen>
+    <dimen name="feed_article_title">12sp</dimen>
+    <dimen name="feed_article_subtitle">8sp</dimen>
 </resources>

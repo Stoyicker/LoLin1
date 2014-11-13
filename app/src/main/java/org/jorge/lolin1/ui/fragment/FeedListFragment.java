@@ -76,7 +76,7 @@ public class FeedListFragment extends Fragment implements MainActivity.IOnBackPr
         mFabShareButton.hide();
         mFabMarkAsReadButton = ((FloatingActionButton) ret.findViewById(R.id.fab_button_mark_as_read));
         mFabMarkAsReadButton.hide();
-        mNewsView = (RecyclerView) ret.findViewById(R.id.news_article_list_view);
+        mNewsView = (RecyclerView) ret.findViewById(R.id.feed_article_list_view);
         final Integer BASE_TOP_PADDING = mNewsView.getPaddingTop();
         mNewsView.setOnScrollListener(new FloatingActionButton.FabRecyclerOnViewScrollListener() {
             @Override

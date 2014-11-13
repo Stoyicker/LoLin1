@@ -18,5 +18,5 @@
   -->
 
 <resources>
-    <string name="no_news_articles">There are no news right now.</string>
+    <string name="no_feed_articles">There are no news right now.</string>
 </resources>

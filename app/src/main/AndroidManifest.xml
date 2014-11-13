@@ -44,7 +44,7 @@
         </activity>
         <activity android:name=".ui.activity.MainActivity">
             <intent-filter>
-                <action android:name="org.jorge.lolin1.action.VIEW_NEWS" />
+                <action android:name="android.intent.action.VIEW" />
             </intent-filter>
         </activity>
     </application>
