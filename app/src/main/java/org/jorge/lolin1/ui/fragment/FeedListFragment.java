@@ -35,6 +35,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -206,5 +208,12 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
         mFeedAdapter.clearSelection();
     }
 
-
+    @Override
+    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
+        if (enter) {
+            return AnimationUtils.loadAnimation(mContext, R.anim.move_in_from_bottom);
+        } else {
+            return AnimationUtils.loadAnimation(mContext, R.anim.move_out_to_bottom);
+        }
+    }
 }
