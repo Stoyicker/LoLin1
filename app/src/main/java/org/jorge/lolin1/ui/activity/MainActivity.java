@@ -54,7 +54,7 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
             mContentFragments = new Fragment[1];
         if (mContext.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE)
             getSupportFragmentManager().beginTransaction().
-                    setCustomAnimations(R.anim.fade_in_from_bottom, R.anim.fade_out_to_bottom, R.anim.fade_in_from_bottom, R.anim.fade_out_to_bottom).
+                    setCustomAnimations(R.anim.move_in_from_bottom, R.anim.move_out_to_bottom, R.anim.move_in_from_bottom, R.anim.move_out_to_bottom).
                     add(R.id.content_fragment_container, findNewsListFragment()).addToBackStack(null).commit();
     }
 
@@ -82,7 +82,7 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
 
     @Override
     public void onFeedArticleClicked(FeedArticle item, Class c) {
-        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.fade_in_from_bottom, R.anim.fade_out_to_bottom, R.anim.fade_in_from_bottom, R.anim.fade_out_to_bottom)
+        getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.move_in_from_bottom, R.anim.move_out_to_bottom, R.anim.move_in_from_bottom, R.anim.move_out_to_bottom)
                 .replace(R.id.content_fragment_container, prepareArticleReaderFragment(item, c)).addToBackStack(null).commit();
     }
 
