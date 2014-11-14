@@ -55,7 +55,7 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
         if (mContext.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE)
             getSupportFragmentManager().beginTransaction().
                     setCustomAnimations(R.anim.move_in_from_bottom, R.anim.move_out_to_bottom, R.anim.move_in_from_bottom, R.anim.move_out_to_bottom).
-                    add(R.id.content_fragment_container, findNewsListFragment()).addToBackStack(null).commit();
+                    add(R.id.content_fragment_container, findNewsListFragment()).commit();
     }
 
     private Fragment findNewsListFragment() {
@@ -89,7 +89,7 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
     @Override
     public void onBackPressed() {
         Boolean handled = Boolean.FALSE;
-        if (mContentFragments[mActiveFragment] instanceof Interface.IOnBackPressed) {
+        if (mContentFragments != null && mContentFragments[mActiveFragment] != null && mContentFragments[mActiveFragment] instanceof Interface.IOnBackPressed) {
             handled = ((Interface.IOnBackPressed) mContentFragments[mActiveFragment]).onBackPressed();
         }
         if (!handled) {
