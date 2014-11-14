@@ -30,6 +30,7 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,6 +64,8 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
     private ActionMode mActionMode;
     private ActionBarActivity mActivity;
     private Interface.IOnFeedArticleClickedListener mCallback;
+    private Boolean mActionBarIsShowingOrShown = Boolean.TRUE;
+    private final Object mActionBarLock = new Object();
 
     @Override
     public void onAttach(Activity activity) {
@@ -85,18 +88,26 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
         mNewsView = (RecyclerView) ret.findViewById(R.id.feed_article_list_view);
         final Integer BASE_TOP_PADDING = mNewsView.getPaddingTop();
         mNewsView.setOnScrollListener(new FloatingActionButton.FabRecyclerOnViewScrollListener() {
+
+            final Integer MIN_SCROLL_TOGGLE_ACTION_BAR = mContext.getResources().getInteger(R.
+                    integer.min_scroll_toggle_action_bar);
+
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 ActionBar actionBar = mActivity.getSupportActionBar();
-                if (actionBar != null)
-                    if (dy > 0) {
-                        mNewsView.setPadding(0, 0, 0, 0);
-                        actionBar.hide();
-                    } else {
-                        mNewsView.setPadding(0, BASE_TOP_PADDING, 0, 0);
-                        actionBar.show();
-                    }
-                mFeedAdapter.clearSelection();
+                synchronized (mActionBarLock) {
+                    if (actionBar != null)
+                        if (dy > MIN_SCROLL_TOGGLE_ACTION_BAR && mActionBarIsShowingOrShown) {
+                            mNewsView.setPadding(0, 0, 0, 0);
+                            actionBar.hide();
+                            mActionBarIsShowingOrShown = Boolean.FALSE;
+                        } else if (dy < -1 * MIN_SCROLL_TOGGLE_ACTION_BAR && !mActionBarIsShowingOrShown) {
+                            mNewsView.setPadding(0, BASE_TOP_PADDING, 0, 0);
+                            actionBar.show();
+                            mActionBarIsShowingOrShown = Boolean.TRUE;
+                        }
+                    mFeedAdapter.clearSelection();
+                }
             }
         });
         mEmptyView = ret.findViewById(android.R.id.empty);
