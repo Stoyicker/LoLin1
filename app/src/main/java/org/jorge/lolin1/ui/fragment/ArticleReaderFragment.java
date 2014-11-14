@@ -58,7 +58,7 @@ public class ArticleReaderFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_article, container, Boolean.FALSE);
+        return inflater.inflate(R.layout.fragment_article_reader, container, Boolean.FALSE);
     }
 
     @Override
