@@ -30,7 +30,6 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,7 +44,7 @@ import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.ui.adapter.FeedAdapter;
-import org.jorge.lolin1.util.Interface;
+import org.jorge.lolin1.ui.util.Interface;
 
 public class FeedListFragment extends Fragment implements Interface.IOnBackPressed, Interface.IOnItemInteractionListener, ActionMode.Callback {
 

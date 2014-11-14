@@ -35,7 +35,7 @@ import com.melnykov.fab.FloatingActionButton;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.ui.fragment.FeedListFragment;
-import org.jorge.lolin1.util.Interface;
+import org.jorge.lolin1.ui.util.Interface;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -31,7 +31,7 @@ import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.ui.fragment.ArticleReaderFragment;
 import org.jorge.lolin1.ui.fragment.FeedListFragment;
 import org.jorge.lolin1.ui.fragment.NewsListFragment;
-import org.jorge.lolin1.util.Interface;
+import org.jorge.lolin1.ui.util.Interface;
 
 public class MainActivity extends ActionBarActivity implements Interface.IOnFeedArticleClickedListener {
 
