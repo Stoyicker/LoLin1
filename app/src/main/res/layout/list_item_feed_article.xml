@@ -20,7 +20,7 @@
     xmlns:cardview="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/list_item_feed_article_padding"
+    android:layout_margin="@dimen/list_item_feed_article_margin"
     cardview:cardElevation="@dimen/list_item_feed_article_elevation"
     cardview:cardPreventCornerOverlap="false"
     android:foreground="?android:selectableItemBackground"
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/feed_article_on_list_title_padding"
-            android:background="@drawable/feed_article_on_list_title_background"
+            android:background="@color/feed_article_on_list_title_background"
             android:ellipsize="none"
             style="@style/FeedArticleOnListTitleRead"
             android:layout_alignBottom="@android:id/icon" />

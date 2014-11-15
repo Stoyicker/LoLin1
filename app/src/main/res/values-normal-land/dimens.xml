@@ -16,9 +16,9 @@
   ~
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient
-        android:startColor="#FF000000"
-        android:endColor="#00000000"
-        android:angle="90" />
-</shape>
+
+<resources>
+    <dimen name="list_item_feed_article_margin">0dp</dimen>
+    <dimen name="list_item_feed_article_elevation">0dp</dimen>
+    <dimen name="feed_article_list_top_margin">10dp</dimen>
+</resources>

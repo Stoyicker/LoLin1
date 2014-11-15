@@ -28,8 +28,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -134,7 +134,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
                 checkAdapterIsEmpty();
             }
         });
-        mNewsView.setLayoutManager(new GridLayoutManager(mContext, mContext.getResources().getInteger(R.integer.feed_column_amount)));
+        mNewsView.setLayoutManager(new StaggeredGridLayoutManager(mContext.getResources().getInteger(R.integer.feed_column_amount), StaggeredGridLayoutManager.VERTICAL));
         mNewsView.setItemAnimator(new DefaultItemAnimator());
         mNewsView.setAdapter(mFeedAdapter);
         checkAdapterIsEmpty();
