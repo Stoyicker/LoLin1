@@ -1,5 +1,7 @@
 LoLin1 - master [![!](https://travis-ci.org/Stoyicker/Lollipop-Budget.svg?branch=master)](https://travis-ci.org/Stoyicker/LoLin1)
 ===============
+**Legal notice: See [LICENSE](https://raw.githubusercontent.com/Stoyicker/LoLin1/master/LICENSE "LICENSE")**
+
 Feel free to take a story or add yours!
 
 [![Stories ready](https://badge.waffle.io/Stoyicker/LoLin1.png?label=ready&title=Ready)](https://waffle.io/Stoyicker/LoLin1)
