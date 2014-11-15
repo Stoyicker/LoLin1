@@ -17,7 +17,7 @@
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
-package util;
+package org.jorge.lolin1.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

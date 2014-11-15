@@ -21,9 +21,11 @@ package org.jorge.lolin1.ui.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,8 +40,7 @@ import com.squareup.picasso.Picasso;
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
-
-import util.PicassoUtils;
+import org.jorge.lolin1.util.PicassoUtils;
 
 public class ArticleReaderFragment extends Fragment {
 
@@ -69,6 +70,14 @@ public class ArticleReaderFragment extends Fragment {
         imageView.setContentDescription(title);
         ((TextView) ret.findViewById(R.id.title)).setText(title);
         ((TextView) ret.findViewById(android.R.id.text1)).setText(mArticle.getPreviewText());
+        final ActionBar actionBar = mActivity.getSupportActionBar();
+        if (actionBar != null) {
+            final View customView = actionBar.getCustomView();
+            if (customView != null) {
+                customView.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
+            } else
+                actionBar.setBackgroundDrawable(new ColorDrawable(mContext.getResources().getColor(android.R.color.transparent)));
+        }
         return ret;
     }
 

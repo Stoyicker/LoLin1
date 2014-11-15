@@ -17,56 +17,70 @@
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
 
-<com.nirhart.parallaxscroll.views.ParallaxScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    app:parallax_factor="2"
-    android:fillViewport="true">
+    android:orientation="vertical"
+    android:gravity="center">
 
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/material_blue_500" />
 
-        <ImageView
-            android:id="@id/image"
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="ContentDescription"
-            android:adjustViewBounds="true"
-            android:maxWidth="@dimen/default_feed_article_image_width"
-            android:maxHeight="@dimen/default_feed_article_image_height" />
+    <org.jorge.lolin1.util.StickyHeaderParallaxScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        app:parallax_factor="2"
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/material_blue_500"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/feed_article_padding_start"
-            android:paddingEnd="@dimen/feed_article_padding_end">
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/title"
-                style="@style/FeedArticleTitle"
+            <ImageView
+                android:id="@id/image"
+                android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                tools:ignore="ContentDescription"
+                android:adjustViewBounds="true"
+                android:maxWidth="@dimen/default_feed_article_image_width"
+                android:maxHeight="@dimen/default_feed_article_image_height" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/material_blue_500"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/feed_article_padding_start"
+                android:paddingEnd="@dimen/feed_article_padding_end"
+                android:tag="sticky">
+
+                <TextView
+                    android:id="@+id/title"
+                    style="@style/FeedArticleTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/article_text_background"
+                android:paddingStart="@dimen/feed_article_padding_start"
+                android:paddingEnd="@dimen/feed_article_padding_end">
+
+                <TextView
+                    android:id="@android:id/text1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
         </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/article_text_background"
-            android:paddingStart="@dimen/feed_article_padding_start"
-            android:paddingEnd="@dimen/feed_article_padding_end">
-
-            <TextView
-                android:id="@android:id/text1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-        </FrameLayout>
-    </LinearLayout>
-</com.nirhart.parallaxscroll.views.ParallaxScrollView>
+    </org.jorge.lolin1.util.StickyHeaderParallaxScrollView>
+</LinearLayout>

@@ -19,8 +19,8 @@
 
 <resources>
     <dimen name="cab_title">16dp</dimen>
-    <dimen name="feed_article_padding_start">32dp</dimen>
-    <dimen name="feed_article_padding_end">12dp</dimen>
+    <dimen name="feed_article_padding_start">64dp</dimen>
+    <dimen name="feed_article_padding_end">24dp</dimen>
     <dimen name="feed_cab_title_padding">@dimen/abc_action_bar_subtitle_bottom_margin_material
     </dimen>
 </resources>
