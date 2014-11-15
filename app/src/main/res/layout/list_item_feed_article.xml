@@ -34,11 +34,13 @@
 
         <ImageView xmlns:tools="http://schemas.android.com/tools"
             android:id="@android:id/icon"
-            android:scaleType="fitEnd"
+            android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:ignore="ContentDescription"
-            android:adjustViewBounds="true" />
+            android:adjustViewBounds="true"
+            android:maxWidth="@dimen/default_feed_article_image_width"
+            android:maxHeight="@dimen/default_feed_article_image_height" />
 
         <TextView
             android:id="@android:id/title"

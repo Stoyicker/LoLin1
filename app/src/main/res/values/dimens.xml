@@ -22,6 +22,8 @@
     <dimen name="list_item_feed_article_padding">4dp</dimen>
     <dimen name="list_item_feed_article_elevation">8dp</dimen>
     <dimen name="fab_button_margin">8dp</dimen>
+    <dimen name="default_feed_article_image_width">320dp</dimen>
+    <dimen name="default_feed_article_image_height">180dp</dimen>
     <item name="feed_article_selected_alpha" format="float" type="dimen">1.0</item>
     <item name="feed_article_unselected_alpha" format="float" type="dimen">0.5</item>
 </resources>
