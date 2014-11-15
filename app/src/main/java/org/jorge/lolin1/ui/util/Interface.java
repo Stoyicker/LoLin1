@@ -21,6 +21,11 @@ package org.jorge.lolin1.ui.util;
 
 import org.jorge.lolin1.datamodel.FeedArticle;
 
+/**
+ * This is bad practice and should never be done.
+ * The reason it's being done here is a bug that causes
+ * Android Studio to mistakenly find a cyclic hierarchy.
+ */
 public abstract class Interface {
     public interface IOnFeedArticleClickedListener {
         public void onFeedArticleClicked(FeedArticle item, Class c);
