@@ -30,12 +30,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
+
+import util.PicassoUtils;
 
 public class ArticleReaderFragment extends Fragment {
 
@@ -58,7 +62,14 @@ public class ArticleReaderFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_article_reader, container, Boolean.FALSE);
+        final View ret = inflater.inflate(R.layout.fragment_article_reader, container, Boolean.FALSE);
+        final ImageView imageView = (ImageView) ret.findViewById(R.id.image);
+        PicassoUtils.loadInto(mContext, mArticle.getImageUrl(), mDefaultImageId, imageView, TAG);
+        final String title = mArticle.getTitle();
+        imageView.setContentDescription(title);
+        ((TextView) ret.findViewById(R.id.title)).setText(title);
+        ((TextView) ret.findViewById(android.R.id.text1)).setText(mArticle.getPreviewText());
+        return ret;
     }
 
     @Override

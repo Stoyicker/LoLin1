@@ -43,10 +43,74 @@ public class FeedArticle {
             url = "http://euw.leagueoflegends.com/es/news/champions-skins/champion-update/blog-des-actualizacion-de-campeones",
             imageUrl = "http://euw.leagueoflegends.com/sites/default/files/styles/wide_small/public/upload/viktor_0_base1_1920.jpg?itok=vdCKicyL";
     private boolean read = Boolean.FALSE;
-    private final String previewText = "preview";
+    private final String previewText = "<com.nirhart.parallaxscroll.views.ParallaxScrollView xmlns:android=\"http://schemas.android.com/apk/res/android\"\n" +
+            "    xmlns:tools=\"http://schemas.android.com/tools\"\n" +
+            "    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n" +
+            "    android:layout_width=\"match_parent\"\n" +
+            "    android:layout_height=\"match_parent\"\n" +
+            "    app:parallax_factor=\"1.9\"\n" +
+            "    tools:context=\".MainActivity\" >\n" +
+            "\n" +
+            "    <LinearLayout\n" +
+            "        android:layout_width=\"match_parent\"\n" +
+            "        android:layout_height=\"wrap_content\"\n" +
+            "        android:orientation=\"vertical\" >\n" +
+            "\n" +
+            "        <TextView\n" +
+            "            android:layout_width=\"match_parent\"\n" +
+            "            android:layout_height=\"200dp\"\n" +
+            "            android:background=\"@drawable/item_background\"\n" +
+            "            android:gravity=\"center\"\n" +
+            "            android:text=\"PARALLAXED\"\n" +
+            "            android:textSize=\"50sp\"\n" +
+            "            tools:ignore=\"HardcodedText\" />\n" +
+            "\n" +
+            "        <TextView\n" +
+            "            android:layout_width=\"match_parent\"\n" +
+            "            android:layout_height=\"wrap_content\"\n" +
+            "            android:text=\"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"\n" +
+            "            android:textSize=\"26sp\"\n" +
+            "            android:background=\"@android:color/white\"\n" +
+            "            android:padding=\"5dp\"\n" +
+            "            tools:ignore=\"HardcodedText\" />\n" +
+            "    </LinearLayout>\n" +
+            "\n" +
+            "</com.nirhart.parallaxscroll.views.ParallaxScrollView><com.nirhart.parallaxscroll.views.ParallaxScrollView xmlns:android=\"http://schemas.android.com/apk/res/android\"\n" +
+            "    xmlns:tools=\"http://schemas.android.com/tools\"\n" +
+            "    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n" +
+            "    android:layout_width=\"match_parent\"\n" +
+            "    android:layout_height=\"match_parent\"\n" +
+            "    app:parallax_factor=\"1.9\"\n" +
+            "    tools:context=\".MainActivity\" >\n" +
+            "\n" +
+            "    <LinearLayout\n" +
+            "        android:layout_width=\"match_parent\"\n" +
+            "        android:layout_height=\"wrap_content\"\n" +
+            "        android:orientation=\"vertical\" >\n" +
+            "\n" +
+            "        <TextView\n" +
+            "            android:layout_width=\"match_parent\"\n" +
+            "            android:layout_height=\"200dp\"\n" +
+            "            android:background=\"@drawable/item_background\"\n" +
+            "            android:gravity=\"center\"\n" +
+            "            android:text=\"PARALLAXED\"\n" +
+            "            android:textSize=\"50sp\"\n" +
+            "            tools:ignore=\"HardcodedText\" />\n" +
+            "\n" +
+            "        <TextView\n" +
+            "            android:layout_width=\"match_parent\"\n" +
+            "            android:layout_height=\"wrap_content\"\n" +
+            "            android:text=\"Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"\n" +
+            "            android:textSize=\"26sp\"\n" +
+            "            android:background=\"@android:color/white\"\n" +
+            "            android:padding=\"5dp\"\n" +
+            "            tools:ignore=\"HardcodedText\" />\n" +
+            "    </LinearLayout>\n" +
+            "\n" +
+            "</com.nirhart.parallaxscroll.views.ParallaxScrollView>";
 
     //TODO Uncomment this
-//    public NewsArticle(@NonNull String _title, @NonNull String _url, @NonNull String _imageUrl, @NonNull String _previewText) {
+//    public NewsArticle(@NonNull String _title, @NonNull String _url, @NonNull String _imageUrl, @NonNull String _previewText, @NonNull Date _date) {
 //        this.title = _title;
 //        this.url = _url;
 //        this.imageUrl = _imageUrl;
