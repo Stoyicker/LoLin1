@@ -86,7 +86,6 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
             postDelayed(this, 16);
         }
     };
-    private View mHeaderView;
 
     public StickyHeaderParallaxScrollView(Context context) {
         this(context, null);
@@ -99,8 +98,6 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
     public StickyHeaderParallaxScrollView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setup();
-        setOverScrollMode(OVER_SCROLL_NEVER);
-
 
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.StickyScrollView, defStyle, 0);

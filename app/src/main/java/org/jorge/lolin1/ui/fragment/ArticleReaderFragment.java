@@ -70,14 +70,7 @@ public class ArticleReaderFragment extends Fragment {
         imageView.setContentDescription(title);
         ((TextView) ret.findViewById(R.id.title)).setText(title);
         ((TextView) ret.findViewById(android.R.id.text1)).setText(mArticle.getPreviewText());
-        final ActionBar actionBar = mActivity.getSupportActionBar();
-        if (actionBar != null) {
-            final View customView = actionBar.getCustomView();
-            if (customView != null) {
-                customView.setBackgroundColor(mContext.getResources().getColor(android.R.color.transparent));
-            } else
-                actionBar.setBackgroundDrawable(new ColorDrawable(mContext.getResources().getColor(android.R.color.transparent)));
-        }
+
         return ret;
     }
 

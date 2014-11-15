@@ -40,8 +40,12 @@
         @color/material_blue_800
     </color>
     <color name="cab_title">@android:color/white</color>
-    <color name="article_text_background">@android:color/white</color>
+    <color name="article_text_background">@drawable/feed_article_list_background</color>
     <color name="default_ripple">@color/ripple_material_light</color>
     <color name="feed_article_title">@android:color/white</color>
     <color name="feed_article_subtitle">#77000000</color>
+    <color name="feed_article_preview">@android:color/black</color>
+    <color name="action_bar_background">@color/material_blue_500</color>
+    <color name="feed_article_preview_shadow">@android:color/white</color>
+
 </resources>
