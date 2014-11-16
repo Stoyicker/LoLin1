@@ -70,7 +70,7 @@ public class ArticleReaderFragment extends Fragment {
 
         final ActionBar actionBar = mActivity.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
-        actionBar.setBackgroundDrawable(new ColorDrawable(mContext.getResources().getColor(android.R.color.transparent)));
+        actionBar.setBackgroundDrawable(new ColorDrawable(mContext.getResources().getColor(R.color.action_bar_background)));
     }
 
     @Override

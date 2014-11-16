@@ -17,6 +17,7 @@
   ~ Created by Jorge Antonio Diaz-Benito Soriano on 07/11/2014.
   -->
 <resources>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBarOverlay">true</item>
     </style>

@@ -86,6 +86,8 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
             postDelayed(this, 16);
         }
     };
+    private OnViewStickListener mOnViewStickListener;
+    private Boolean mIsAViewSticked = Boolean.FALSE;
 
     public StickyHeaderParallaxScrollView(Context context) {
         this(context, null);
@@ -299,9 +301,20 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
     }
 
     @Override
-    protected void onScrollChanged(int l, int t, int oldL, int oldT) {
+    protected synchronized void onScrollChanged(int l, int t, int oldL, int oldT) {
         super.onScrollChanged(l, t, oldL, oldT);
         doTheStickyThing();
+        if (stickyViews.size() == 1 && mOnViewStickListener != null && currentlyStickingView != null) {
+            if (currentlyStickingView.getScrollY() != 0)
+                throw new IllegalStateException("gSY!=0");
+            if (!mIsAViewSticked) {
+                mOnViewStickListener.onViewSticked();
+                mIsAViewSticked = Boolean.TRUE;
+            } else {
+                mOnViewStickListener.onViewUnsticked();
+                mIsAViewSticked = Boolean.FALSE;
+            }
+        }
     }
 
     private void doTheStickyThing() {
@@ -412,7 +425,15 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
 //            anim.setDuration(0);
 //            anim.setFillAfter(true);
 //            v.startAnimation(anim);
-//        }
     }
 
+    public void setOnViewStickListener(OnViewStickListener listener) {
+        mOnViewStickListener = listener;
+    }
+
+    public interface OnViewStickListener {
+        public void onViewSticked();
+
+        public void onViewUnsticked();
+    }
 }
