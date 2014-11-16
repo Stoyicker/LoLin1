@@ -33,6 +33,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,6 +95,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        setHasOptionsMenu(Boolean.TRUE);
         final View ret = inflater.inflate(R.layout.fragment_feed_article_list, container, Boolean.FALSE);
         mFabShareButton = ((FloatingActionButton) ret.findViewById(R.id.fab_button_share));
         mFabShareButton.hide();
@@ -240,5 +242,13 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
         } else {
             return AnimationUtils.loadAnimation(mContext, R.anim.move_out_to_bottom);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        final ActionBar actionBar = mActivity.getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(Boolean.FALSE);
     }
 }

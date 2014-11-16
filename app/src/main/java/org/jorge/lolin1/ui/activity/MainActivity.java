@@ -23,7 +23,9 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;

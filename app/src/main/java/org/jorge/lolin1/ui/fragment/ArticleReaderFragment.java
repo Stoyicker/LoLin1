@@ -24,8 +24,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -38,6 +41,7 @@ import com.squareup.picasso.Picasso;
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
+import org.jorge.lolin1.ui.activity.MainActivity;
 import org.jorge.lolin1.util.PicassoUtils;
 
 public class ArticleReaderFragment extends Fragment {
@@ -47,7 +51,7 @@ public class ArticleReaderFragment extends Fragment {
     private String TAG;
     private FeedArticle mArticle = new FeedArticle();
     private static final String ARTICLE_KEY = "ARTICLE";
-    private ActionBarActivity mActivity;
+    private MainActivity mActivity;
 
     @Override
     public void onAttach(Activity activity) {
@@ -55,12 +59,32 @@ public class ArticleReaderFragment extends Fragment {
         mContext = LoLin1Application.getInstance().getContext();
 //        mArticle = (FeedArticle) getArguments().getParcelable(ARTICLE_KEY); TODO Make the class implement parcelable
         TAG = mArticle.getUrl();
-        mActivity = (ActionBarActivity) activity;
+        mActivity = (MainActivity) activity;
         mDefaultImageId = getArguments().getInt(FeedListFragment.ERROR_RES_ID_KEY);
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        final ActionBar actionBar = mActivity.getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                mActivity.onBackPressed();
+                return Boolean.TRUE;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(Boolean.TRUE);
         final View ret = inflater.inflate(R.layout.fragment_article_reader, container, Boolean.FALSE);
         final ImageView imageView = (ImageView) ret.findViewById(R.id.image);
         PicassoUtils.loadInto(mContext, mArticle.getImageUrl(), mDefaultImageId, imageView, TAG);
