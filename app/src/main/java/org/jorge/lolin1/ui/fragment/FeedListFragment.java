@@ -28,6 +28,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
@@ -59,7 +60,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
     private Integer mSelectedIndex = NO_ITEM_SELECTED;
     private FloatingActionButton mFabMarkAsReadButton;
     private String TAG;
-    protected static final String TAG_KEY = "TAG";
+    protected static final String TAG_KEY = "TAG", LM_KEY = "LAYOUT_MANAGER";
     public static final String ERROR_RES_ID_KEY = "ERROR";
     private int mDefaultImageId;
     private ActionMode mActionMode;
@@ -67,13 +68,25 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
     private Interface.IOnFeedArticleClickedListener mCallback;
     private Boolean mActionBarIsShowingOrShown = Boolean.TRUE;
     private final Object mActionBarLock = new Object();
+    private LayoutManagerEnum mLMIndicator;
+
+    protected enum LayoutManagerEnum {
+        STAGGEREDGRID,
+        GRID
+    }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mContext = LoLin1Application.getInstance().getContext();
-        TAG = getArguments().getString(TAG_KEY);
-        mDefaultImageId = getArguments().getInt(ERROR_RES_ID_KEY);
+        Bundle args = getArguments();
+        if (args == null)
+            throw new IllegalStateException("FeedListFragment created without arguments");
+        else {
+            TAG = args.getString(TAG_KEY);
+            mLMIndicator = (LayoutManagerEnum) args.getSerializable(LM_KEY);
+            mDefaultImageId = args.getInt(ERROR_RES_ID_KEY);
+        }
         mActivity = (ActionBarActivity) activity;
         mCallback = (Interface.IOnFeedArticleClickedListener) activity;
     }
@@ -134,7 +147,19 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
                 checkAdapterIsEmpty();
             }
         });
-        mNewsView.setLayoutManager(new StaggeredGridLayoutManager(mContext.getResources().getInteger(R.integer.feed_column_amount), StaggeredGridLayoutManager.VERTICAL));
+        RecyclerView.LayoutManager layoutManager;
+        switch (mLMIndicator) {
+            case GRID:
+                layoutManager = new GridLayoutManager(mContext, mContext.getResources().getInteger(R.integer.feed_column_amount));
+                break;
+            case STAGGEREDGRID:
+                layoutManager = new StaggeredGridLayoutManager(mContext.getResources().getInteger(R.integer.feed_column_amount), StaggeredGridLayoutManager.VERTICAL);
+                break;
+            default:
+                throw new IllegalArgumentException("Illegal LayoutManager indicator: " + mLMIndicator);
+        }
+
+        mNewsView.setLayoutManager(layoutManager);
         mNewsView.setItemAnimator(new DefaultItemAnimator());
         mNewsView.setAdapter(mFeedAdapter);
         checkAdapterIsEmpty();

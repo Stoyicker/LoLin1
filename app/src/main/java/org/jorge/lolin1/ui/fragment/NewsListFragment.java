@@ -31,6 +31,7 @@ public class NewsListFragment extends FeedListFragment {
         Bundle args = new Bundle();
         args.putString(FeedListFragment.TAG_KEY, NewsListFragment.class.getName());
         args.putInt(FeedListFragment.ERROR_RES_ID_KEY, R.drawable.news_article_placeholder);
+        args.putSerializable(FeedListFragment.LM_KEY, LayoutManagerEnum.GRID);
 
         return FeedListFragment.instantiate(context, NewsListFragment.class.getName(), args);
     }
