@@ -22,6 +22,7 @@ package org.jorge.lolin1.ui.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
@@ -250,5 +251,6 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
 
         final ActionBar actionBar = mActivity.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(Boolean.FALSE);
+        actionBar.setBackgroundDrawable(new ColorDrawable(mContext.getResources().getColor(R.color.action_bar_background)));
     }
 }

@@ -29,6 +29,5 @@
         <item name="android:windowEnterTransition">@transition/explode</item>
         <item name="android:windowExitTransition">@transition/explode</item>
         <item name="windowActionBarOverlay">true</item>
-        <item name="actionBarStyle">@style/ActionBar</item>
     </style>
 </resources>

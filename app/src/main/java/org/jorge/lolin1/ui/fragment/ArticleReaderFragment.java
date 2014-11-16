@@ -21,6 +21,7 @@ package org.jorge.lolin1.ui.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -69,6 +70,7 @@ public class ArticleReaderFragment extends Fragment {
 
         final ActionBar actionBar = mActivity.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
+        actionBar.setBackgroundDrawable(new ColorDrawable(mContext.getResources().getColor(android.R.color.transparent)));
     }
 
     @Override
