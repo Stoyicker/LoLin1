@@ -17,7 +17,7 @@
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
-package org.jorge.lolin1.ui.util;
+package org.jorge.lolin1.util;
 
 import org.jorge.lolin1.datamodel.FeedArticle;
 

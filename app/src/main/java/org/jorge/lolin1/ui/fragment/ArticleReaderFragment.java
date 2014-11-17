@@ -22,10 +22,13 @@ package org.jorge.lolin1.ui.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,7 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -43,6 +46,7 @@ import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.ui.activity.MainActivity;
+import org.jorge.lolin1.ui.util.ParallaxNotifyingScrollView;
 import org.jorge.lolin1.util.PicassoUtils;
 
 public class ArticleReaderFragment extends Fragment {
@@ -53,6 +57,24 @@ public class ArticleReaderFragment extends Fragment {
     private FeedArticle mArticle = new FeedArticle();
     private static final String ARTICLE_KEY = "ARTICLE";
     private MainActivity mActivity;
+    private Drawable mActionBarBackgroundDrawable;
+    private View mHeaderView;
+    private final Drawable.Callback mDrawableCallback = new Drawable.Callback() {
+        @Override
+        public void invalidateDrawable(Drawable who) {
+            final ActionBar actionBar = mActivity.getSupportActionBar();
+            if (actionBar != null)
+                actionBar.setBackgroundDrawable(who);
+        }
+
+        @Override
+        public void scheduleDrawable(Drawable who, Runnable what, long when) {
+        }
+
+        @Override
+        public void unscheduleDrawable(Drawable who, Runnable what) {
+        }
+    };
 
     @Override
     public void onAttach(Activity activity) {
@@ -67,11 +89,6 @@ public class ArticleReaderFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-
-        final ActionBar actionBar = mActivity.getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
-        actionBar.setBackgroundDrawable(new ColorDrawable(mContext.getResources().getColor(R.color.action_bar_background)));
-
         inflater.inflate(R.menu.actionbar, menu);
     }
 
@@ -90,18 +107,46 @@ public class ArticleReaderFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            mActionBarBackgroundDrawable.setCallback(mDrawableCallback);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(Boolean.TRUE);
         final View ret = inflater.inflate(R.layout.fragment_article_reader, container, Boolean.FALSE);
-        final ImageView imageView = (ImageView) ret.findViewById(R.id.image);
-        PicassoUtils.loadInto(mContext, mArticle.getImageUrl(), mDefaultImageId, imageView, TAG);
+        mHeaderView = ret.findViewById(R.id.image);
+        PicassoUtils.loadInto(mContext, mArticle.getImageUrl(), mDefaultImageId, (android.widget.ImageView) mHeaderView, TAG);
         final String title = mArticle.getTitle();
-        imageView.setContentDescription(title);
+        mHeaderView.setContentDescription(title);
         ((TextView) ret.findViewById(R.id.title)).setText(title);
         ((TextView) ret.findViewById(android.R.id.text1)).setText(mArticle.getPreviewText());
 
+        final ActionBar actionBar = mActivity.getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
+        mActionBarBackgroundDrawable = new ColorDrawable(R.color.action_bar_background);
+        actionBar.setBackgroundDrawable(mActionBarBackgroundDrawable);
+
+        mActionBarBackgroundDrawable.setAlpha(0);
+
+        ((ParallaxNotifyingScrollView) ret.findViewById(R.id.scroll_view)).setOnScrollChangedListener(mOnScrollChangedListener);
+
         return ret;
     }
+
+    private ParallaxNotifyingScrollView.OnScrollChangedListener mOnScrollChangedListener = new ParallaxNotifyingScrollView.OnScrollChangedListener() {
+        public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
+            final int headerHeight = mHeaderView.getHeight() - mActivity.getSupportActionBar().getHeight();
+            final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
+            final int newAlpha = (int) (ratio * 255);
+            Log.d("debug", "newAlpha: " + newAlpha);
+            mActionBarBackgroundDrawable.setAlpha(newAlpha);
+        }
+    };
 
     @Override
     public void onDestroy() {

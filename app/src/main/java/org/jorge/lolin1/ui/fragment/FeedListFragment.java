@@ -49,7 +49,7 @@ import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.ui.adapter.FeedAdapter;
-import org.jorge.lolin1.ui.util.Interface;
+import org.jorge.lolin1.util.Interface;
 
 public class FeedListFragment extends Fragment implements Interface.IOnBackPressed, Interface.IOnItemInteractionListener, ActionMode.Callback {
 
