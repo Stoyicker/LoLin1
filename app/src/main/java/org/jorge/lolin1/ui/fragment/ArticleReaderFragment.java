@@ -28,7 +28,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -46,7 +46,7 @@ import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.ui.activity.MainActivity;
-import org.jorge.lolin1.ui.util.ParallaxNotifyingScrollView;
+import org.jorge.lolin1.ui.util.StickyParallaxNotifyingScrollView;
 import org.jorge.lolin1.util.PicassoUtils;
 
 public class ArticleReaderFragment extends Fragment {
@@ -128,22 +128,31 @@ public class ArticleReaderFragment extends Fragment {
 
         final ActionBar actionBar = mActivity.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
-        mActionBarBackgroundDrawable = new ColorDrawable(R.color.action_bar_background);
+        mActionBarBackgroundDrawable = new ColorDrawable(mContext.getResources().getColor(R.color.action_bar_background));
         actionBar.setBackgroundDrawable(mActionBarBackgroundDrawable);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            actionBar.setElevation(0); //So that the shadow of the ActionBar doesn't show over the title
+        }
 
         mActionBarBackgroundDrawable.setAlpha(0);
-
-        ((ParallaxNotifyingScrollView) ret.findViewById(R.id.scroll_view)).setOnScrollChangedListener(mOnScrollChangedListener);
+        StickyParallaxNotifyingScrollView scrollView = (StickyParallaxNotifyingScrollView) ret.findViewById(R.id.scroll_view);
+        scrollView.setOnScrollChangedListener(mOnScrollChangedListener);
+        TypedValue tv = new TypedValue();
+        if (mContext.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, Boolean.TRUE)) {
+            int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+            scrollView.setTopOffset(actionBarHeight - mContext.getResources().getInteger(R.integer.action_bar_extra_bottom_article_reader));
+        } else
+            throw new IllegalStateException("ActionBar size not found");
+        scrollView.smoothScrollTo(0, 0);
 
         return ret;
     }
 
-    private ParallaxNotifyingScrollView.OnScrollChangedListener mOnScrollChangedListener = new ParallaxNotifyingScrollView.OnScrollChangedListener() {
+    private StickyParallaxNotifyingScrollView.OnScrollChangedListener mOnScrollChangedListener = new StickyParallaxNotifyingScrollView.OnScrollChangedListener() {
         public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
             final int headerHeight = mHeaderView.getHeight() - mActivity.getSupportActionBar().getHeight();
             final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
             final int newAlpha = (int) (ratio * 255);
-            Log.d("debug", "newAlpha: " + newAlpha);
             mActionBarBackgroundDrawable.setAlpha(newAlpha);
         }
     };

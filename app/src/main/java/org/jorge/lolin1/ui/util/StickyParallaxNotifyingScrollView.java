@@ -4,12 +4,10 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ScrollView;
 
-import com.nirhart.parallaxscroll.views.ParallaxScrollView;
-
 /**
  * Derived from NotifyingScrollView from Cyril Mottier
  */
-public class ParallaxNotifyingScrollView extends ParallaxScrollView {
+public class StickyParallaxNotifyingScrollView extends StickyHeaderParallaxScrollView {
 
     /**
      * @author Cyril Mottier
@@ -20,24 +18,24 @@ public class ParallaxNotifyingScrollView extends ParallaxScrollView {
 
     private OnScrollChangedListener mOnScrollChangedListener;
 
-    public ParallaxNotifyingScrollView(Context context) {
+    public StickyParallaxNotifyingScrollView(Context context) {
         super(context);
     }
 
-    public ParallaxNotifyingScrollView(Context context, AttributeSet attrs) {
+    public StickyParallaxNotifyingScrollView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public ParallaxNotifyingScrollView(Context context, AttributeSet attrs, int defStyle) {
+    public StickyParallaxNotifyingScrollView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
 
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
-        super.onScrollChanged(l, t, oldl, oldt);
         if (mOnScrollChangedListener != null) {
             mOnScrollChangedListener.onScrollChanged(this, l, t, oldl, oldt);
         }
+        super.onScrollChanged(l, t, oldl, oldt);
     }
 
     public void setOnScrollChangedListener(OnScrollChangedListener listener) {

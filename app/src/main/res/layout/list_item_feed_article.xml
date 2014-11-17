@@ -25,7 +25,8 @@
     cardview:cardPreventCornerOverlap="false"
     android:foreground="?android:selectableItemBackground"
     android:gravity="center"
-    android:hapticFeedbackEnabled="true">
+    android:hapticFeedbackEnabled="true"
+    android:animateLayoutChanges="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
