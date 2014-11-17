@@ -90,7 +90,7 @@ public class FeedArticle {
         return previewText;
     }
 
-    public void sendShareIntent(Context context) {
+    public void requestShareAction(Context context) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.setType("text/plain");

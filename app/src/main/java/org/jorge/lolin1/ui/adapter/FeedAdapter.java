@@ -86,7 +86,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             public void onClick(View v) {
                 if (mSelectedIndex == FeedListFragment.NO_ITEM_SELECTED)
                     throw new IllegalStateException("Trying to share an item when no one is selected");
-                items.get(mSelectedIndex).sendShareIntent(mContext);
+                items.get(mSelectedIndex).requestShareAction(mContext);
                 clearSelection();
             }
         });

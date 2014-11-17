@@ -71,6 +71,8 @@ public class ArticleReaderFragment extends Fragment {
         final ActionBar actionBar = mActivity.getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
         actionBar.setBackgroundDrawable(new ColorDrawable(mContext.getResources().getColor(R.color.action_bar_background)));
+
+        inflater.inflate(R.menu.actionbar, menu);
     }
 
     @Override
@@ -78,6 +80,9 @@ public class ArticleReaderFragment extends Fragment {
         switch (item.getItemId()) {
             case android.R.id.home:
                 mActivity.onBackPressed();
+                return Boolean.TRUE;
+            case R.id.action_share:
+                mArticle.requestShareAction(mContext);
                 return Boolean.TRUE;
             default:
                 return super.onOptionsItemSelected(item);
