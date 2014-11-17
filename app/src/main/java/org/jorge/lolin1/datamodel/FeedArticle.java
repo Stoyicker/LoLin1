@@ -38,6 +38,11 @@
 
 package org.jorge.lolin1.datamodel;
 
+import android.content.Context;
+import android.content.Intent;
+
+import org.jorge.lolin1.R;
+
 public class FeedArticle {
     private final String title = "New free champion rotation: Akali, Quinn, Thresh and more!",
             url = "http://euw.leagueoflegends.com/es/news/champions-skins/champion-update/blog-des-actualizacion-de-campeones",
@@ -83,5 +88,15 @@ public class FeedArticle {
 
     public String getPreviewText() {
         return previewText;
+    }
+
+    public void sendShareIntent(Context context) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_SUBJECT, getTitle());
+        intent.putExtra(Intent.EXTRA_TITLE, getPreviewText());
+        intent.putExtra(Intent.EXTRA_TEXT, getUrl());
+        context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.abc_shareactionprovider_share_with)));
     }
 }

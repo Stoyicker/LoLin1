@@ -20,7 +20,6 @@
 package org.jorge.lolin1.ui.adapter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -36,11 +35,10 @@ import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.ui.fragment.FeedListFragment;
 import org.jorge.lolin1.ui.util.Interface;
+import org.jorge.lolin1.util.PicassoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.jorge.lolin1.util.PicassoUtils;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
@@ -88,19 +86,10 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             public void onClick(View v) {
                 if (mSelectedIndex == FeedListFragment.NO_ITEM_SELECTED)
                     throw new IllegalStateException("Trying to share an item when no one is selected");
-                sendShareIntent(items.get(mSelectedIndex));
+                items.get(mSelectedIndex).sendShareIntent(mContext);
                 clearSelection();
             }
         });
-    }
-
-    private void sendShareIntent(FeedArticle item) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TITLE, item.getTitle());
-        intent.putExtra(Intent.EXTRA_TEXT, item.getPreviewText());
-        mContext.startActivity(Intent.createChooser(intent, mContext.getResources().getString(R.string.abc_shareactionprovider_share_with)));
     }
 
     @Override
