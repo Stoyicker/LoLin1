@@ -59,6 +59,10 @@ public class FeedArticle implements Parcelable {
                     "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of.";
     private boolean read = Boolean.FALSE;
 
+    //TODO Delete this
+    public FeedArticle() {
+    }
+
     //TODO Uncomment this
 //    public FeedArticle(@NonNull String _title, @NonNull String _url, @NonNull String _imageUrl, @NonNull String _previewText) {
 //        this.title = _title;
