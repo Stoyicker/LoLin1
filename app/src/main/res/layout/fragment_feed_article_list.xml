@@ -40,9 +40,9 @@
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="@dimen/fab_button_margin">
 
-        <include layout="@layout/layout_mark_as_read_fab" />
+        <include layout="@layout/include_layout_mark_as_read_fab" />
 
-        <include layout="@layout/layout_share_fab" />
+        <include layout="@layout/include_layout_share_fab" />
     </LinearLayout>
 
     <ImageView
