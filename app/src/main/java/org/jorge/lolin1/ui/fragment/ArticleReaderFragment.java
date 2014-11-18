@@ -40,6 +40,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 import org.jorge.lolin1.LoLin1Application;
@@ -77,6 +78,7 @@ public class ArticleReaderFragment extends Fragment {
     };
     private ActionBar mActionBar;
     private float mOriginalElevation;
+    private FloatingActionButton mMarkAsReadFab;
 
     @Override
     public void onAttach(Activity activity) {
@@ -151,6 +153,18 @@ public class ArticleReaderFragment extends Fragment {
             throw new IllegalStateException("ActionBar size not found");
         scrollView.smoothScrollTo(0, 0);
 
+        if (!mArticle.isRead()) {
+            mMarkAsReadFab = (FloatingActionButton) ret.findViewById(R.id.fab_button_mark_as_read);
+            mMarkAsReadFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mArticle.markAsRead();
+                    mMarkAsReadFab.hide();
+                }
+            });
+            
+            mMarkAsReadFab.show();
+        }
         return ret;
     }
 
@@ -160,6 +174,14 @@ public class ArticleReaderFragment extends Fragment {
             final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
             final int newAlpha = (int) (ratio * 255);
             mActionBarBackgroundDrawable.setAlpha(newAlpha);
+            if (mMarkAsReadFab != null)
+                if (!who.canScrollVertically(1)) {
+                    mMarkAsReadFab.show();
+                } else if (t < oldt) {
+                    mMarkAsReadFab.show();
+                } else if (t > oldt) {
+                    mMarkAsReadFab.hide();
+                }
         }
     };
 
