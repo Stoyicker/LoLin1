@@ -46,5 +46,6 @@
     <color name="feed_article_preview">@android:color/black</color>
     <color name="action_bar_background">@color/material_blue_500</color>
     <color name="feed_article_preview_shadow">@android:color/white</color>
+    <color name="app_background">@android:color/background_light</color>
 
 </resources>

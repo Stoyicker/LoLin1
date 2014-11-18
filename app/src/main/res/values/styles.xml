@@ -21,6 +21,7 @@
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBarOverlay">true</item>
         <item name="actionBarStyle">@style/ActionBarStyle</item>
+        <item name="android:windowBackground">@color/app_background</item>
     </style>
 
     <style name="AppTheme" parent="AppTheme.Base" />
