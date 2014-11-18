@@ -75,6 +75,7 @@ public class ArticleReaderFragment extends Fragment {
         public void unscheduleDrawable(Drawable who, Runnable what) {
         }
     };
+    private ActionBar mActionBar;
 
     @Override
     public void onAttach(Activity activity) {
@@ -126,12 +127,12 @@ public class ArticleReaderFragment extends Fragment {
         ((TextView) ret.findViewById(R.id.title)).setText(title);
         ((TextView) ret.findViewById(android.R.id.text1)).setText(mArticle.getPreviewText());
 
-        final ActionBar actionBar = mActivity.getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
+        mActionBar = mActivity.getSupportActionBar();
+        mActionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
         mActionBarBackgroundDrawable = new ColorDrawable(mContext.getResources().getColor(R.color.action_bar_background));
-        actionBar.setBackgroundDrawable(mActionBarBackgroundDrawable);
+        mActionBar.setBackgroundDrawable(mActionBarBackgroundDrawable);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            actionBar.setElevation(0); //So that the shadow of the ActionBar doesn't show over the title
+            mActionBar.setElevation(0); //So that the shadow of the ActionBar doesn't show over the title
         }
 
         mActionBarBackgroundDrawable.setAlpha(0);
@@ -161,6 +162,15 @@ public class ArticleReaderFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         Picasso.with(mContext).cancelTag(TAG);
+        TypedValue tv = new TypedValue();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (mContext.getTheme().resolveAttribute(android.R.attr.elevation, tv, Boolean.TRUE)) {
+                int elevation = TypedValue.
+                        complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+                mActionBar.setElevation(elevation);
+            } else
+                throw new IllegalStateException("ActionBar elevation not found");
+        }
     }
 
     @Override
