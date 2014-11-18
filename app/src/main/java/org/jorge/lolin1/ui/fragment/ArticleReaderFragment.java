@@ -90,7 +90,7 @@ public class ArticleReaderFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.actionbar, menu);
+        inflater.inflate(R.menu.actionbar_article_reader, menu);
     }
 
     @Override
@@ -98,6 +98,9 @@ public class ArticleReaderFragment extends Fragment {
         switch (item.getItemId()) {
             case android.R.id.home:
                 mActivity.onBackPressed();
+                return Boolean.TRUE;
+            case R.id.action_browse_to:
+                mArticle.requestBrowseToAction(mContext);
                 return Boolean.TRUE;
             case R.id.action_share:
                 mArticle.requestShareAction(mContext);

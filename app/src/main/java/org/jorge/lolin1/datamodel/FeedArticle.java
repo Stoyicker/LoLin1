@@ -40,6 +40,7 @@ package org.jorge.lolin1.datamodel;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 
 import org.jorge.lolin1.R;
 
@@ -98,5 +99,10 @@ public class FeedArticle {
         intent.putExtra(Intent.EXTRA_TITLE, getPreviewText());
         intent.putExtra(Intent.EXTRA_TEXT, getUrl());
         context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.abc_shareactionprovider_share_with)));
+    }
+
+    public void requestBrowseToAction(Context context) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getUrl()));
+        context.startActivity(browserIntent);
     }
 }
