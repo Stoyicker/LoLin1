@@ -76,6 +76,7 @@ public class ArticleReaderFragment extends Fragment {
         }
     };
     private ActionBar mActionBar;
+    private float mOriginalElevation;
 
     @Override
     public void onAttach(Activity activity) {
@@ -135,6 +136,7 @@ public class ArticleReaderFragment extends Fragment {
         mActionBarBackgroundDrawable = new ColorDrawable(mContext.getResources().getColor(R.color.action_bar_background));
         mActionBar.setBackgroundDrawable(mActionBarBackgroundDrawable);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mOriginalElevation = mActionBar.getElevation();
             mActionBar.setElevation(0); //So that the shadow of the ActionBar doesn't show over the title
         }
 
@@ -165,14 +167,8 @@ public class ArticleReaderFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         Picasso.with(mContext).cancelTag(TAG);
-        TypedValue tv = new TypedValue();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (mContext.getTheme().resolveAttribute(android.R.attr.elevation, tv, Boolean.TRUE)) {
-                int elevation = TypedValue.
-                        complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-                mActionBar.setElevation(elevation);
-            } else
-                throw new IllegalStateException("ActionBar elevation not found");
+            mActionBar.setElevation(mOriginalElevation);
         }
     }
 
