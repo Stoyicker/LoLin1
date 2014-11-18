@@ -18,9 +18,12 @@
   -->
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBarOverlay">true</item>
+        <item name="actionBarStyle">@style/ActionBarStyle</item>
     </style>
+
+    <style name="AppTheme" parent="AppTheme.Base" />
 
     <style name="AppTheme.Transparent" parent="Theme.AppCompat">
         <item name="android:windowIsTranslucent">true</item>
@@ -57,6 +60,10 @@
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
+    </style>
+
+    <style name="ActionBarStyle" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <!-- In case of necessity -->
     </style>
 
 </resources>
