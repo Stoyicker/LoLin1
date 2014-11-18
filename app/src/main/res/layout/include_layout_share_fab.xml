@@ -28,5 +28,4 @@
     fab:fab_colorPressed="@color/share_floating_action_button_background_state_pressed"
     fab:fab_colorRipple="@color/default_ripple"
     fab:fab_type="normal"
-    fab:fab_shadow="true"
-    android:visibility="invisible" />
+    fab:fab_shadow="true" />
