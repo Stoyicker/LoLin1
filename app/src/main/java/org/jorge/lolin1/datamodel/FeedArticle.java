@@ -41,24 +41,26 @@ package org.jorge.lolin1.datamodel;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.jorge.lolin1.R;
 
-public class FeedArticle {
+public class FeedArticle implements Parcelable {
     private final String title = "New free champion rotation: Akali, Quinn, Thresh and more!",
             url = "http://euw.leagueoflegends.com/es/news/champions-skins/champion-update/blog-des-actualizacion-de-campeones",
-            imageUrl = "http://euw.leagueoflegends.com/sites/default/files/styles/wide_small/public/upload/viktor_0_base1_1920.jpg?itok=vdCKicyL";
+            imageUrl = "http://euw.leagueoflegends.com/sites/default/files/styles/wide_small/public/upload/viktor_0_base1_1920.jpg?itok=vdCKicyL",
+            previewText = "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of." +
+                    "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of." +
+                    "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of." +
+                    "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of." +
+                    "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of." +
+                    "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of." +
+                    "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of.";
     private boolean read = Boolean.FALSE;
-    private final String previewText = "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of." +
-            "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of." +
-            "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of." +
-            "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of." +
-            "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of." +
-            "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of." +
-            "A pair of ne’erdowells are putting the squeeze on League of Legends. In the dead of night, they broke into the store and stole Hippalus’ most prized possessions (he really loves his socks). The two best detectives in the history of detecting are on the case but, to prevent further chaos, we’re giving in to their demands. These are dark days in League… kind of.";
 
     //TODO Uncomment this
-//    public NewsArticle(@NonNull String _title, @NonNull String _url, @NonNull String _imageUrl, @NonNull String _previewText, @NonNull Date _date) {
+//    public FeedArticle(@NonNull String _title, @NonNull String _url, @NonNull String _imageUrl, @NonNull String _previewText) {
 //        this.title = _title;
 //        this.url = _url;
 //        this.imageUrl = _imageUrl;
@@ -91,6 +93,16 @@ public class FeedArticle {
         return previewText;
     }
 
+    public FeedArticle(Parcel in) {
+//        this.title = in.readString();
+//        this.url = in.readString();
+//        this.imageUrl= in.readString();
+//        this.previewText = in.readString();
+//        boolean[] aux = new boolean[1];
+//        in.readBooleanArray(aux);
+//        read = aux[0];
+    }
+
     public void requestShareAction(Context context) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -105,4 +117,28 @@ public class FeedArticle {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getUrl()));
         context.startActivity(browserIntent);
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(getTitle());
+        dest.writeString(getUrl());
+        dest.writeString(getImageUrl());
+        dest.writeString(getPreviewText());
+        dest.writeBooleanArray(new boolean[]{isRead()});
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public FeedArticle createFromParcel(Parcel in) {
+            return new FeedArticle(in);
+        }
+
+        public FeedArticle[] newArray(int size) {
+            return new FeedArticle[size];
+        }
+    };
 }
