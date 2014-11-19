@@ -37,12 +37,11 @@
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/fab_button_margin">
-
-        <include layout="@layout/include_layout_mark_as_read_fab" />
+        android:layout_gravity="bottom|start">
 
         <include layout="@layout/include_layout_share_fab" />
+
+        <include layout="@layout/include_layout_mark_as_read_fab" />
     </LinearLayout>
 
     <ImageView

@@ -105,10 +105,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     private void hideMarkAsReadButton() {
         mFabMarkAsReadButton.hide();
+        mFabMarkAsReadButton.setVisibility(View.GONE);
     }
 
     private void hideShareButton() {
         mFabShareButton.hide();
+        mFabShareButton.setVisibility(View.GONE);
     }
 
     private void showSelectedItemButtons(int itemIndex) {
@@ -211,6 +213,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private void markAsRead(int i) {
         if (i >= 0 && i < items.size()) {
             items.get(i).markAsRead();
+            hideMarkAsReadButton();
             notifyItemChanged(i);
         }
     }

@@ -64,7 +64,7 @@
     </style>
 
     <style name="ActionBarStyle" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <!-- In case of necessity -->
+        <!-- In case of needed -->
     </style>
 
 </resources>

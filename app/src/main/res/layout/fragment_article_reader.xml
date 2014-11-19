@@ -85,10 +85,12 @@
         </LinearLayout>
     </org.jorge.lolin1.ui.util.StickyParallaxNotifyingScrollView>
 
-    <include
-        layout="@layout/include_layout_mark_as_read_fab"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="@dimen/fab_button_margin" />
+        android:layout_gravity="bottom|start">
+
+        <include layout="@layout/include_layout_mark_as_read_fab" />
+    </LinearLayout>
 </FrameLayout>

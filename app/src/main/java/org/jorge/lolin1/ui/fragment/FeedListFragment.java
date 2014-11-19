@@ -66,7 +66,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
     public static final String ERROR_RES_ID_KEY = "ERROR";
     private int mDefaultImageId;
     private ActionMode mActionMode;
-    private ActionBarActivity mActivity;
+    protected ActionBarActivity mActivity;
     private Interface.IOnFeedArticleClickedListener mCallback;
     private Boolean mActionBarIsShowingOrShown = Boolean.TRUE;
     private final Object mActionBarLock = new Object();

@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
 import org.jorge.lolin1.LoLin1Application;
@@ -43,7 +44,14 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
+
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setLogo(R.drawable.ic_launcher_two_color_actionbar_wrapper);
+        actionBar.setDisplayUseLogoEnabled(Boolean.TRUE);
+        actionBar.setDisplayShowHomeEnabled(Boolean.TRUE);
+
         mContext = LoLin1Application.getInstance().getApplicationContext();
         if (getSupportFragmentManager().getFragments() == null)
             showInitialFragment();

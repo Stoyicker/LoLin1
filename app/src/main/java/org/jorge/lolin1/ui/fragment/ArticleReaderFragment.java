@@ -141,6 +141,7 @@ public class ArticleReaderFragment extends Fragment {
             mOriginalElevation = mActionBar.getElevation();
             mActionBar.setElevation(0); //So that the shadow of the ActionBar doesn't show over the title
         }
+        mActionBar.setTitle(mActivity.getString(R.string.section_title_article_reader));
 
         mActionBarBackgroundDrawable.setAlpha(0);
         StickyParallaxNotifyingScrollView scrollView = (StickyParallaxNotifyingScrollView) ret.findViewById(R.id.scroll_view);

@@ -22,6 +22,9 @@ package org.jorge.lolin1.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import org.jorge.lolin1.R;
 
@@ -34,5 +37,13 @@ public class NewsListFragment extends FeedListFragment {
         args.putSerializable(FeedListFragment.LM_KEY, LayoutManagerEnum.GRID);
 
         return FeedListFragment.instantiate(context, NewsListFragment.class.getName(), args);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
+        final ActionBar actionBar = mActivity.getSupportActionBar();
+        actionBar.setTitle(mActivity.getString(R.string.section_title_news));
     }
 }
