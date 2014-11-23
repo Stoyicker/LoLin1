@@ -19,4 +19,5 @@
 
 <resources>
     <integer name="min_scroll_toggle_action_bar">50</integer>
+    <integer name="dual_feed_column_amount">1</integer>
 </resources>

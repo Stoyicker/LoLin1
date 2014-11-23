@@ -49,13 +49,15 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private int mSelectedIndex = FeedListFragment.NO_ITEM_SELECTED, mDefaultImageId;
     private final Interface.IOnItemInteractionListener mCallback;
     private final Object mTag;
+    private final Boolean mIsDualPane;
 
-    public FeedAdapter(Context context, FloatingActionButton fabButtonMarkAsRead, FloatingActionButton fabButtonShare, Interface.IOnItemInteractionListener onItemSelectedListener, Integer defaultImageId, Object _tag) {
+    public FeedAdapter(Context context, FloatingActionButton fabButtonMarkAsRead, FloatingActionButton fabButtonShare, Interface.IOnItemInteractionListener onItemSelectedListener, Integer defaultImageId, Boolean isDualPane, Object _tag) {
         this.mContext = context;
         this.mFabShareButton = fabButtonShare;
         this.mFabMarkAsReadButton = fabButtonMarkAsRead;
         this.mDefaultImageId = defaultImageId;
         this.mCallback = onItemSelectedListener;
+        mIsDualPane = isDualPane;
 
         items.add(new FeedArticle());
         items.add(new FeedArticle());
@@ -81,15 +83,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 markAsRead(mSelectedIndex);
             }
         });
-        mFabShareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSelectedIndex == FeedListFragment.NO_ITEM_SELECTED)
-                    throw new IllegalStateException("Trying to share an item when no one is selected");
-                items.get(mSelectedIndex).requestShareAction(mContext);
-                clearSelection();
-            }
-        });
+        if (mFabShareButton != null)
+            mFabShareButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mSelectedIndex == FeedListFragment.NO_ITEM_SELECTED)
+                        throw new IllegalStateException("Trying to share an item when no one is selected");
+                    items.get(mSelectedIndex).requestShareAction(mContext);
+                    clearSelection();
+                }
+            });
     }
 
     @Override
@@ -133,22 +136,31 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
-        viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                setSelectedIndex(i);
-                return Boolean.TRUE;
-            }
-        });
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mSelectedIndex == FeedListFragment.NO_ITEM_SELECTED || mSelectedIndex == i) {
+        if (mIsDualPane) {
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     mCallback.onItemClick(items.get(i));
                 }
-                clearSelection();
-            }
-        });
+            });
+        } else {
+            viewHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    setSelectedIndex(i);
+                    return Boolean.TRUE;
+                }
+            });
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mSelectedIndex == FeedListFragment.NO_ITEM_SELECTED || mSelectedIndex == i) {
+                        mCallback.onItemClick(items.get(i));
+                    }
+                    clearSelection();
+                }
+            });
+        }
         FeedArticle item = items.get(i);
         if (!item.isRead()) {
             viewHolder.titleView.setTextSize(mContext.getResources().getInteger(R.integer.feed_article_on_list_title_unread));

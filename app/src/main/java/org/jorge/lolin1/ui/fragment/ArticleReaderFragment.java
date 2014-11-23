@@ -84,7 +84,10 @@ public class ArticleReaderFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mContext = LoLin1Application.getInstance().getContext();
-//        mArticle = (FeedArticle) getArguments().getParcelable(ARTICLE_KEY); TODO Make the class implement parcelable
+        Bundle args = getArguments();
+        if (args == null)
+            throw new IllegalStateException("ArticleReader created without arguments");
+//        mArticle = (FeedArticle) args.getParcelable(ARTICLE_KEY); TODO Make the class implement parcelable
         TAG = mArticle.getUrl();
         mActivity = (MainActivity) activity;
         mDefaultImageId = getArguments().getInt(FeedListFragment.ERROR_RES_ID_KEY);
@@ -163,7 +166,7 @@ public class ArticleReaderFragment extends Fragment {
                     mMarkAsReadFab.hide();
                 }
             });
-            
+
             mMarkAsReadFab.show();
         }
         return ret;
