@@ -24,9 +24,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.view.ActionMode;
@@ -34,6 +36,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -54,9 +57,12 @@ import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.ui.adapter.FeedAdapter;
+import org.jorge.lolin1.ui.util.ChainableSwipeRefreshLayout;
 import org.jorge.lolin1.ui.util.StickyParallaxNotifyingScrollView;
 import org.jorge.lolin1.util.Interface;
 import org.jorge.lolin1.util.PicassoUtils;
+
+import java.util.concurrent.Executors;
 
 public class FeedListFragment extends Fragment implements Interface.IOnBackPressed, Interface.IOnItemInteractionListener, ActionMode.Callback {
 
@@ -119,6 +125,33 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
     private TextView mArticleTitleView;
     private StickyParallaxNotifyingScrollView mParallaxScrollView;
     private TextView mArticlePreviewView;
+    private ChainableSwipeRefreshLayout mRefreshLayout;
+    private final SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
+        @Override
+        public void onRefresh() {
+            new AsyncTask<Void, Void, Void>() {
+                @Override
+                protected Void doInBackground(Void... params) {
+
+                    Log.d("debug", "Refresh started");
+                    try {
+                        Thread.sleep(5000);
+                        //TODO Refresh the data
+                    } catch (InterruptedException e) {
+                        Log.d("debug", "Exception");
+                    }
+                    Log.d("debug", "Refresh finished");
+                    return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+                    mRefreshLayout.setRefreshing(Boolean.FALSE);
+                }
+            }.executeOnExecutor(Executors.newSingleThreadExecutor());
+        }
+    };
 
     protected enum LayoutManagerEnum {
         STAGGEREDGRID,
@@ -193,6 +226,23 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
                              Bundle savedInstanceState) {
         setHasOptionsMenu(Boolean.TRUE);
         final View ret = inflater.inflate(R.layout.fragment_feed_article_list, container, Boolean.FALSE);
+        mNewsView = (RecyclerView) ret.findViewById(R.id.feed_article_list_view);
+
+        mRefreshLayout = (ChainableSwipeRefreshLayout) ret.findViewById(R.id.refreshable_layout);
+        mRefreshLayout.setColorSchemeResources(R.color.material_orange_500, R.color.material_blue_500);
+        TypedValue tv = new TypedValue();
+        int actionBarHeight = -1;
+        if (mContext.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, Boolean.TRUE)) {
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+        }
+        if (actionBarHeight == -1)
+            throw new IllegalStateException("Couldn't get the ActionBar height attribute");
+        final Integer progressBarStartMargin = getResources().getDimensionPixelSize(
+                R.dimen.swipe_refresh_progress_bar_start_margin), progressBarEndMargin = getResources().getDimensionPixelSize(
+                R.dimen.swipe_refresh_progress_bar_end_margin);
+        mRefreshLayout.setProgressViewOffset(Boolean.FALSE, actionBarHeight + progressBarStartMargin, actionBarHeight + progressBarEndMargin);
+        mRefreshLayout.setOnRefreshListener(mOnRefreshListener);
+        mRefreshLayout.setRecyclerView(mNewsView);
 
         mActionBar = mActivity.getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(Boolean.FALSE);
@@ -209,7 +259,6 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
         mArticlePreviewView = (TextView) ret.findViewById(android.R.id.text1);
         mFabMarkAsReadButton = ((FloatingActionButton) ret.findViewById(R.id.fab_button_mark_as_read));
         mFabMarkAsReadButton.hide();
-        mNewsView = (RecyclerView) ret.findViewById(R.id.feed_article_list_view);
         mNewsView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mEmptyView = ret.findViewById(android.R.id.empty);
         if (!mIsDualPane) {

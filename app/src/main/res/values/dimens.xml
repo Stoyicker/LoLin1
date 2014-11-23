@@ -23,6 +23,10 @@
     <dimen name="default_feed_article_image_width">200dp</dimen>
     <dimen name="default_feed_article_image_height">180dp</dimen>
     <dimen name="dual_pane_feed_article_list_width">300dp</dimen>
+    <dimen name="swipe_refresh_progress_bar_start_margin">-40dp</dimen>
+    <dimen name="swipe_refresh_progress_bar_end_margin">16dp</dimen>
+
+
     <item name="feed_article_selected_alpha" format="float" type="dimen">1.0</item>
     <item name="feed_article_unselected_alpha" format="float" type="dimen">0.5</item>
 </resources>

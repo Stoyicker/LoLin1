@@ -36,6 +36,7 @@
     <color name="mark_as_read_floating_action_button_background_state_normal">
         @color/material_blue_500
     </color>
+    <color name="material_orange_500">#FF9800</color>
     <color name="mark_as_read_floating_action_button_background_state_pressed">
         @color/material_blue_800
     </color>

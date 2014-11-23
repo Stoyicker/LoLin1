@@ -22,32 +22,38 @@
     android:orientation="horizontal"
     android:animateLayoutChanges="true">
 
-    <FrameLayout
-        android:id="@+id/news_list"
-        android:layout_width="@dimen/dual_pane_feed_article_list_width"
-        android:layout_height="match_parent"
-        android:background="@drawable/feed_background">
+    <org.jorge.lolin1.ui.util.ChainableSwipeRefreshLayout
+        android:id="@+id/refreshable_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/feed_article_list_view"
-            android:layout_width="match_parent"
+        <FrameLayout
+            android:id="@+id/news_list"
+            android:layout_width="@dimen/dual_pane_feed_article_list_width"
             android:layout_height="match_parent"
-            android:requiresFadingEdge="vertical"
-            android:fadeScrollbars="true"
-            android:scrollbars="vertical"
-            android:layout_marginTop="@dimen/feed_article_list_top_margin"
-            android:paddingTop="?attr/actionBarSize" />
+            android:background="@drawable/feed_background">
 
-        <ImageView
-            android:id="@android:id/empty"
-            android:background="@color/empty_list_background_color"
-            android:scaleType="centerInside"
-            android:src="@drawable/empty_list"
-            android:gravity="center"
-            android:contentDescription="@string/no_feed_articles"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </FrameLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/feed_article_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:requiresFadingEdge="vertical"
+                android:fadeScrollbars="true"
+                android:scrollbars="vertical"
+                android:layout_marginTop="@dimen/feed_article_list_top_margin"
+                android:paddingTop="?attr/actionBarSize" />
+
+            <ImageView
+                android:id="@android:id/empty"
+                android:background="@color/empty_list_background_color"
+                android:scaleType="centerInside"
+                android:src="@drawable/empty_list"
+                android:gravity="center"
+                android:contentDescription="@string/no_feed_articles"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+    </org.jorge.lolin1.ui.util.ChainableSwipeRefreshLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
