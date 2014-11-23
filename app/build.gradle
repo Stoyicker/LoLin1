@@ -62,6 +62,7 @@ android {
 
 repositories {
     maven { url 'https://maven.fabric.io/repo' }
+    jcenter()
 }
 
 dependencies {
