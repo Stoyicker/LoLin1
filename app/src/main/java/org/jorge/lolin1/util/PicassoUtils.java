@@ -1,9 +1,3 @@
-package org.jorge.lolin1.utils;
-
-import android.support.annotation.NonNull;
-
-import java.io.File;
-
 /*
  * This file is part of LoLin1.
  *
@@ -23,19 +17,20 @@ import java.io.File;
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
-public abstract class FileManager {
+package org.jorge.lolin1.util;
 
-    public static Boolean recursivelyDelete(@NonNull File file) {
-        if (file.isDirectory()) {
-            String[] children = file.list();
-            for (String aChildren : children) {
-                Boolean success = recursivelyDelete(new File(file, aChildren));
-                if (!success) {
-                    return false;
-                }
-            }
-        }
+import android.content.Context;
+import android.widget.ImageView;
 
-        return file.delete();
+import com.squareup.picasso.Picasso;
+
+public abstract class PicassoUtils {
+
+    public static void loadInto(Context context, String path, int errorResId, ImageView target, Object tag) {
+        Picasso.with(context)
+                .load(path)
+                .error(errorResId)
+                .tag(tag)
+                .into(target);
     }
 }

@@ -1,3 +1,9 @@
+package org.jorge.lolin1.io.file;
+
+import android.support.annotation.NonNull;
+
+import java.io.File;
+
 /*
  * This file is part of LoLin1.
  *
@@ -17,9 +23,19 @@
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
-package org.jorge.lolin1.ui.activity;
+public abstract class FileOperations {
 
-import android.support.v7.app.ActionBarActivity;
+    public static Boolean recursivelyDelete(@NonNull File file) {
+        if (file.isDirectory()) {
+            String[] children = file.list();
+            for (String aChildren : children) {
+                Boolean success = recursivelyDelete(new File(file, aChildren));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
 
-public class HomeActivity extends ActionBarActivity {
+        return file.delete();
+    }
 }

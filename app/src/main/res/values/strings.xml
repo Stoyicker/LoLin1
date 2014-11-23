@@ -18,4 +18,8 @@
   -->
 <resources>
     <string name="app_name">LoLin1</string>
+    <string name="no_feed_articles">There are no news right now.</string>
+    <string name="open_in_browser">Open in browser</string>
+    <string name="section_title_news">News</string>
+    <string name="section_title_article_reader" />
 </resources>

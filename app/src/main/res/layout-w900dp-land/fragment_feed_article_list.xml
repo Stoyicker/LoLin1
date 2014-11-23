@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of LoLin1.
+  ~
+  ~ LoLin1 is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ LoLin1 is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with LoLin1. If not, see <http://www.gnu.org/licenses/>.
+  ~
+  ~ Created by Jorge Antonio Diaz-Benito Soriano.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:animateLayoutChanges="true">
+
+    <org.jorge.lolin1.ui.util.ChainableSwipeRefreshLayout
+        android:id="@+id/refreshable_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <FrameLayout
+            android:id="@+id/news_list"
+            android:layout_width="@dimen/dual_pane_feed_article_list_width"
+            android:layout_height="match_parent"
+            android:background="@drawable/feed_background">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/feed_article_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:requiresFadingEdge="vertical"
+                android:fadeScrollbars="true"
+                android:scrollbars="vertical"
+                android:layout_marginTop="@dimen/feed_article_list_top_margin"
+                android:paddingTop="?attr/actionBarSize" />
+
+            <ImageView
+                android:id="@android:id/empty"
+                android:background="@color/empty_list_background_color"
+                android:scaleType="centerInside"
+                android:src="@drawable/empty_list"
+                android:gravity="center"
+                android:contentDescription="@string/no_feed_articles"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+    </org.jorge.lolin1.ui.util.ChainableSwipeRefreshLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <org.jorge.lolin1.ui.util.StickyParallaxNotifyingScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
+            android:gravity="center"
+            app:parallax_factor="2"
+            android:fillViewport="true"
+            android:scrollbars="none"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@id/image"
+                    android:scaleType="centerCrop"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:ignore="ContentDescription"
+                    android:adjustViewBounds="true"
+                    android:maxWidth="@dimen/default_feed_article_image_width"
+                    android:maxHeight="@dimen/default_feed_article_image_height" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/material_blue_500"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/feed_article_padding_start"
+                    android:paddingEnd="@dimen/feed_article_padding_end"
+                    android:paddingTop="@dimen/feed_article_reader_text_vertical_padding"
+                    android:paddingBottom="@dimen/feed_article_reader_text_vertical_padding"
+                    android:tag="sticky">
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:ellipsize="none"
+                        style="@style/FeedArticleTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/feed_background"
+                    android:paddingStart="@dimen/feed_article_padding_start"
+                    android:paddingEnd="@dimen/feed_article_padding_end"
+                    android:paddingTop="@dimen/feed_article_reader_text_vertical_padding"
+                    android:paddingBottom="@dimen/feed_article_reader_text_vertical_padding">
+
+                    <TextView
+                        android:id="@android:id/text1"
+                        android:ellipsize="none"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        style="@style/FeedArticlePreview" />
+
+                </FrameLayout>
+            </LinearLayout>
+        </org.jorge.lolin1.ui.util.StickyParallaxNotifyingScrollView>
+
+        <include
+            layout="@layout/include_layout_mark_as_read_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_button_margin" />
+    </FrameLayout>
+</LinearLayout>

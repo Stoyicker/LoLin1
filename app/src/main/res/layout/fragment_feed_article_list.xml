@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of LoLin1.
+  ~
+  ~ LoLin1 is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ LoLin1 is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with LoLin1. If not, see <http://www.gnu.org/licenses/>.
+  ~
+  ~ Created by Jorge Antonio Diaz-Benito Soriano.
+  -->
+<org.jorge.lolin1.ui.util.ChainableSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/refreshable_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/feed_background">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/feed_article_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:requiresFadingEdge="vertical"
+            android:fadeScrollbars="true"
+            android:scrollbars="vertical"
+            android:layout_marginTop="@dimen/feed_article_list_top_margin"
+            android:paddingTop="?attr/actionBarSize" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|start">
+
+            <include layout="@layout/include_layout_share_fab" />
+
+            <include layout="@layout/include_layout_mark_as_read_fab" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@android:id/empty"
+            android:background="@color/empty_list_background_color"
+            android:scaleType="centerInside"
+            android:src="@drawable/empty_list"
+            android:gravity="center"
+            android:contentDescription="@string/no_feed_articles"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+</org.jorge.lolin1.ui.util.ChainableSwipeRefreshLayout>

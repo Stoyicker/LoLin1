@@ -18,9 +18,13 @@
   -->
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- TODO Customize your theme here. -->
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBarOverlay">true</item>
+        <item name="actionBarStyle">@style/ActionBarStyle</item>
+        <item name="android:windowBackground">@color/app_background</item>
     </style>
+
+    <style name="AppTheme" parent="AppTheme.Base" />
 
     <style name="AppTheme.Transparent" parent="Theme.AppCompat">
         <item name="android:windowIsTranslucent">true</item>
@@ -30,4 +34,37 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+    <style name="FeedArticleOnListTitleRead">
+        <item name="android:textColor">@color/feed_article_on_list_title</item>
+        <item name="android:shadowColor">@color/feed_article_on_list_title_shadow</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">3</item>
+    </style>
+
+    <style name="CabTitle">
+        <item name="android:textColor">@color/cab_title</item>
+        <item name="android:textSize">@dimen/cab_title</item>
+    </style>
+
+    <style name="FeedArticleTitle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/feed_article_title</item>
+        <item name="android:textSize">@dimen/feed_article_title</item>
+    </style>
+
+    <style name="FeedArticlePreview">
+        <item name="android:textColor">@color/feed_article_preview</item>
+        <item name="android:textSize">@dimen/feed_article_preview</item>
+        <item name="android:shadowColor">@color/feed_article_preview_shadow</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">1</item>
+    </style>
+
+    <style name="ActionBarStyle" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <!-- In case of needed -->
+    </style>
+
 </resources>
