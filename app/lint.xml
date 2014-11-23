@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <!-- I know that I'm using different layouts, and it's fine-->
+    <issue id="InconsistentLayout" severity="ignore" />
+    <!-- DNSJava has its problems -->
+    <issue id="InvalidPackage" severity="ignore" />
+    <!-- Some icons are density-independent-->
+    <issue id="IconLocation" severity="ignore" />
+</lint>

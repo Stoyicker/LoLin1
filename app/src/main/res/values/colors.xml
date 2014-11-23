@@ -32,7 +32,6 @@
     <color name="share_floating_action_button_background_state_pressed">
         @color/material_green_800
     </color>
-    <color name="feed_article_selected_overlay">#AA0277BD</color>
     <color name="mark_as_read_floating_action_button_background_state_normal">
         @color/material_blue_500
     </color>
@@ -43,7 +42,6 @@
     <color name="cab_title">@android:color/white</color>
     <color name="default_ripple">@color/ripple_material_light</color>
     <color name="feed_article_title">@android:color/white</color>
-    <color name="feed_article_subtitle">#77000000</color>
     <color name="feed_article_preview">@android:color/black</color>
     <color name="action_bar_background">@color/material_blue_500</color>
     <color name="feed_article_preview_shadow">@android:color/white</color>

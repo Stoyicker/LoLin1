@@ -266,6 +266,7 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
             MotionEvent down = MotionEvent.obtain(ev);
             down.setAction(MotionEvent.ACTION_DOWN);
             super.onTouchEvent(down);
+            down.recycle();
             hasNotDoneActionDown = false;
         }
 
