@@ -2,6 +2,7 @@ language: android
 android:
   components:
     - build-tools-21.1.1
+    - extra-android-m2repository
 branches:
   only:
     - master
