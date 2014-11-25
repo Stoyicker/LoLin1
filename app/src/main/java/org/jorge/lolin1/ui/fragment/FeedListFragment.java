@@ -36,7 +36,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -50,6 +49,7 @@ import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.crashlytics.android.Crashlytics;
 import com.melnykov.fab.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
@@ -119,6 +119,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
                 }
         }
     };
+    private Integer FEED_REFRESH_TIME_MILLIS;
     private ActionBar mActionBar;
     private Float mOriginalElevation;
     private View mHeaderView;
@@ -131,16 +132,18 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
         public void onRefresh() {
             new AsyncTask<Void, Void, Void>() {
                 @Override
-                protected Void doInBackground(Void... params) {
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    mFeedAdapter.notifyDataSetChanged();
+                }
 
-                    Log.d("debug", "Refresh started");
+                @Override
+                protected Void doInBackground(Void... params) {
                     try {
-                        Thread.sleep(5000);
-                        //TODO Refresh the data
+                        Thread.sleep(FEED_REFRESH_TIME_MILLIS);
                     } catch (InterruptedException e) {
-                        Log.d("debug", "Exception");
+                        Crashlytics.logException(e);
                     }
-                    Log.d("debug", "Refresh finished");
                     return null;
                 }
 
@@ -173,6 +176,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
         }
         mActivity = (ActionBarActivity) activity;
         mCallback = (Interface.IOnFeedArticleClickedListener) activity;
+        FEED_REFRESH_TIME_MILLIS = mContext.getResources().getInteger(R.integer.feed_refresh_time_millis);
     }
 
     @Override
