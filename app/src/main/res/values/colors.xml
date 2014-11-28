@@ -20,6 +20,7 @@
 <resources>
     <color name="material_green_500">#4CAF50</color>
     <color name="material_green_800">#2E7D32</color>
+    <color name="material_blue_500">#3F51B5</color>
     <color name="material_blue_800">#0277BD</color>
 
     <color name="feed_article_on_list_title">@android:color/white</color>
@@ -47,4 +48,14 @@
     <color name="feed_article_preview_shadow">@android:color/white</color>
     <color name="app_background">@android:color/background_light</color>
 
+    <!-- Navigation Drawer colors -->
+
+    <color name="nav_drawer_primary">@color/material_blue_500</color>
+    <color name="nav_drawer_primary_dark">@color/material_blue_500</color>
+    <color name="nav_drawer_accent">@color/material_blue_500</color>
+    <color name="nav_drawer_background">#F2F2F2</color>
+    <color name="nav_drawer_window_background">#DEDEDE</color>
+    <color name="nav_drawer_text_primary">@android:color/white</color>
+    <color name="nav_drawer_navigation">@android:color/black</color>
+    <color name="nav_drawer_selected_gray">#FFDBDBDB</color>
 </resources>

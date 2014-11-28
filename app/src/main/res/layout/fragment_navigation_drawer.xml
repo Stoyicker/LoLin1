@@ -16,12 +16,13 @@
   ~
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
-<resources>
-    <string name="title_section1">News</string>
-    <string name="title_section2">Community</string>
-    <string name="title_section3">Summoner\'s school</string>
-    <string name="title_section5">Chat</string>
-    <string name="no_feed_articles">There are no news right now.</string>
-    <string name="open_in_browser">Open in browser</string>
-    <string name="section_title_article_reader" />
-</resources>
+<android.support.v7.widget.RecyclerView
+    android:id="@+id/drawerList"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
+    android:scrollbars="vertical"
+    android:focusable="true"
+    android:layout_height="match_parent"
+    android:background="@color/nav_drawer_background" />

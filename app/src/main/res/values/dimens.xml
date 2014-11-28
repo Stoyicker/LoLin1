@@ -29,4 +29,6 @@
 
     <item name="feed_article_selected_alpha" format="float" type="dimen">1.0</item>
     <item name="feed_article_unselected_alpha" format="float" type="dimen">0.5</item>
+
+    <dimen name="navigation_drawer_width">240dp</dimen>
 </resources>
