@@ -168,8 +168,4 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
     public void enableNavigationDrawer() {
         mNavigationDrawerFragment.setup(R.id.navigation_drawer_fragment, (DrawerLayout) findViewById(R.id.navigation_drawer), mToolbar);
     }
-
-    public void disableNavigationDrawer() {
-        mNavigationDrawerFragment.disable();
-    }
 }

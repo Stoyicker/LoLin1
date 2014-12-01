@@ -130,23 +130,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
-    public void disable() {
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-
-        mDrawerLayout.setDrawerListener(null);
-
-        mDrawerLayout.removeCallbacks(new Runnable() {
-            @Override
-            public void run() {
-                mActionBarDrawerToggle.syncState();
-            }
-        });
-        
-        mActionBarDrawerToggle = null;
-        mDrawerLayout = null;
-        mFragmentContainerView = null;
-    }
-
     public void closeDrawer() {
         mDrawerLayout.closeDrawer(mFragmentContainerView);
     }

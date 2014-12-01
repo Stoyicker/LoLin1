@@ -88,7 +88,6 @@ public class ArticleReaderFragment extends Fragment {
         mArticle = args.getParcelable(ARTICLE_KEY);
         TAG = mArticle.getUrl();
         mActivity = (MainActivity) activity;
-        mActivity.disableNavigationDrawer();
         mDefaultImageId = getArguments().getInt(FeedListFragment.ERROR_RES_ID_KEY);
     }
 
