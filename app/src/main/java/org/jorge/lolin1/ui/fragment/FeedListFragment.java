@@ -165,7 +165,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mContext = LoLin1Application.getInstance().getContext();
-        mActionBarBackgroundDrawable = new ColorDrawable(mContext.getResources().getColor(R.color.action_bar_background));
+        mActionBarBackgroundDrawable = new ColorDrawable(mContext.getResources().getColor(R.color.toolbar_background));
         Bundle args = getArguments();
         if (args == null)
             throw new IllegalStateException("FeedListFragment created without arguments");
@@ -204,12 +204,6 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
         mActionBarBackgroundDrawable.setAlpha(0);
 
         mParallaxScrollView.setOnScrollChangedListener(mOnScrollChangedListener);
-        TypedValue tv = new TypedValue();
-        if (mContext.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, Boolean.TRUE)) {
-            int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-            mParallaxScrollView.setTopOffset(actionBarHeight - mContext.getResources().getInteger(R.integer.action_bar_extra_bottom_article_reader));
-        } else
-            throw new IllegalStateException("ActionBar size not found");
         mParallaxScrollView.smoothScrollTo(0, 0);
 
         if (!lastClickedArticle.isRead()) {

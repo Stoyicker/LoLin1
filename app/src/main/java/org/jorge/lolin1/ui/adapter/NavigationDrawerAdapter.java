@@ -1,6 +1,8 @@
 package org.jorge.lolin1.ui.adapter;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -8,10 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.jorge.lolin1.R;
+
 import java.util.List;
 
 /**
- * Created by poliveira on 24/10/2014.
+ * @author poliveira
+ *         24/10/2014
  */
 public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.ViewHolder> {
 
@@ -19,13 +24,11 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     private NavigationDrawerCallbacks mNavigationDrawerCallbacks;
     private int mSelectedPosition;
     private int mTouchedPosition = -1;
+    private Context mContext;
 
-    public NavigationDrawerAdapter(List<NavigationItem> data) {
+    public NavigationDrawerAdapter(Context context, List<NavigationItem> data) {
+        mContext = context;
         mData = data;
-    }
-
-    public NavigationDrawerCallbacks getNavigationDrawerCallbacks() {
-        return mNavigationDrawerCallbacks;
     }
 
     public void setNavigationDrawerCallbacks(NavigationDrawerCallbacks navigationDrawerCallbacks) {
@@ -34,14 +37,13 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 
     @Override
     public NavigationDrawerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.drawer_row, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_navigation_drawer, viewGroup, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(NavigationDrawerAdapter.ViewHolder viewHolder, final int i) {
         viewHolder.textView.setText(mData.get(i).getText());
-        viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i).getDrawable(), null, null, null);
 
         viewHolder.itemView.setOnTouchListener(new View.OnTouchListener() {
                                                    @Override
@@ -73,10 +75,13 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
                                                }
         );
 
-        //TODO: selected menu position, change layout accordingly
         if (mSelectedPosition == i || mTouchedPosition == i) {
-            viewHolder.itemView.setBackgroundColor(viewHolder.itemView.getContext().getResources().getColor(R.color.selected_gray));
+            viewHolder.textView.setTextColor(mContext.getResources().getColor(R.color.navigation_drawer_entry_text_selected));
+            viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i).getSelectedDrawable(), null, null, null);
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.navigation_drawer_selected_gray));
         } else {
+            viewHolder.textView.setTextColor(mContext.getResources().getColor(R.color.navigation_drawer_entry_text_unselected));
+            viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i).getStandardDrawable(), null, null, null);
             viewHolder.itemView.setBackgroundColor(Color.TRANSPARENT);
         }
     }
@@ -102,12 +107,43 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
         return mData != null ? mData.size() : 0;
     }
 
+    public int getSelectedPosition() {
+        return mSelectedPosition;
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            textView = (TextView) itemView.findViewById(R.id.item_name);
+            textView = (TextView) itemView.findViewById(android.R.id.text1);
         }
+    }
+
+    public static class NavigationItem {
+        private final String mText;
+        private final Drawable mStandardDrawable, mSelectedDrawable;
+
+        public NavigationItem(String text, Drawable standardDrawable, Drawable selectedDrawable) {
+            mText = text;
+            mStandardDrawable = standardDrawable;
+            mSelectedDrawable = selectedDrawable;
+        }
+
+        public String getText() {
+            return mText;
+        }
+
+        public Drawable getStandardDrawable() {
+            return mStandardDrawable;
+        }
+
+        public Drawable getSelectedDrawable() {
+            return mSelectedDrawable;
+        }
+    }
+
+    public interface NavigationDrawerCallbacks {
+        void onNavigationDrawerItemSelected(int position);
     }
 }

@@ -40,22 +40,29 @@
     <color name="mark_as_read_floating_action_button_background_state_pressed">
         @color/material_blue_800
     </color>
-    <color name="cab_title">@android:color/white</color>
+
     <color name="default_ripple">@color/ripple_material_light</color>
     <color name="feed_article_title">@android:color/white</color>
     <color name="feed_article_preview">@android:color/black</color>
-    <color name="action_bar_background">@color/material_blue_500</color>
     <color name="feed_article_preview_shadow">@android:color/white</color>
     <color name="app_background">@android:color/background_light</color>
 
     <!-- Navigation Drawer colors -->
 
-    <color name="nav_drawer_primary">@color/material_blue_500</color>
-    <color name="nav_drawer_primary_dark">@color/material_blue_500</color>
-    <color name="nav_drawer_accent">@color/material_blue_500</color>
-    <color name="nav_drawer_background">#F2F2F2</color>
-    <color name="nav_drawer_window_background">#DEDEDE</color>
-    <color name="nav_drawer_text_primary">@android:color/white</color>
-    <color name="nav_drawer_navigation">@android:color/black</color>
-    <color name="nav_drawer_selected_gray">#FFDBDBDB</color>
+    <color name="navigation_drawer_primary">@color/material_blue_500</color>
+    <color name="navigation_drawer_primary_dark">@color/material_blue_500</color>
+    <color name="navigation_drawer_accent">@color/material_blue_500</color>
+    <color name="navigation_drawer_background">#F2F2F2</color>
+    <color name="navigation_drawer_window_background">#DEDEDE</color>
+    <color name="navigation_drawer_text_primary">@android:color/white</color>
+    <color name="navigation_drawer_navigation">@android:color/black</color>
+    <color name="navigation_drawer_selected_gray">#FFDBDBDB</color>
+    <color name="navigation_drawer_entry_text_selected">@color/material_blue_800</color>
+    <color name="navigation_drawer_entry_text_unselected">@android:color/black</color>
+
+    <!-- Toolbar colors -->
+
+    <color name="toolbar_title">@android:color/white</color>
+    <color name="contextual_toolbar_title">@android:color/white</color>
+    <color name="toolbar_background">@color/material_blue_500</color>
 </resources>

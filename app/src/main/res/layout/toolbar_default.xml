@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<org.jorge.lolin1.ui.util.CustomTitleToolbar
+    style="@style/Toolbar"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/toolbar_background"
+    android:minHeight="@dimen/abc_action_bar_default_height_material">
+
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/ToolbarTitle" />
+</org.jorge.lolin1.ui.util.CustomTitleToolbar>

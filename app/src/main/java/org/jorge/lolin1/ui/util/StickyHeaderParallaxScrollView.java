@@ -99,16 +99,6 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
 
     }
 
-    /**
-     * Sets the height of the shadow drawable in pixels.
-     *
-     * @param height
-     */
-    public void setShadowHeight(int height) {
-        mShadowHeight = height;
-    }
-
-
     public void setup() {
         stickyViews = new ArrayList<>();
     }
@@ -283,10 +273,6 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
         doTheStickyThing();
     }
 
-    public void setTopOffset(int offset) {
-        mTopOffset = offset;
-    }
-
     private void doTheStickyThing() {
         View viewThatShouldStick = null;
         View approachingView = null;
@@ -335,13 +321,6 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
         removeCallbacks(invalidateRunnable);
     }
 
-    /**
-     * Notify that the sticky attribute has been added or removed from one or more views in the View hierarchy
-     */
-    public void notifyStickyAttributeChanged() {
-        notifyHierarchyChanged();
-    }
-
     private void notifyHierarchyChanged() {
         if (currentlyStickingView != null) {
             stopStickingCurrentlyStickingView();
@@ -377,23 +356,10 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
     }
 
     private void hideView(View v) {
-//        if (Build.VERSION.SDK_INT >= 11) {
         v.setAlpha(0);
-//        } else {
-//            AlphaAnimation anim = new AlphaAnimation(1, 0);
-//            anim.setDuration(0);
-//            anim.setFillAfter(true);
-//            v.startAnimation(anim);
-//        }
     }
 
     private void showView(View v) {
-//        if (Build.VERSION.SDK_INT >= 11) {
         v.setAlpha(1);
-//        } else {
-//            AlphaAnimation anim = new AlphaAnimation(0, 1);
-//            anim.setDuration(0);
-//            anim.setFillAfter(true);
-//            v.startAnimation(anim);
     }
 }

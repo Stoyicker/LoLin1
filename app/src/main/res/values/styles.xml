@@ -18,9 +18,8 @@
   -->
 <resources>
 
-    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBarOverlay">true</item>
-        <item name="actionBarStyle">@style/ActionBarStyle</item>
         <item name="android:windowBackground">@color/app_background</item>
     </style>
 
@@ -44,7 +43,7 @@
     </style>
 
     <style name="CabTitle">
-        <item name="android:textColor">@color/cab_title</item>
+        <item name="android:textColor">@color/contextual_toolbar_title</item>
         <item name="android:textSize">@dimen/cab_title</item>
     </style>
 
@@ -63,8 +62,21 @@
         <item name="android:shadowRadius">1</item>
     </style>
 
-    <style name="ActionBarStyle" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
-        <!-- In case of needed -->
+    <style name="NavigationDrawerEntryText">
+        <item name="android:textColor">@color/navigation_drawer_entry_text_unselected</item>
+        <item name="android:textSize">@dimen/navigation_drawer_entry_text</item>
     </style>
 
+    <style name="Toolbar">
+        <item name="android:titleTextStyle">@style/ToolbarTitle</item>
+        <item name="android:animateLayoutChanges">true</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+    </style>
+
+    <style name="ToolbarTitle">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/toolbar_title</item>
+        <item name="android:textSize">@dimen/abc_text_size_title_material_toolbar</item>
+    </style>
 </resources>

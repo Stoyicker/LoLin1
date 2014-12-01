@@ -17,7 +17,7 @@
   ~ Created by Jorge Antonio Diaz-Benito Soriano on 07/11/2014.
   -->
 <resources>
-    <string name="app_name">LoLin1</string>
+    <string name="app_name" translatable="false">LoLin1</string>
     <string name="title_section0">News</string>
     <string name="title_section1">Community</string>
     <string name="title_section2">Summoner\'s school</string>
@@ -25,5 +25,8 @@
     <string name="no_feed_articles">There are no news right now.</string>
     <string name="open_in_browser">Open in browser</string>
     <string name="section_title_article_reader" />
-    <string name="navigation_title_resource_prefix">drawable_section</string>
+    <string name="navigation_title_standard_resource_pattern" translatable="false">drawable_section%d</string>
+    <string name="navigation_title_selected_resource_pattern" translatable="false">drawable_section%d_selected</string>
+    <string name="drawer_open">Menu opened</string>
+    <string name="drawer_close">Menu closed</string>
 </resources>
