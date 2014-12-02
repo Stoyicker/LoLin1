@@ -59,6 +59,7 @@
     <color name="navigation_drawer_selected_gray">#FFDBDBDB</color>
     <color name="navigation_drawer_entry_text_selected">@color/material_blue_800</color>
     <color name="navigation_drawer_entry_text_unselected">@android:color/black</color>
+    <color name="navigation_drawer_divider">@color/material_deep_teal_500</color>
 
     <!-- Toolbar colors -->
 
