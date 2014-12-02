@@ -288,10 +288,12 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
                                 mNewsView.setPadding(0, 0, 0, 0);
                                 actionBar.hide();
                                 mActionBarIsShowingOrShown = Boolean.FALSE;
-                            } else if (dy < -1 * MIN_SCROLL_TOGGLE_ACTION_BAR && !mActionBarIsShowingOrShown) {
+                            } else if ((dy < -1 * MIN_SCROLL_TOGGLE_ACTION_BAR || !mNewsView.canScrollVertically(-1)) && !mActionBarIsShowingOrShown) {
                                 mNewsView.setPadding(0, BASE_TOP_PADDING, 0, 0);
                                 actionBar.show();
                                 mActionBarIsShowingOrShown = Boolean.TRUE;
+                                if (!mNewsView.canScrollVertically(-1))
+                                    mNewsView.smoothScrollToPosition(0);
                             }
                         mFeedAdapter.clearSelection();
                     }
