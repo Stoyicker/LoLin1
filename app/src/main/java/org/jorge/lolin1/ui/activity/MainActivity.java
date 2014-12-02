@@ -20,6 +20,7 @@
 package org.jorge.lolin1.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,7 +33,6 @@ import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter;
 import org.jorge.lolin1.ui.fragment.ArticleReaderFragment;
-import org.jorge.lolin1.ui.fragment.FeedListFragment;
 import org.jorge.lolin1.ui.fragment.NavigationDrawerFragment;
 import org.jorge.lolin1.ui.fragment.NewsListFragment;
 import org.jorge.lolin1.util.Interface;
@@ -43,10 +43,8 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
 
     private Context mContext;
     private Fragment[] mContentFragments;
-    private Fragment mArticleReaderFragment;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Stack<Integer> mNavigatedIndexesStack;
-    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +54,13 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
         mNavigatedIndexesStack.push(0);
         setContentView(R.layout.activity_main);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
-        setSupportActionBar(mToolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        setSupportActionBar(toolbar);
 
         getSupportActionBar().setHomeButtonEnabled(Boolean.TRUE);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer_fragment);
-        enableNavigationDrawer();
+        setupNavigationDrawer(toolbar);
 
         mContext = LoLin1Application.getInstance().getApplicationContext();
         if (mContentFragments == null)
@@ -75,7 +73,7 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
         }
         if (mContext.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE)
             getSupportFragmentManager().beginTransaction().
-                    add(R.id.content_fragment_container, findNewsListFragment()).commit();
+                    add(R.id.content_fragment_container, findNewsListFragment()).commitAllowingStateLoss();
     }
 
     private Fragment findNewsListFragment() {
@@ -96,26 +94,26 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
         throw new UnsupportedOperationException("Not yet implemented.");
     }
 
-    private Fragment prepareArticleReaderFragment(FeedArticle article, Class c) {
-        if (mArticleReaderFragment == null)
-            mArticleReaderFragment = ArticleReaderFragment.instantiate(mContext, ArticleReaderFragment.class.getName());
-        Bundle args = new Bundle();
-        args.putParcelable(ArticleReaderFragment.ARTICLE_KEY, article);
-        int errorResId;
-        if (c == NewsListFragment.class)
-            errorResId = R.drawable.news_article_placeholder;
-        else
-            throw new IllegalArgumentException("Class " + c.getName() + " doesn't correspond to a feed reader");
-        args.putInt(FeedListFragment.ERROR_RES_ID_KEY, errorResId);
-        mArticleReaderFragment.setArguments(args);
+    /**
+     * Launches an article reader.
+     *
+     * @param article The article information.
+     * @param c       The class of the article list, so that the errorResId can be deducted
+     *                in the ArticleReaderFragment constructor.
+     */
+    private void launchArticleReader(FeedArticle article, Class c) {
+        Intent intent = new Intent(mContext, ArticleReaderActivity.class);
 
-        return mArticleReaderFragment;
+        intent.putExtra(ArticleReaderFragment.ARTICLE_KEY, article);
+        intent.putExtra(ArticleReaderActivity.READER_LIST_FRAGMENT_CLASS, c);
+
+        startActivity(intent);
+        overridePendingTransition(R.anim.move_in_from_bottom, R.anim.move_out_to_bottom);
     }
 
     @Override
     public void onFeedArticleClicked(FeedArticle item, Class c) {
-        getSupportFragmentManager().beginTransaction().
-                replace(R.id.content_fragment_container, prepareArticleReaderFragment(item, c)).addToBackStack(null).commit();
+        launchArticleReader(item, c);
     }
 
     @Override
@@ -162,10 +160,12 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
             default:
                 throw new IllegalArgumentException("Menu with id " + position + " not found.");
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment_container, target).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment_container, target).addToBackStack(null).commitAllowingStateLoss();
     }
 
-    public void enableNavigationDrawer() {
-        mNavigationDrawerFragment.setup(R.id.navigation_drawer_fragment, (DrawerLayout) findViewById(R.id.navigation_drawer), mToolbar);
+    public void setupNavigationDrawer(Toolbar toolbar) {
+        mNavigationDrawerFragment.setup(R.id.navigation_drawer_fragment, (DrawerLayout) findViewById(R.id.navigation_drawer), toolbar);
     }
+
+
 }

@@ -28,6 +28,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,7 +47,6 @@ import com.squareup.picasso.Picasso;
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
-import org.jorge.lolin1.ui.activity.MainActivity;
 import org.jorge.lolin1.ui.util.StickyParallaxNotifyingScrollView;
 import org.jorge.lolin1.util.PicassoUtils;
 
@@ -56,7 +57,7 @@ public class ArticleReaderFragment extends Fragment {
     private String TAG;
     private FeedArticle mArticle;
     public static final String ARTICLE_KEY = "ARTICLE";
-    private MainActivity mActivity;
+    private ActionBarActivity mActivity;
     private Drawable mActionBarBackgroundDrawable;
     private final Drawable.Callback mDrawableCallback = new Drawable.Callback() {
         @Override
@@ -78,6 +79,19 @@ public class ArticleReaderFragment extends Fragment {
     private float mOriginalElevation;
     private FloatingActionButton mMarkAsReadFab;
 
+    public static Fragment newInstance(Context context, FeedArticle article, Class c) {
+        Bundle args = new Bundle();
+        args.putParcelable(ArticleReaderFragment.ARTICLE_KEY, article);
+        int errorResId;
+        if (c == NewsListFragment.class)
+            errorResId = R.drawable.news_article_placeholder;
+        else
+            throw new IllegalArgumentException("Class " + c.getName() + " doesn't correspond to a feed reader");
+        args.putInt(FeedListFragment.ERROR_RES_ID_KEY, errorResId);
+
+        return ArticleReaderFragment.instantiate(context, ArticleReaderFragment.class.getName(), args);
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -87,7 +101,7 @@ public class ArticleReaderFragment extends Fragment {
             throw new IllegalStateException("ArticleReader created without arguments");
         mArticle = args.getParcelable(ARTICLE_KEY);
         TAG = mArticle.getUrl();
-        mActivity = (MainActivity) activity;
+        mActivity = (ActionBarActivity) activity;
         mDefaultImageId = getArguments().getInt(FeedListFragment.ERROR_RES_ID_KEY);
     }
 
@@ -182,16 +196,6 @@ public class ArticleReaderFragment extends Fragment {
         Picasso.with(mContext).cancelTag(TAG);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mActionBar.setElevation(mOriginalElevation);
-        }
-        mActivity.enableNavigationDrawer();
-    }
-
-    @Override
-    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        if (enter) {
-            return AnimationUtils.loadAnimation(mContext, R.anim.move_in_from_bottom);
-        } else {
-            return AnimationUtils.loadAnimation(mContext, R.anim.move_out_to_bottom);
         }
     }
 }
