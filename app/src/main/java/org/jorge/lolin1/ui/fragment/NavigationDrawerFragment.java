@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -36,7 +37,6 @@ import java.util.List;
 public class NavigationDrawerFragment extends Fragment implements NavigationDrawerAdapter.NavigationDrawerCallbacks {
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
-    private static final String PREFERENCES_FILE = "my_app_settings"; //TODO: change this to your file
     private NavigationDrawerAdapter.NavigationDrawerCallbacks mCallbacks;
     private RecyclerView mDrawerList;
     private View mFragmentContainerView;
@@ -201,14 +201,14 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     }
 
     public static void saveSharedSetting(Context ctx, String settingName, String settingValue) {
-        SharedPreferences sharedPref = ctx.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString(settingName, settingValue);
         editor.apply();
     }
 
     public static String readSharedSetting(Context ctx, String settingName, String defaultValue) {
-        SharedPreferences sharedPref = ctx.getSharedPreferences(PREFERENCES_FILE, Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
         return sharedPref.getString(settingName, defaultValue);
     }
 
