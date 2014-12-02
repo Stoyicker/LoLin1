@@ -13,6 +13,9 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/repo' }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
+    }
 }
 
 android {
@@ -78,4 +81,5 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.1.0-RC1'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0-RC1'
     compile 'com.github.nirhart:parallaxscroll:1.0'
+    compile 'com.balysv:material-ripple:0.9.3-SNAPSHOT@aar'
 }

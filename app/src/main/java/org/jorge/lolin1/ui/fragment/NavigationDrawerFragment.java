@@ -2,10 +2,12 @@ package org.jorge.lolin1.ui.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -55,12 +57,31 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
+        View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, Boolean.FALSE);
         mDrawerList = (RecyclerView) view.findViewById(R.id.drawerList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mDrawerList.setLayoutManager(layoutManager);
         mDrawerList.setHasFixedSize(Boolean.TRUE);
+        mDrawerList.setOverScrollMode(View.OVER_SCROLL_NEVER);
+
+        View helpAction = view.findViewById(R.id.action_help), settingsAction = view.findViewById(R.id.action_settings);
+
+        settingsAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO Display settings
+            }
+        });
+
+        helpAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.help_url)));
+                startActivity(browserIntent);
+                mDrawerLayout.closeDrawer(mFragmentContainerView);
+            }
+        });
 
         final List<NavigationItem> navigationItems = readMenuItems();
         NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(LoLin1Application.getInstance().getContext(), navigationItems);
@@ -137,7 +158,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     @Override
     public void onDetach() {
         super.onDetach();
-        mCallbacks = null;
     }
 
     public List<NavigationItem> readMenuItems() {
