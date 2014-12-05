@@ -26,6 +26,6 @@
     android:scaleType="centerInside"
     fab:fab_colorNormal="@color/mark_as_read_floating_action_button_background_state_normal"
     fab:fab_colorPressed="@color/mark_as_read_floating_action_button_background_state_pressed"
-    fab:fab_colorRipple="@color/default_ripple"
+    fab:fab_colorRipple="@color/ripple_light"
     fab:fab_type="normal"
     fab:fab_shadow="true" />
