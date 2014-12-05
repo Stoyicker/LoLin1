@@ -76,6 +76,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         settingsAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                closeDrawer();
                 startActivity(
                         new Intent(mContext, SettingsPreferenceActivity.class));
                 mActivity.overridePendingTransition(R.anim.move_in_from_bottom,
@@ -86,10 +87,10 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         helpAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                closeDrawer();
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW,
                         Uri.parse(getResources().getString(R.string.help_url)));
                 startActivity(browserIntent);
-                mDrawerLayout.closeDrawer(mFragmentContainerView);
             }
         });
 

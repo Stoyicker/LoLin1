@@ -52,14 +52,14 @@
     <color name="navigation_drawer_primary">@color/material_blue_500</color>
     <color name="navigation_drawer_primary_dark">@color/material_blue_500</color>
     <color name="navigation_drawer_accent">@color/material_blue_500</color>
-    <color name="navigation_drawer_background">#F2F2F2</color>
+    <color name="navigation_drawer_background">@android:color/holo_orange_light</color>
     <color name="navigation_drawer_window_background">#DEDEDE</color>
     <color name="navigation_drawer_text_primary">@android:color/white</color>
     <color name="navigation_drawer_navigation">@android:color/black</color>
     <color name="navigation_drawer_selected_gray">#FFDBDBDB</color>
     <color name="navigation_drawer_entry_text_selected">@color/material_blue_800</color>
     <color name="navigation_drawer_entry_text_unselected">@android:color/black</color>
-    <color name="navigation_drawer_divider">@color/material_deep_teal_500</color>
+    <color name="navigation_drawer_divider">@color/material_orange_500</color>
 
     <!-- Toolbar colors -->
 

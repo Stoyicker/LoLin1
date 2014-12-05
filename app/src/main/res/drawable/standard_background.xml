@@ -20,5 +20,5 @@
     <gradient
         android:angle="90"
         android:endColor="@android:color/holo_orange_light"
-        android:startColor="@android:color/white" />
+        android:startColor="@android:color/white"/>
 </shape>

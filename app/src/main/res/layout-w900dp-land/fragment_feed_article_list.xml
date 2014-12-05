@@ -33,7 +33,7 @@
             android:id="@+id/news_list"
             android:layout_width="@dimen/dual_pane_feed_article_list_width"
             android:layout_height="match_parent"
-            android:background="@drawable/feed_background">
+            android:background="@drawable/standard_background">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/feed_article_list_view"
@@ -109,7 +109,7 @@
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/feed_background"
+                    android:background="@drawable/standard_background"
                     android:paddingStart="@dimen/feed_article_padding_start"
                     android:paddingEnd="@dimen/feed_article_padding_end"
                     android:paddingTop="@dimen/feed_article_reader_text_vertical_padding"
