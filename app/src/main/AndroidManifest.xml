@@ -17,11 +17,11 @@
   ~ Created by Jorge Antonio Diaz-Benito Soriano on 07/11/2014.
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.jorge.lolin1">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="org.jorge.lolin1">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -32,15 +32,15 @@
         tools:replace="android:label">
         <meta-data
             android:name="com.crashlytics.ApiKey"
-            android:value="86e97245af3721940bc1f7a5fff3927950c2ac7c" />
+            android:value="86e97245af3721940bc1f7a5fff3927950c2ac7c"/>
 
         <activity
             android:name=".ui.activity.InitialActivity"
             android:theme="@style/AppTheme.Transparent"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
@@ -48,7 +48,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
         </activity>
         <activity
@@ -56,11 +56,19 @@
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.activity.MainActivity" />
+                android:value=".ui.activity.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".ui.activity.SettingsPreferenceActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+            </intent-filter>
         </activity>
     </application>
 </manifest>

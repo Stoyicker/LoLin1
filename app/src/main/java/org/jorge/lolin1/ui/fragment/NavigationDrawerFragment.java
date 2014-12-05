@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
+import org.jorge.lolin1.ui.activity.SettingsPreferenceActivity;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter.NavigationItem;
 
@@ -36,7 +37,8 @@ import java.util.List;
  * @author poliveira
  *         24/10/2014
  */
-public class NavigationDrawerFragment extends Fragment implements NavigationDrawerAdapter.NavigationDrawerCallbacks {
+public class NavigationDrawerFragment extends Fragment implements NavigationDrawerAdapter
+        .NavigationDrawerCallbacks {
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private NavigationDrawerAdapter.NavigationDrawerCallbacks mCallbacks;
@@ -48,15 +50,18 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     private boolean mFromSavedInstanceState;
     private int mCurrentSelectedPosition;
     private ActionBarActivity mActivity;
+    private Context mContext;
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return mActionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        return mActionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected
+                (item);
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_navigation_drawer, container, Boolean.FALSE);
         mDrawerList = (RecyclerView) view.findViewById(R.id.drawerList);
         LinearLayoutManager layoutManager = new LinearLayoutManager(mActivity);
@@ -65,26 +70,31 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mDrawerList.setHasFixedSize(Boolean.TRUE);
         mDrawerList.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
-        View helpAction = view.findViewById(R.id.action_help), settingsAction = view.findViewById(R.id.action_settings);
+        View helpAction = view.findViewById(R.id.action_help), settingsAction = view.findViewById
+                (R.id.action_settings);
 
         settingsAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO Display settings
+                startActivity(
+                        new Intent(mContext, SettingsPreferenceActivity.class));
+                mActivity.overridePendingTransition(R.anim.move_in_from_bottom,
+                        R.anim.move_out_to_bottom);
             }
         });
 
         helpAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getResources().getString(R.string.help_url)));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(getResources().getString(R.string.help_url)));
                 startActivity(browserIntent);
                 mDrawerLayout.closeDrawer(mFragmentContainerView);
             }
         });
 
         final List<NavigationItem> navigationItems = readMenuItems();
-        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(LoLin1Application.getInstance().getContext(), navigationItems);
+        NavigationDrawerAdapter adapter = new NavigationDrawerAdapter(mContext, navigationItems);
         adapter.setNavigationDrawerCallbacks(this);
         mDrawerList.setAdapter(adapter);
         selectItem(mCurrentSelectedPosition);
@@ -94,7 +104,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserLearnedDrawer = Boolean.valueOf(readSharedSetting(mActivity, PREF_USER_LEARNED_DRAWER, "false"));
+        mUserLearnedDrawer = Boolean.valueOf(readSharedSetting(mActivity,
+                PREF_USER_LEARNED_DRAWER, "false"));
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = Boolean.TRUE;
@@ -110,12 +121,14 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
             throw new ClassCastException("Activity must implement NavigationDrawerCallbacks.");
         }
         mActivity = (ActionBarActivity) activity;
+        mContext = LoLin1Application.getInstance().getContext();
     }
 
     public void setup(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar) {
         mFragmentContainerView = mActivity.findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
-        mActionBarDrawerToggle = new ActionBarDrawerToggle(mActivity, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+        mActionBarDrawerToggle = new ActionBarDrawerToggle(mActivity, mDrawerLayout, toolbar,
+                R.string.drawer_open, R.string.drawer_close) {
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -163,27 +176,38 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     public List<NavigationItem> readMenuItems() {
         List<NavigationItem> items = new ArrayList<>();
         Resources resources = getResources();
-        final String NAVIGATION_TITLE_STANDARD_DRAWABLE_PATTERN = resources.getString(R.string.navigation_title_standard_resource_pattern),
-                NAVIGATION_TITLE_SELECTED_DRAWABLE_PATTERN = resources.getString(R.string.navigation_title_selected_resource_pattern);
+        final String NAVIGATION_TITLE_STANDARD_DRAWABLE_PATTERN = resources.getString(R.string
+                .navigation_title_standard_resource_pattern),
+                NAVIGATION_TITLE_SELECTED_DRAWABLE_PATTERN = resources.getString(R.string
+                        .navigation_title_selected_resource_pattern);
         final String[] itemNames = resources.getStringArray(R.array.navigation_drawer_items);
-        final List<Drawable> standardItemIcons = new ArrayList<>(), selectedItemIcons = new ArrayList<>();
+        final List<Drawable> standardItemIcons = new ArrayList<>(),
+                selectedItemIcons = new ArrayList<>();
         for (int i = 0; i < itemNames.length; i++) {
-            final String standardDrawableResourceName = String.format(NAVIGATION_TITLE_STANDARD_DRAWABLE_PATTERN, i),
-                    selectedDrawableResourceName = String.format(NAVIGATION_TITLE_SELECTED_DRAWABLE_PATTERN, i);
+            final String standardDrawableResourceName = String.format
+                    (NAVIGATION_TITLE_STANDARD_DRAWABLE_PATTERN, i),
+                    selectedDrawableResourceName = String.format
+                            (NAVIGATION_TITLE_SELECTED_DRAWABLE_PATTERN, i);
             try {
-                final Field standardDrawableResourceField = R.drawable.class.getDeclaredField(standardDrawableResourceName),
-                        selectedDrawableResourceField = R.drawable.class.getDeclaredField(selectedDrawableResourceName);
-                standardItemIcons.add(resources.getDrawable(standardDrawableResourceField.getInt(standardDrawableResourceField)));
-                selectedItemIcons.add(resources.getDrawable(selectedDrawableResourceField.getInt(selectedDrawableResourceField)));
+                final Field standardDrawableResourceField = R.drawable.class.getDeclaredField
+                        (standardDrawableResourceName),
+                        selectedDrawableResourceField = R.drawable.class.getDeclaredField
+                                (selectedDrawableResourceName);
+                standardItemIcons.add(resources.getDrawable(standardDrawableResourceField.getInt
+                        (standardDrawableResourceField)));
+                selectedItemIcons.add(resources.getDrawable(selectedDrawableResourceField.getInt
+                        (selectedDrawableResourceField)));
             } catch (NoSuchFieldException | IllegalAccessException e) {
-                throw new IllegalStateException("Expected drawable resource " + standardDrawableResourceName + " not found.");
+                throw new IllegalStateException("Expected drawable resource " +
+                        standardDrawableResourceName + " not found.");
             }
         }
         if (standardItemIcons.size() < itemNames.length) {
             throw new IllegalStateException("Not enough icons for this many navigation choices");
         }
         for (int i = 0; i < itemNames.length; i++) {
-            items.add(new NavigationItem(itemNames[i], standardItemIcons.get(i), selectedItemIcons.get(i)));
+            items.add(new NavigationItem(itemNames[i], standardItemIcons.get(i),
+                    selectedItemIcons.get(i)));
         }
         return items;
     }
