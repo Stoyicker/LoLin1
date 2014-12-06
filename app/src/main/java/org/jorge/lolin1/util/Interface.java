@@ -38,10 +38,6 @@ public abstract class Interface {
 
     public interface IOnItemInteractionListener {
 
-        public void setSelectedIndex(int selectedIndex);
-
-        public void clearSelection();
-
         void onItemClick(FeedArticle item);
     }
 }

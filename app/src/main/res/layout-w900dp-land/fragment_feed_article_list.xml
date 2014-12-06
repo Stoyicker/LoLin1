@@ -17,21 +17,21 @@
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:animateLayoutChanges="true">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal"
+              android:animateLayoutChanges="true">
 
     <org.jorge.lolin1.ui.util.ChainableSwipeRefreshLayout
         android:id="@+id/refreshable_layout"
-        android:layout_width="match_parent"
+        android:layout_width="@dimen/dual_pane_feed_article_list_width"
         android:layout_height="match_parent">
 
         <FrameLayout
             android:id="@+id/news_list"
-            android:layout_width="@dimen/dual_pane_feed_article_list_width"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/standard_background">
 
@@ -42,8 +42,7 @@
                 android:requiresFadingEdge="vertical"
                 android:fadeScrollbars="true"
                 android:scrollbars="vertical"
-                android:layout_marginTop="@dimen/feed_article_list_top_margin"
-                android:paddingTop="?attr/actionBarSize" />
+                android:layout_marginTop="@dimen/feed_article_list_top_margin"/>
 
             <ImageView
                 android:id="@android:id/empty"
@@ -53,7 +52,7 @@
                 android:gravity="center"
                 android:contentDescription="@string/no_feed_articles"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
         </FrameLayout>
     </org.jorge.lolin1.ui.util.ChainableSwipeRefreshLayout>
 
@@ -85,7 +84,7 @@
                     tools:ignore="ContentDescription"
                     android:adjustViewBounds="true"
                     android:maxWidth="@dimen/default_feed_article_image_width"
-                    android:maxHeight="@dimen/default_feed_article_image_height" />
+                    android:maxHeight="@dimen/default_feed_article_image_height"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -103,7 +102,7 @@
                         android:ellipsize="none"
                         style="@style/FeedArticleTitle"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
 
                 <FrameLayout
@@ -120,7 +119,7 @@
                         android:ellipsize="none"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/FeedArticlePreview" />
+                        style="@style/FeedArticlePreview"/>
 
                 </FrameLayout>
             </LinearLayout>
@@ -131,6 +130,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_button_margin" />
+            android:layout_margin="@dimen/fab_button_margin"/>
     </FrameLayout>
 </LinearLayout>

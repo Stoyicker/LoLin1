@@ -17,10 +17,10 @@
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
 <org.jorge.lolin1.ui.util.ChainableSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/refreshable_layout"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true">
+                                                      android:id="@+id/refreshable_layout"
+                                                      android:layout_width="match_parent"
+                                                      android:layout_height="match_parent"
+                                                      android:animateLayoutChanges="true">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -34,18 +34,7 @@
             android:requiresFadingEdge="vertical"
             android:fadeScrollbars="true"
             android:scrollbars="vertical"
-            android:layout_marginTop="@dimen/feed_article_list_top_margin" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|start">
-
-            <include layout="@layout/include_layout_share_fab" />
-
-            <include layout="@layout/include_layout_mark_as_read_fab" />
-        </LinearLayout>
+            android:layout_marginTop="@dimen/feed_article_list_top_margin"/>
 
         <ImageView
             android:id="@android:id/empty"
@@ -55,6 +44,6 @@
             android:gravity="center"
             android:contentDescription="@string/no_feed_articles"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
     </FrameLayout>
 </org.jorge.lolin1.ui.util.ChainableSwipeRefreshLayout>

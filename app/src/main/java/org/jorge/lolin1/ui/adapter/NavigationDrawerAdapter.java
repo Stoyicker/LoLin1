@@ -18,7 +18,8 @@ import java.util.List;
  * @author poliveira
  *         24/10/2014
  */
-public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter.ViewHolder> {
+public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDrawerAdapter
+        .ViewHolder> {
 
     private List<NavigationItem> mData;
     private NavigationDrawerCallbacks mNavigationDrawerCallbacks;
@@ -37,7 +38,8 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 
     @Override
     public NavigationDrawerAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_item_navigation_drawer, viewGroup, false);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout
+                .list_item_navigation_drawer, viewGroup, false);
         return new ViewHolder(v);
     }
 
@@ -47,7 +49,8 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
 
         viewHolder.itemView.setOnTouchListener(new View.OnTouchListener() {
                                                    @Override
-                                                   public boolean onTouch(View v, MotionEvent event) {
+                                                   public boolean onTouch(View v,
+                                                                          MotionEvent event) {
 
                                                        switch (event.getAction()) {
                                                            case MotionEvent.ACTION_DOWN:
@@ -70,18 +73,24 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
                                                    @Override
                                                    public void onClick(View v) {
                                                        if (mNavigationDrawerCallbacks != null)
-                                                           mNavigationDrawerCallbacks.onNavigationDrawerItemSelected(i);
+                                                           mNavigationDrawerCallbacks
+                                                                   .onNavigationDrawerItemSelected(i);
                                                    }
                                                }
         );
 
         if (mSelectedPosition == i || mTouchedPosition == i) {
-            viewHolder.textView.setTextColor(mContext.getResources().getColor(R.color.navigation_drawer_entry_text_selected));
-            viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i).getSelectedDrawable(), null, null, null);
-            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.navigation_drawer_selected_gray));
+            viewHolder.textView.setTextColor(mContext.getResources().getColor(R.color
+                    .navigation_drawer_entry_text_selected));
+            viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i)
+                    .getSelectedDrawable(), null, null, null);
+            viewHolder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color
+                    .navigation_drawer_entry_background_selected));
         } else {
-            viewHolder.textView.setTextColor(mContext.getResources().getColor(R.color.navigation_drawer_entry_text_unselected));
-            viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i).getStandardDrawable(), null, null, null);
+            viewHolder.textView.setTextColor(mContext.getResources().getColor(R.color
+                    .navigation_drawer_entry_text_unselected));
+            viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(mData.get(i)
+                    .getStandardDrawable(), null, null, null);
             viewHolder.itemView.setBackgroundColor(Color.TRANSPARENT);
         }
     }

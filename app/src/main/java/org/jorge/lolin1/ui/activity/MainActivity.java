@@ -21,7 +21,6 @@ package org.jorge.lolin1.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -39,7 +38,8 @@ import org.jorge.lolin1.util.Interface;
 
 import java.util.Stack;
 
-public class MainActivity extends ActionBarActivity implements Interface.IOnFeedArticleClickedListener, NavigationDrawerAdapter.NavigationDrawerCallbacks {
+public class MainActivity extends ActionBarActivity implements Interface
+        .IOnFeedArticleClickedListener, NavigationDrawerAdapter.NavigationDrawerCallbacks {
 
     private Context mContext;
     private Fragment[] mContentFragments;
@@ -59,7 +59,8 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
 
         getSupportActionBar().setHomeButtonEnabled(Boolean.TRUE);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager().findFragmentById(R.id.navigation_drawer_fragment);
+        mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.navigation_drawer_fragment);
         setupNavigationDrawer(toolbar);
 
         mContext = LoLin1Application.getInstance().getApplicationContext();
@@ -71,9 +72,9 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
         if (mContentFragments == null) {
             mContentFragments = new Fragment[4];
         }
-        if (mContext.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE)
-            getSupportFragmentManager().beginTransaction().
-                    add(R.id.content_fragment_container, findNewsListFragment()).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.content_fragment_container, findNewsListFragment())
+                .commitAllowingStateLoss();
     }
 
     private Fragment findNewsListFragment() {
@@ -123,8 +124,11 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
             mNavigationDrawerFragment.closeDrawer();
             handled = Boolean.TRUE;
         }
-        if (!handled && mContentFragments != null && mContentFragments[mNavigatedIndexesStack.peek()] != null && mContentFragments[mNavigatedIndexesStack.peek()] instanceof Interface.IOnBackPressed) {
-            handled = ((Interface.IOnBackPressed) mContentFragments[mNavigatedIndexesStack.peek()]).onBackPressed();
+        if (!handled && mContentFragments != null && mContentFragments[mNavigatedIndexesStack
+                .peek()] != null && mContentFragments[mNavigatedIndexesStack.peek()] instanceof
+                Interface.IOnBackPressed) {
+            handled = ((Interface.IOnBackPressed) mContentFragments[mNavigatedIndexesStack.peek()
+                    ]).onBackPressed();
             if (!handled) {
                 super.onBackPressed();
                 if (mNavigatedIndexesStack.size() > 1) {
@@ -138,10 +142,10 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
-        if (mNavigationDrawerFragment == null || mNavigationDrawerFragment.getPosition() == position) {
+        if (mNavigationDrawerFragment == null || mNavigationDrawerFragment.getPosition() ==
+                position) {
             return;
         }
-        mNavigationDrawerFragment.selectItem(position);
         Fragment target;
         mNavigatedIndexesStack.push(position);
         switch (position) {
@@ -160,11 +164,13 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
             default:
                 throw new IllegalArgumentException("Menu with id " + position + " not found.");
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment_container, target).addToBackStack(null).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment_container,
+                target).addToBackStack(null).commitAllowingStateLoss();
     }
 
     public void setupNavigationDrawer(Toolbar toolbar) {
-        mNavigationDrawerFragment.setup(R.id.navigation_drawer_fragment, (DrawerLayout) findViewById(R.id.navigation_drawer), toolbar);
+        mNavigationDrawerFragment.setup(R.id.navigation_drawer_fragment,
+                (DrawerLayout) findViewById(R.id.navigation_drawer), toolbar);
     }
 
 

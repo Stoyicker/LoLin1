@@ -102,6 +102,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         return view;
     }
 
+    private void touchPosition(int pos) {
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

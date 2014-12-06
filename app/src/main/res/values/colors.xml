@@ -57,7 +57,7 @@
     <color name="navigation_drawer_window_background">#DEDEDE</color>
     <color name="navigation_drawer_text_primary">@android:color/white</color>
     <color name="navigation_drawer_navigation">@android:color/black</color>
-    <color name="navigation_drawer_selected_gray">#FFDBDBDB</color>
+    <color name="navigation_drawer_entry_background_selected">#0F0F0F</color>
     <color name="navigation_drawer_entry_text_selected">@color/material_blue_800</color>
     <color name="navigation_drawer_entry_text_unselected">@android:color/white</color>
     <color name="navigation_drawer_divider">@color/material_orange_500</color>

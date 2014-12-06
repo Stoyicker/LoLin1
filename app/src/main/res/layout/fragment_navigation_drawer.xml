@@ -16,13 +16,12 @@
   ~
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:animateLayoutChanges="true"
-                android:background="@color/navigation_drawer_background">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:animateLayoutChanges="true"
+              android:background="@color/navigation_drawer_background">
 
     <ImageView
         android:id="@+id/header_image"
@@ -31,34 +30,24 @@
         android:contentDescription="@android:string/untitled"
         android:src="@drawable/navigation_drawer_header"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/drawerList"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clickable="true"
-        android:focusableInTouchMode="true"
-        android:scrollbars="vertical"
-        android:focusable="true"
-        android:layout_below="@id/header_image"/>
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginBottom="@dimen/navigation_drawer_entry_standard_margin"
-        android:layout_alignParentBottom="true">
-
-        <View
-            android:id="@+id/divider"
-            android:background="@color/navigation_drawer_divider"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/navigation_drawer_divider_height"/>
-
-
-        <com.balysv.materialripple.MaterialRippleLayout
+        <LinearLayout
+            android:id="@+id/extra_elements_always_visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:rippleColor="@color/ripple_light">
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/navigation_drawer_entry_standard_margin"
+            android:layout_alignParentBottom="true"
+            android:background="@color/navigation_drawer_background">
+
+            <View
+                android:id="@+id/divider"
+                android:background="@color/navigation_drawer_divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navigation_drawer_divider_height"/>
 
             <TextView
                 android:id="@+id/action_settings"
@@ -72,12 +61,6 @@
                 android:drawableLeft="@drawable/ic_action_settings"
                 android:drawablePadding="@dimen/navigation_drawer_entry_standard_margin"
                 android:gravity="center_vertical"/>
-        </com.balysv.materialripple.MaterialRippleLayout>
-
-        <com.balysv.materialripple.MaterialRippleLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:rippleColor="@color/ripple_light">
 
             <TextView
                 android:id="@+id/action_help"
@@ -91,6 +74,17 @@
                 android:drawableLeft="@drawable/ic_action_help"
                 android:drawablePadding="@dimen/navigation_drawer_entry_standard_margin"
                 android:gravity="center_vertical"/>
-        </com.balysv.materialripple.MaterialRippleLayout>
-    </LinearLayout>
-</RelativeLayout>
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/drawerList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            android:scrollbars="none"
+            android:focusable="true"
+            android:fillViewport="true"
+            android:layout_above="@id/extra_elements_always_visible"/>
+    </RelativeLayout>
+</LinearLayout>
