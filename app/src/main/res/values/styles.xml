@@ -20,10 +20,10 @@
 
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBarOverlay">true</item>
-        <item name="android:windowBackground">@color/app_background</item>
+        <item name="android:windowBackground">@drawable/standard_background</item>
     </style>
 
-    <style name="AppTheme" parent="AppTheme.Base" />
+    <style name="AppTheme" parent="AppTheme.Base"/>
 
     <style name="AppTheme.Transparent" parent="Theme.AppCompat">
         <item name="android:windowIsTranslucent">true</item>
