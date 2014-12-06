@@ -23,7 +23,11 @@
     android:animateLayoutChanges="true"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <include layout="@layout/include_layout_toolbar"/>
+    <include
+        android:id="@+id/toolbar_actionbar"
+        layout="@layout/include_layout_toolbar_default"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <FrameLayout
         android:id="@+id/article_reader_fragment_container"
