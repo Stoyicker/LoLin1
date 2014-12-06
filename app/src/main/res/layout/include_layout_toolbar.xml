@@ -16,17 +16,8 @@
   ~
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:animateLayoutChanges="true"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <include layout="@layout/include_layout_toolbar"/>
-
-    <FrameLayout
-        android:id="@+id/article_reader_fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-</LinearLayout>
+<include xmlns:android="http://schemas.android.com/apk/res/android"
+         android:id="@+id/toolbar_actionbar"
+         layout="@layout/toolbar_default"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"/>
