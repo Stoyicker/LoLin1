@@ -73,6 +73,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         View helpAction = view.findViewById(R.id.action_help), settingsAction = view.findViewById
                 (R.id.action_settings);
 
+
         settingsAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,9 +101,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mDrawerList.setAdapter(adapter);
         selectItem(mCurrentSelectedPosition);
         return view;
-    }
-
-    private void touchPosition(int pos) {
     }
 
     @Override

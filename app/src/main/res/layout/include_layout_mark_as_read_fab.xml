@@ -16,8 +16,9 @@
   ~
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
-<com.melnykov.fab.FloatingActionButton xmlns:android="http://schemas.android.com/apk/res/android"
+<com.melnykov.fab.FloatingActionButton
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/fab_button_mark_as_read"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -28,4 +29,4 @@
     fab:fab_colorPressed="@color/mark_as_read_floating_action_button_background_state_pressed"
     fab:fab_colorRipple="@color/ripple_light"
     fab:fab_type="normal"
-    fab:fab_shadow="true" />
+    fab:fab_shadow="true"/>
