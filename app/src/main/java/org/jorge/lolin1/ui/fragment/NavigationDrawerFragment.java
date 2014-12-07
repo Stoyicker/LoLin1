@@ -22,6 +22,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
@@ -31,7 +33,10 @@ import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter.NavigationItem;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * @author poliveira
@@ -51,6 +56,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     private int mCurrentSelectedPosition;
     private ActionBarActivity mActivity;
     private Context mContext;
+    private final Queue<Runnable> mWhenClosedTasks = new LinkedList<>();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -66,7 +72,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //Required to not to transfer the click to the view behind.
             }
         });
         mDrawerList = (RecyclerView) view.findViewById(R.id.drawerList);
@@ -83,21 +89,29 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         settingsAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                closeDrawer();
-                startActivity(
-                        new Intent(mContext, SettingsActivity.class));
-                mActivity.overridePendingTransition(R.anim.move_in_from_bottom,
-                        R.anim.move_out_to_bottom);
+                closeDrawer(new Runnable() {
+                    @Override
+                    public void run() {
+                        startActivity(
+                                new Intent(mContext, SettingsActivity.class));
+                        mActivity.overridePendingTransition(R.anim.move_in_from_bottom,
+                                R.anim.move_out_to_bottom);
+                    }
+                });
             }
         });
 
         helpAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                closeDrawer();
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse(getResources().getString(R.string.help_url)));
-                startActivity(browserIntent);
+                closeDrawer(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                                Uri.parse(getResources().getString(R.string.help_url)));
+                        startActivity(browserIntent);
+                    }
+                });
             }
         });
 
@@ -132,7 +146,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mContext = LoLin1Application.getInstance().getContext();
     }
 
-    public void setup(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar) {
+    public void setup(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar,
+                      String userPhotoId, String userName, String realm) {
         mFragmentContainerView = mActivity.findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
         mActionBarDrawerToggle = new ActionBarDrawerToggle(mActivity, mDrawerLayout, toolbar,
@@ -142,6 +157,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                 super.onDrawerClosed(drawerView);
                 if (!isAdded()) return;
                 mActivity.invalidateOptionsMenu();
+                while (!mWhenClosedTasks.isEmpty()) {
+                    mActivity.runOnUiThread(mWhenClosedTasks.poll());
+                }
             }
 
             @Override
@@ -170,10 +188,18 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
 
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+
+        //TODO Set the proper id
+        ((ImageView) mDrawerLayout.findViewById(R.id.user_photo)).setImageDrawable(getResources()
+                .getDrawable(R.drawable.news_article_placeholder));
+
+        ((TextView) mDrawerLayout.findViewById(R.id.user_name)).setText(userName);
+        ((TextView) mDrawerLayout.findViewById(R.id.realm_name)).setText(realm);
     }
 
-    public void closeDrawer() {
+    public void closeDrawer(Runnable... runnables) {
         mDrawerLayout.closeDrawer(mFragmentContainerView);
+        Collections.addAll(mWhenClosedTasks, runnables);
     }
 
     @Override
@@ -223,7 +249,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     public void selectItem(int position) {
         mCurrentSelectedPosition = position;
         if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawer(mFragmentContainerView);
+            closeDrawer();
         }
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);

@@ -79,4 +79,17 @@
         <item name="android:textColor">@color/toolbar_title</item>
         <item name="android:textSize">@dimen/abc_text_size_title_material_toolbar</item>
     </style>
+
+    <style name="NavigationDrawerUserData">
+        <item name="android:textColor">@color/navigation_drawer_user_data</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/navigation_drawer_user_data_title_size</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+    </style>
+
+    <style name="NavigationDrawerUserData.Subtitle">
+        <item name="android:textSize">@dimen/navigation_drawer_user_data_subtitle_size</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Body1</item>
+        <item name="android:alpha">0.5</item>
+    </style>
 </resources>

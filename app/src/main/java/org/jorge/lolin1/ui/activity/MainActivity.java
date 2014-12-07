@@ -61,7 +61,8 @@ public class MainActivity extends ActionBarActivity implements Interface
 
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.navigation_drawer_fragment);
-        setupNavigationDrawer(toolbar);
+        //TODO Pass the right user data, probably through a Bundle from the LoginActivity
+        setupNavigationDrawer(toolbar, "id", "Stoyicker", "EUW");
 
         mContext = LoLin1Application.getInstance().getApplicationContext();
         if (mContentFragments == null)
@@ -164,13 +165,22 @@ public class MainActivity extends ActionBarActivity implements Interface
             default:
                 throw new IllegalArgumentException("Menu with id " + position + " not found.");
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.content_fragment_container,
-                target).addToBackStack(null).commitAllowingStateLoss();
+        final Fragment targetAsFinal = target;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getSupportFragmentManager().beginTransaction().replace(R.id
+                                .content_fragment_container,
+                        targetAsFinal).addToBackStack(null).commitAllowingStateLoss();
+            }
+        });
     }
 
-    public void setupNavigationDrawer(Toolbar toolbar) {
+    public void setupNavigationDrawer(Toolbar toolbar, String userPhotoId, String userName,
+                                      String realm) {
         mNavigationDrawerFragment.setup(R.id.navigation_drawer_fragment,
-                (DrawerLayout) findViewById(R.id.navigation_drawer), toolbar);
+                (DrawerLayout) findViewById(R.id.navigation_drawer), toolbar, userPhotoId,
+                userName, realm);
     }
 
 
