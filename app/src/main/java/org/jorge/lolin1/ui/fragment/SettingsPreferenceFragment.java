@@ -1,10 +1,12 @@
 package org.jorge.lolin1.ui.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.preference.PreferenceFragment;
 import android.view.MenuItem;
 
-public class SettingsPreferenceFragment extends SupportPreferenceFragment {
+import org.jorge.lolin1.R;
+
+public class SettingsPreferenceFragment extends PreferenceFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -12,7 +14,7 @@ public class SettingsPreferenceFragment extends SupportPreferenceFragment {
 
         setHasOptionsMenu(Boolean.TRUE);
 
-//        addPreferencesFromResource(R.xml.settings);
+        addPreferencesFromResource(R.xml.settings);
     }
 
     @Override

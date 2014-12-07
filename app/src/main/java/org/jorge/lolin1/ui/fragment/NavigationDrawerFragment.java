@@ -25,7 +25,7 @@ import android.view.ViewGroup;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
-import org.jorge.lolin1.ui.activity.SettingsPreferenceActivity;
+import org.jorge.lolin1.ui.activity.SettingsActivity;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter.NavigationItem;
 
@@ -85,7 +85,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
             public void onClick(View v) {
                 closeDrawer();
                 startActivity(
-                        new Intent(mContext, SettingsPreferenceActivity.class));
+                        new Intent(mContext, SettingsActivity.class));
                 mActivity.overridePendingTransition(R.anim.move_in_from_bottom,
                         R.anim.move_out_to_bottom);
             }

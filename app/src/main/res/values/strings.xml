@@ -26,7 +26,7 @@
     <string name="nav_drawer_aux_entry_help">Help &amp; feedback</string>
     <string name="no_feed_articles">There are no news right now.</string>
     <string name="open_in_browser">Open in browser</string>
-    <string name="section_title_article_reader" translatable="false" />
+    <string name="section_title_article_reader" translatable="false"/>
     <string name="navigation_title_standard_resource_pattern" translatable="false">drawable_section%d</string>
     <string name="navigation_title_selected_resource_pattern" translatable="false">drawable_section%d_selected</string>
     <string name="drawer_open">Menu opened</string>

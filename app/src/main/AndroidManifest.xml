@@ -63,12 +63,15 @@
                 android:value=".ui.activity.MainActivity"/>
         </activity>
         <activity
-            android:name=".ui.activity.SettingsPreferenceActivity"
+            android:name=".ui.activity.SettingsActivity"
             android:configChanges="keyboardHidden|orientation"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
             </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.activity.MainActivity"/>
         </activity>
     </application>
 </manifest>
