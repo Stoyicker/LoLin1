@@ -62,7 +62,8 @@ public class MainActivity extends ActionBarActivity implements Interface
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.navigation_drawer_fragment);
         //TODO Pass the right user data, probably through a Bundle from the LoginActivity
-        setupNavigationDrawer(toolbar, "id", "Stoyicker", "EUW");
+        setupNavigationDrawer(toolbar, "http://ddragon.leagueoflegends.com/cdn/4.20" +
+                ".1/img/profileicon/547.png", "Stoyicker", "EUW");
 
         mContext = LoLin1Application.getInstance().getApplicationContext();
         if (mContentFragments == null)

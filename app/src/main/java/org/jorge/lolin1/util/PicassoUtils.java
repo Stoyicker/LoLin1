@@ -26,11 +26,29 @@ import com.squareup.picasso.Picasso;
 
 public abstract class PicassoUtils {
 
-    public static void loadInto(Context context, String path, int errorResId, ImageView target, Object tag) {
+    public static void loadInto(Context context, String path, int errorResId, ImageView target,
+                                Object tag) {
         Picasso.with(context)
                 .load(path)
                 .error(errorResId)
                 .tag(tag)
                 .into(target);
+    }
+
+    public static void loadInto(Context context, String path, com.squareup.picasso.Callback
+            callback, ImageView target, Object tag) {
+        Picasso.with(context)
+                .load(path)
+                .tag(tag)
+                .into(target, callback);
+    }
+
+    public static void cancel(Context context, Object tag, ImageView... targets) {
+        //If the tag is cancelled the requests shouldn't need to be cancelled
+        //if they belong to the tag being cancelled, but just in case...
+        Picasso.with(context).cancelTag(tag);
+        for (ImageView x : targets) {
+            Picasso.with(context).cancelRequest(x);
+        }
     }
 }

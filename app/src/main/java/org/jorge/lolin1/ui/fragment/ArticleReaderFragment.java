@@ -29,20 +29,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
-import com.squareup.picasso.Picasso;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
@@ -86,10 +82,12 @@ public class ArticleReaderFragment extends Fragment {
         if (c == NewsListFragment.class)
             errorResId = R.drawable.news_article_placeholder;
         else
-            throw new IllegalArgumentException("Class " + c.getName() + " doesn't correspond to a feed reader");
+            throw new IllegalArgumentException("Class " + c.getName() + " doesn't correspond to a" +
+                    " feed reader");
         args.putInt(FeedListFragment.ERROR_RES_ID_KEY, errorResId);
 
-        return ArticleReaderFragment.instantiate(context, ArticleReaderFragment.class.getName(), args);
+        return ArticleReaderFragment.instantiate(context, ArticleReaderFragment.class.getName(),
+                args);
     }
 
     @Override
@@ -138,11 +136,14 @@ public class ArticleReaderFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(Boolean.TRUE);
-        final View ret = inflater.inflate(R.layout.fragment_article_reader, container, Boolean.FALSE);
+        final View ret = inflater.inflate(R.layout.fragment_article_reader, container,
+                Boolean.FALSE);
         View mHeaderView = ret.findViewById(R.id.image);
-        PicassoUtils.loadInto(mContext, mArticle.getImageUrl(), mDefaultImageId, (android.widget.ImageView) mHeaderView, TAG);
+        PicassoUtils.loadInto(mContext, mArticle.getImageUrl(), mDefaultImageId,
+                (android.widget.ImageView) mHeaderView, TAG);
         final String title = mArticle.getTitle();
         mHeaderView.setContentDescription(title);
         ((TextView) ret.findViewById(R.id.title)).setText(title);
@@ -150,15 +151,18 @@ public class ArticleReaderFragment extends Fragment {
 
         mActionBar = mActivity.getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
-        mActionBarBackgroundDrawable = new ColorDrawable(mContext.getResources().getColor(R.color.toolbar_background));
+        mActionBarBackgroundDrawable = new ColorDrawable(mContext.getResources().getColor(R.color
+                .toolbar_background));
         mActionBar.setBackgroundDrawable(mActionBarBackgroundDrawable);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mOriginalElevation = mActionBar.getElevation();
-            mActionBar.setElevation(0); //So that the shadow of the ActionBar doesn't show over the article title
+            mActionBar.setElevation(0); //So that the shadow of the ActionBar doesn't show over
+            // the article title
         }
         mActionBar.setTitle(mActivity.getString(R.string.section_title_article_reader));
 
-        StickyParallaxNotifyingScrollView scrollView = (StickyParallaxNotifyingScrollView) ret.findViewById(R.id.scroll_view);
+        StickyParallaxNotifyingScrollView scrollView = (StickyParallaxNotifyingScrollView) ret
+                .findViewById(R.id.scroll_view);
         scrollView.setOnScrollChangedListener(mOnScrollChangedListener);
         scrollView.smoothScrollTo(0, 0);
 
@@ -177,7 +181,8 @@ public class ArticleReaderFragment extends Fragment {
         return ret;
     }
 
-    private StickyParallaxNotifyingScrollView.OnScrollChangedListener mOnScrollChangedListener = new StickyParallaxNotifyingScrollView.OnScrollChangedListener() {
+    private StickyParallaxNotifyingScrollView.OnScrollChangedListener mOnScrollChangedListener =
+            new StickyParallaxNotifyingScrollView.OnScrollChangedListener() {
         public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
             if (mMarkAsReadFab != null)
                 if (!who.canScrollVertically(1)) {
@@ -193,7 +198,7 @@ public class ArticleReaderFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Picasso.with(mContext).cancelTag(TAG);
+        PicassoUtils.cancel(mContext, TAG);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mActionBar.setElevation(mOriginalElevation);
         }

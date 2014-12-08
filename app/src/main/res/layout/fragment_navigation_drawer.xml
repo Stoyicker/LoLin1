@@ -46,7 +46,8 @@
                 android:id="@+id/user_photo"
                 android:layout_width="@dimen/navigation_drawer_user_photo_size"
                 android:layout_height="@dimen/navigation_drawer_user_photo_size"
-                android:layout_marginTop="@dimen/navigation_drawer_user_photo_right_margin"/>
+                android:layout_marginTop="@dimen/navigation_drawer_user_photo_right_margin"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/user_name"

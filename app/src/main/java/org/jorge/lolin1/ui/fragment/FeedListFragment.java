@@ -49,7 +49,6 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.melnykov.fab.FloatingActionButton;
-import com.squareup.picasso.Picasso;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
@@ -297,7 +296,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Picasso.with(mContext).cancelTag(TAG);
+        PicassoUtils.cancel(mContext, TAG);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mActionBar.setElevation(mOriginalElevation);
         }

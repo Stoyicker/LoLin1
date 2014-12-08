@@ -25,11 +25,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
+
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.ui.activity.SettingsActivity;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter.NavigationItem;
+import org.jorge.lolin1.util.PicassoUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -44,6 +47,7 @@ import java.util.Queue;
  */
 public class NavigationDrawerFragment extends Fragment implements NavigationDrawerAdapter
         .NavigationDrawerCallbacks {
+    private final String TAG = NavigationDrawerFragment.class.getName();
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private NavigationDrawerAdapter.NavigationDrawerCallbacks mCallbacks;
@@ -56,12 +60,19 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     private int mCurrentSelectedPosition;
     private ActionBarActivity mActivity;
     private Context mContext;
+    private ImageView mUserImageView;
     private final Queue<Runnable> mWhenClosedTasks = new LinkedList<>();
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return mActionBarDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected
                 (item);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PicassoUtils.cancel(mContext, TAG, mUserImageView);
     }
 
     @Nullable
@@ -147,7 +158,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     }
 
     public void setup(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar,
-                      String userPhotoId, String userName, String realm) {
+                      String userImageUrl, String userName, String realm) {
         mFragmentContainerView = mActivity.findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
         mActionBarDrawerToggle = new ActionBarDrawerToggle(mActivity, mDrawerLayout, toolbar,
@@ -189,9 +200,18 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
-        //TODO Set the proper id
-        ((ImageView) mDrawerLayout.findViewById(R.id.user_photo)).setImageDrawable(getResources()
-                .getDrawable(R.drawable.news_article_placeholder));
+        mUserImageView = (ImageView) mDrawerLayout.findViewById(R.id.user_photo);
+        PicassoUtils.loadInto(mContext, userImageUrl, new Callback() {
+            @Override
+            public void onSuccess() {
+                mUserImageView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onError() {
+                mUserImageView.setVisibility(View.GONE);
+            }
+        }, mUserImageView, TAG);
 
         ((TextView) mDrawerLayout.findViewById(R.id.user_name)).setText(userName);
         ((TextView) mDrawerLayout.findViewById(R.id.realm_name)).setText(realm);
