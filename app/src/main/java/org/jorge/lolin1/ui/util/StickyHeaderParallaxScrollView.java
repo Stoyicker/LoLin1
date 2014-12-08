@@ -24,7 +24,8 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
     public static final String STICKY_TAG = "sticky";
 
     /**
-     * Flag for views that should stick and have non-constant drawing. e.g. Buttons, ProgressBars etc
+     * Flag for views that should stick and have non-constant drawing. e.g. Buttons,
+     * ProgressBars etc
      */
     public static final String FLAG_NONCONSTANT = "-nonconstant";
 
@@ -57,7 +58,8 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
                 int l = getLeftForViewRelativeOnlyChild(currentlyStickingView);
                 int t = getBottomForViewRelativeOnlyChild(currentlyStickingView);
                 int r = getRightForViewRelativeOnlyChild(currentlyStickingView);
-                int b = (int) (getScrollY() + (currentlyStickingView.getHeight() + stickyViewTopOffset));
+                int b = (int) (getScrollY() + (currentlyStickingView.getHeight() +
+                        stickyViewTopOffset));
                 invalidate(l, t, r, b);
             }
             postDelayed(this, 16);
@@ -168,7 +170,8 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
     }
 
     @Override
-    public void addView(@NonNull View child, int index, android.view.ViewGroup.LayoutParams params) {
+    public void addView(@NonNull View child, int index, android.view.ViewGroup.LayoutParams
+            params) {
         super.addView(child, index, params);
         findStickyViews(child);
     }
@@ -190,7 +193,8 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
         super.dispatchDraw(canvas);
         if (currentlyStickingView != null) {
             canvas.save();
-            canvas.translate(getPaddingLeft() + stickyViewLeftOffset, getScrollY() + stickyViewTopOffset + (clippingToPadding ? getPaddingTop() : 0));
+            canvas.translate(getPaddingLeft() + stickyViewLeftOffset,
+                    getScrollY() + stickyViewTopOffset + (clippingToPadding ? getPaddingTop() : 0));
 
             canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0),
                     getWidth() - stickyViewLeftOffset,
@@ -205,7 +209,8 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
                 mShadowDrawable.draw(canvas);
             }
 
-            canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0), getWidth(), currentlyStickingView.getHeight());
+            canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0), getWidth(),
+                    currentlyStickingView.getHeight());
             if (getStringTagForView(currentlyStickingView).contains(FLAG_HASTRANSPARENCY)) {
                 showView(currentlyStickingView);
                 currentlyStickingView.draw(canvas);
@@ -228,14 +233,17 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
             if (redirectTouchesToStickyView) {
                 redirectTouchesToStickyView =
                         ev.getY() <= (currentlyStickingView.getHeight() + stickyViewTopOffset) &&
-                                ev.getX() >= getLeftForViewRelativeOnlyChild(currentlyStickingView) &&
-                                ev.getX() <= getRightForViewRelativeOnlyChild(currentlyStickingView);
+                                ev.getX() >= getLeftForViewRelativeOnlyChild
+                                        (currentlyStickingView) &&
+                                ev.getX() <= getRightForViewRelativeOnlyChild
+                                        (currentlyStickingView);
             }
         } else if (currentlyStickingView == null) {
             redirectTouchesToStickyView = false;
         }
         if (redirectTouchesToStickyView) {
-            ev.offsetLocation(0, -1 * ((getScrollY() + stickyViewTopOffset) - getTopForViewRelativeOnlyChild(currentlyStickingView)));
+            ev.offsetLocation(0, -1 * ((getScrollY() + stickyViewTopOffset) -
+                    getTopForViewRelativeOnlyChild(currentlyStickingView)));
         }
         return super.dispatchTouchEvent(ev);
     }
@@ -245,7 +253,8 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent ev) {
         if (redirectTouchesToStickyView) {
-            ev.offsetLocation(0, ((getScrollY() + stickyViewTopOffset) - getTopForViewRelativeOnlyChild(currentlyStickingView)));
+            ev.offsetLocation(0, ((getScrollY() + stickyViewTopOffset) -
+                    getTopForViewRelativeOnlyChild(currentlyStickingView)));
         }
 
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -260,7 +269,8 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
             hasNotDoneActionDown = false;
         }
 
-        if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
+        if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent
+                .ACTION_CANCEL) {
             hasNotDoneActionDown = true;
         }
 
@@ -277,13 +287,18 @@ public class StickyHeaderParallaxScrollView extends ParallaxScrollView {
         View viewThatShouldStick = null;
         View approachingView = null;
         for (View v : stickyViews) {
-            int viewTop = getTopForViewRelativeOnlyChild(v) - getScrollY() + (clippingToPadding ? 0 : getPaddingTop());
+            int viewTop = getTopForViewRelativeOnlyChild(v) - getScrollY() + (clippingToPadding ?
+                    0 : getPaddingTop());
             if (viewTop <= mTopOffset) {
-                if (viewThatShouldStick == null || viewTop > (getTopForViewRelativeOnlyChild(viewThatShouldStick) - getScrollY() + (clippingToPadding ? 0 : getPaddingTop()))) {
+                if (viewThatShouldStick == null || viewTop > (getTopForViewRelativeOnlyChild
+                        (viewThatShouldStick) - getScrollY() + (clippingToPadding ? 0 :
+                        getPaddingTop()))) {
                     viewThatShouldStick = v;
                 }
             } else {
-                if (approachingView == null || viewTop < (getTopForViewRelativeOnlyChild(approachingView) - getScrollY() + (clippingToPadding ? 0 : getPaddingTop()))) {
+                if (approachingView == null || viewTop < (getTopForViewRelativeOnlyChild
+                        (approachingView) - getScrollY() + (clippingToPadding ? 0 : getPaddingTop
+                        ()))) {
                     approachingView = v;
                 }
             }

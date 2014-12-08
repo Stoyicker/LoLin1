@@ -119,7 +119,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                     @Override
                     public void run() {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                                Uri.parse(getResources().getString(R.string.help_url)));
+                                Uri.parse(mContext.getString(R.string.help_url)));
                         startActivity(browserIntent);
                     }
                 });
@@ -229,10 +229,10 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     public List<NavigationItem> readMenuItems() {
         List<NavigationItem> items = new ArrayList<>();
-        Resources resources = getResources();
-        final String NAVIGATION_TITLE_STANDARD_DRAWABLE_PATTERN = resources.getString(R.string
+        Resources resources = mContext.getResources();
+        final String NAVIGATION_TITLE_STANDARD_DRAWABLE_PATTERN = mContext.getString(R.string
                 .navigation_title_standard_resource_pattern),
-                NAVIGATION_TITLE_SELECTED_DRAWABLE_PATTERN = resources.getString(R.string
+                NAVIGATION_TITLE_SELECTED_DRAWABLE_PATTERN = mContext.getString(R.string
                         .navigation_title_selected_resource_pattern);
         final String[] itemNames = resources.getStringArray(R.array.navigation_drawer_items);
         final List<Drawable> standardItemIcons = new ArrayList<>(),

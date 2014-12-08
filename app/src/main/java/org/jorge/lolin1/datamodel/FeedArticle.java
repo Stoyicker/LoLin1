@@ -115,7 +115,7 @@ public class FeedArticle implements Parcelable {
         intent.putExtra(Intent.EXTRA_SUBJECT, getTitle());
         intent.putExtra(Intent.EXTRA_TITLE, getPreviewText());
         intent.putExtra(Intent.EXTRA_TEXT, getUrl());
-        context.startActivity(Intent.createChooser(intent, context.getResources().getString(R.string.abc_shareactionprovider_share_with)));
+        context.startActivity(Intent.createChooser(intent, context.getString(R.string.abc_shareactionprovider_share_with)));
     }
 
     public void requestBrowseToAction(Context context) {

@@ -21,4 +21,5 @@
     <integer name="min_scroll_toggle_action_bar">50</integer>
     <integer name="dual_feed_column_amount">1</integer>
     <integer name="feed_refresh_time_millis">2000</integer>
+    <integer name="lolin1_v1_v59_db_version">1</integer>
 </resources>

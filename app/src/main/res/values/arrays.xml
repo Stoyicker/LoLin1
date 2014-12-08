@@ -6,4 +6,26 @@
         <item>@string/title_section2</item>
         <item>@string/title_section3</item>
     </string-array>
+    <string-array name="lolin1_v1_59_news_table_names">
+        <item>LOLNEWS_EUW_FR_FR</item>
+        <item>LOLNEWS_EUW_EN_US</item>
+        <item>LOLNEWS_EUNE_RO_RO</item>
+        <item>LOLNEWS_LAN_ES_ES</item>
+        <item>LOLNEWS_EUNE_EL_GR</item>
+        <item>LOLNEWS_NA_EN_US</item>
+        <item>LOLNEWS_KR_KO_KR</item>
+        <item>LOLNEWS_EUNE_EN_US</item>
+        <item>LOLNEWS_RU_RU_RU</item>
+        <item>LOLNEWS_EUW_DE_DE</item>
+        <item>LOLNEWS_TR_TR_TR</item>
+        <item>LOLNEWS_EUNE_CS_CZ</item>
+        <item>LOLNEWS_EUW_IT_IT</item>
+        <item>LOLNEWS_BR_PT_PT</item>
+        <item>LOLNEWS_OCE_EN_US</item>
+        <item>LOLNEWS_EUW_ES_ES</item>
+        <item>LOLNEWS_LAS_ES_ES</item>
+        <item>LOLNEWS_EUNE_PL_PL</item>
+        <item>LOLNEWS_EUNE_HU_HU</item>
+        <item>SURRENDER</item>
+    </string-array>
 </resources>

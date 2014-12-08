@@ -219,9 +219,9 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
         }
         if (actionBarHeight == -1)
             throw new IllegalStateException("Couldn't get the ActionBar height attribute");
-        final Integer progressBarStartMargin = getResources().getDimensionPixelSize(
+        final Integer progressBarStartMargin = mContext.getResources().getDimensionPixelSize(
                 R.dimen.swipe_refresh_progress_bar_start_margin),
-                progressBarEndMargin = getResources().getDimensionPixelSize(
+                progressBarEndMargin = mContext.getResources().getDimensionPixelSize(
                         R.dimen.swipe_refresh_progress_bar_end_margin);
         mRefreshLayout.setProgressViewOffset(Boolean.FALSE,
                 actionBarHeight + progressBarStartMargin, actionBarHeight + progressBarEndMargin);
