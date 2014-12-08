@@ -16,11 +16,15 @@
   ~
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
-
 <resources>
-    <string name="app_name">LoLin1</string>
+    <string name="title_section0">News</string>
+    <string name="title_section1">Community</string>
+    <string name="title_section2">Summoner\'s school</string>
+    <string name="title_section3">Chat</string>
     <string name="no_feed_articles">There are no news right now.</string>
     <string name="open_in_browser">Open in browser</string>
-    <string name="section_title_news">News</string>
-    <string name="section_title_article_reader" />
+    <string name="drawer_close">Menu closed</string>
+    <string name="drawer_open">Menu opened</string>
+    <string name="nav_drawer_aux_entry_help">Help &amp; feedback</string>
+    <string name="nav_drawer_aux_entry_settings">Settings</string>
 </resources>

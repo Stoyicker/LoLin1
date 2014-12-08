@@ -28,25 +28,21 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
-import android.util.TypedValue;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.melnykov.fab.FloatingActionButton;
-import com.squareup.picasso.Picasso;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
-import org.jorge.lolin1.ui.activity.MainActivity;
 import org.jorge.lolin1.ui.util.StickyParallaxNotifyingScrollView;
 import org.jorge.lolin1.util.PicassoUtils;
 
@@ -55,11 +51,10 @@ public class ArticleReaderFragment extends Fragment {
     private Context mContext;
     private int mDefaultImageId;
     private String TAG;
-    private FeedArticle mArticle = new FeedArticle();
-    private static final String ARTICLE_KEY = "ARTICLE";
-    private MainActivity mActivity;
+    private FeedArticle mArticle;
+    public static final String ARTICLE_KEY = "ARTICLE";
+    private ActionBarActivity mActivity;
     private Drawable mActionBarBackgroundDrawable;
-    private View mHeaderView;
     private final Drawable.Callback mDrawableCallback = new Drawable.Callback() {
         @Override
         public void invalidateDrawable(Drawable who) {
@@ -80,6 +75,21 @@ public class ArticleReaderFragment extends Fragment {
     private float mOriginalElevation;
     private FloatingActionButton mMarkAsReadFab;
 
+    public static Fragment newInstance(Context context, FeedArticle article, Class c) {
+        Bundle args = new Bundle();
+        args.putParcelable(ArticleReaderFragment.ARTICLE_KEY, article);
+        int errorResId;
+        if (c == NewsListFragment.class)
+            errorResId = R.drawable.news_article_placeholder;
+        else
+            throw new IllegalArgumentException("Class " + c.getName() + " doesn't correspond to a" +
+                    " feed reader");
+        args.putInt(FeedListFragment.ERROR_RES_ID_KEY, errorResId);
+
+        return ArticleReaderFragment.instantiate(context, ArticleReaderFragment.class.getName(),
+                args);
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -87,9 +97,9 @@ public class ArticleReaderFragment extends Fragment {
         Bundle args = getArguments();
         if (args == null)
             throw new IllegalStateException("ArticleReader created without arguments");
-//        mArticle = (FeedArticle) args.getParcelable(ARTICLE_KEY); TODO Make the class implement parcelable
+        mArticle = args.getParcelable(ARTICLE_KEY);
         TAG = mArticle.getUrl();
-        mActivity = (MainActivity) activity;
+        mActivity = (ActionBarActivity) activity;
         mDefaultImageId = getArguments().getInt(FeedListFragment.ERROR_RES_ID_KEY);
     }
 
@@ -102,9 +112,9 @@ public class ArticleReaderFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case R.id.home:
+            case R.id.homeAsUp:
                 mActivity.onBackPressed();
-                return Boolean.TRUE;
             case R.id.action_browse_to:
                 mArticle.requestBrowseToAction(mContext);
                 return Boolean.TRUE;
@@ -126,11 +136,14 @@ public class ArticleReaderFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(Boolean.TRUE);
-        final View ret = inflater.inflate(R.layout.fragment_article_reader, container, Boolean.FALSE);
-        mHeaderView = ret.findViewById(R.id.image);
-        PicassoUtils.loadInto(mContext, mArticle.getImageUrl(), mDefaultImageId, (android.widget.ImageView) mHeaderView, TAG);
+        final View ret = inflater.inflate(R.layout.fragment_article_reader, container,
+                Boolean.FALSE);
+        View mHeaderView = ret.findViewById(R.id.image);
+        PicassoUtils.loadInto(mContext, mArticle.getImageUrl(), mDefaultImageId,
+                (android.widget.ImageView) mHeaderView, TAG);
         final String title = mArticle.getTitle();
         mHeaderView.setContentDescription(title);
         ((TextView) ret.findViewById(R.id.title)).setText(title);
@@ -138,23 +151,19 @@ public class ArticleReaderFragment extends Fragment {
 
         mActionBar = mActivity.getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
-        mActionBarBackgroundDrawable = new ColorDrawable(mContext.getResources().getColor(R.color.action_bar_background));
+        mActionBarBackgroundDrawable = new ColorDrawable(mContext.getResources().getColor(R.color
+                .toolbar_background));
         mActionBar.setBackgroundDrawable(mActionBarBackgroundDrawable);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mOriginalElevation = mActionBar.getElevation();
-            mActionBar.setElevation(0); //So that the shadow of the ActionBar doesn't show over the title
+            mActionBar.setElevation(0); //So that the shadow of the ActionBar doesn't show over
+            // the article title
         }
         mActionBar.setTitle(mActivity.getString(R.string.section_title_article_reader));
 
-        mActionBarBackgroundDrawable.setAlpha(0);
-        StickyParallaxNotifyingScrollView scrollView = (StickyParallaxNotifyingScrollView) ret.findViewById(R.id.scroll_view);
+        StickyParallaxNotifyingScrollView scrollView = (StickyParallaxNotifyingScrollView) ret
+                .findViewById(R.id.scroll_view);
         scrollView.setOnScrollChangedListener(mOnScrollChangedListener);
-        TypedValue tv = new TypedValue();
-        if (mContext.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, Boolean.TRUE)) {
-            int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-            scrollView.setTopOffset(actionBarHeight - mContext.getResources().getInteger(R.integer.action_bar_extra_bottom_article_reader));
-        } else
-            throw new IllegalStateException("ActionBar size not found");
         scrollView.smoothScrollTo(0, 0);
 
         if (!mArticle.isRead()) {
@@ -172,12 +181,9 @@ public class ArticleReaderFragment extends Fragment {
         return ret;
     }
 
-    private StickyParallaxNotifyingScrollView.OnScrollChangedListener mOnScrollChangedListener = new StickyParallaxNotifyingScrollView.OnScrollChangedListener() {
+    private StickyParallaxNotifyingScrollView.OnScrollChangedListener mOnScrollChangedListener =
+            new StickyParallaxNotifyingScrollView.OnScrollChangedListener() {
         public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
-            final int headerHeight = mHeaderView.getHeight() - mActivity.getSupportActionBar().getHeight();
-            final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
-            final int newAlpha = (int) (ratio * 255);
-            mActionBarBackgroundDrawable.setAlpha(newAlpha);
             if (mMarkAsReadFab != null)
                 if (!who.canScrollVertically(1)) {
                     mMarkAsReadFab.show();
@@ -192,18 +198,9 @@ public class ArticleReaderFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Picasso.with(mContext).cancelTag(TAG);
+        PicassoUtils.cancel(mContext, TAG);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mActionBar.setElevation(mOriginalElevation);
-        }
-    }
-
-    @Override
-    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-        if (enter) {
-            return AnimationUtils.loadAnimation(mContext, R.anim.move_in_from_bottom);
-        } else {
-            return AnimationUtils.loadAnimation(mContext, R.anim.move_out_to_bottom);
         }
     }
 }

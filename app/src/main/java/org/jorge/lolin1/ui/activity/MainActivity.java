@@ -20,49 +20,63 @@
 package org.jorge.lolin1.ui.activity;
 
 import android.content.Context;
-import android.content.res.Configuration;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBar;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
+import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter;
 import org.jorge.lolin1.ui.fragment.ArticleReaderFragment;
-import org.jorge.lolin1.ui.fragment.FeedListFragment;
+import org.jorge.lolin1.ui.fragment.NavigationDrawerFragment;
 import org.jorge.lolin1.ui.fragment.NewsListFragment;
 import org.jorge.lolin1.util.Interface;
 
-public class MainActivity extends ActionBarActivity implements Interface.IOnFeedArticleClickedListener {
+import java.util.Stack;
+
+public class MainActivity extends ActionBarActivity implements Interface
+        .IOnFeedArticleClickedListener, NavigationDrawerAdapter.NavigationDrawerCallbacks {
 
     private Context mContext;
     private Fragment[] mContentFragments;
-    private Integer mActiveFragment = 0;
-    private Fragment mArticleReaderFragment;
+    private NavigationDrawerFragment mNavigationDrawerFragment;
+    private Stack<Integer> mNavigatedIndexesStack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mNavigatedIndexesStack = new Stack<>();
+        mNavigatedIndexesStack.push(0);
         setContentView(R.layout.activity_main);
 
-        final ActionBar actionBar = getSupportActionBar();
-        actionBar.setLogo(R.drawable.ic_launcher_two_color_actionbar_wrapper);
-        actionBar.setDisplayUseLogoEnabled(Boolean.TRUE);
-        actionBar.setDisplayShowHomeEnabled(Boolean.TRUE);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_actionbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setHomeButtonEnabled(Boolean.TRUE);
+
+        mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.navigation_drawer_fragment);
+        //TODO Pass the right user data, probably through a Bundle from the LoginActivity
+        setupNavigationDrawer(toolbar, "http://ddragon.leagueoflegends.com/cdn/4.20" +
+                ".1/img/profileicon/547.png", "Stoyicker", "EUW");
 
         mContext = LoLin1Application.getInstance().getApplicationContext();
-        if (getSupportFragmentManager().getFragments() == null)
+        if (mContentFragments == null)
             showInitialFragment();
     }
 
     private void showInitialFragment() {
-        if (mContentFragments == null)
-            mContentFragments = new Fragment[1];
-        if (mContext.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE)
-            getSupportFragmentManager().beginTransaction().
-                    add(R.id.content_fragment_container, findNewsListFragment()).commit();
+        if (mContentFragments == null) {
+            mContentFragments = new Fragment[4];
+        }
+        getSupportFragmentManager().beginTransaction().
+                replace(R.id.content_fragment_container, findNewsListFragment())
+                .commitAllowingStateLoss();
     }
 
     private Fragment findNewsListFragment() {
@@ -71,36 +85,104 @@ public class MainActivity extends ActionBarActivity implements Interface.IOnFeed
         return mContentFragments[0];
     }
 
-    private Fragment prepareArticleReaderFragment(FeedArticle article, Class c) {
-        if (mArticleReaderFragment == null)
-            mArticleReaderFragment = ArticleReaderFragment.instantiate(mContext, ArticleReaderFragment.class.getName());
-        Bundle args = new Bundle();
-//        args.putParcelable(article); TODO Make FeedArticle implement Parcelable
-        int errorResId;
-        if (c == NewsListFragment.class)
-            errorResId = R.drawable.news_article_placeholder;
-        else
-            throw new IllegalArgumentException("Class " + c.getName() + " doesn't correspond to a feed reader");
-        args.putInt(FeedListFragment.ERROR_RES_ID_KEY, errorResId);
-        mArticleReaderFragment.setArguments(args);
+    private Fragment findCommunityFragment() {
+        throw new UnsupportedOperationException("Not yet implemented.");
+    }
 
-        return mArticleReaderFragment;
+    private Fragment findSchoolFragment() {
+        throw new UnsupportedOperationException("Not yet implemented.");
+    }
+
+    private Fragment findChatFragment() {
+        throw new UnsupportedOperationException("Not yet implemented.");
+    }
+
+    /**
+     * Launches an article reader.
+     *
+     * @param article The article information.
+     * @param c       The class of the article list, so that the errorResId can be deducted
+     *                in the ArticleReaderFragment constructor.
+     */
+    private void launchArticleReader(FeedArticle article, Class c) {
+        Intent intent = new Intent(mContext, ArticleReaderActivity.class);
+
+        intent.putExtra(ArticleReaderFragment.ARTICLE_KEY, article);
+        intent.putExtra(ArticleReaderActivity.READER_LIST_FRAGMENT_CLASS, c);
+
+        startActivity(intent);
+        overridePendingTransition(R.anim.move_in_from_bottom, R.anim.move_out_to_bottom);
     }
 
     @Override
     public void onFeedArticleClicked(FeedArticle item, Class c) {
-        getSupportFragmentManager().beginTransaction().
-                replace(R.id.content_fragment_container, prepareArticleReaderFragment(item, c)).addToBackStack(null).commit();
+        launchArticleReader(item, c);
     }
 
     @Override
     public void onBackPressed() {
         Boolean handled = Boolean.FALSE;
-        if (mContentFragments != null && mContentFragments[mActiveFragment] != null && mContentFragments[mActiveFragment] instanceof Interface.IOnBackPressed) {
-            handled = ((Interface.IOnBackPressed) mContentFragments[mActiveFragment]).onBackPressed();
+        if (mNavigationDrawerFragment.isDrawerOpen()) {
+            mNavigationDrawerFragment.closeDrawer();
+            handled = Boolean.TRUE;
         }
-        if (!handled) {
-            super.onBackPressed();
+        if (!handled && mContentFragments != null && mContentFragments[mNavigatedIndexesStack
+                .peek()] != null && mContentFragments[mNavigatedIndexesStack.peek()] instanceof
+                Interface.IOnBackPressed) {
+            handled = ((Interface.IOnBackPressed) mContentFragments[mNavigatedIndexesStack.peek()
+                    ]).onBackPressed();
+            if (!handled) {
+                super.onBackPressed();
+                if (mNavigatedIndexesStack.size() > 1) {
+                    mNavigatedIndexesStack.pop();
+                }
+                mNavigationDrawerFragment.selectItem(mNavigatedIndexesStack.peek());
+            }
         }
     }
+
+
+    @Override
+    public void onNavigationDrawerItemSelected(int position) {
+        if (mNavigationDrawerFragment == null || mNavigationDrawerFragment.getPosition() ==
+                position) {
+            return;
+        }
+        Fragment target;
+        mNavigatedIndexesStack.push(position);
+        switch (position) {
+            case 0:
+                target = findNewsListFragment();
+                break;
+            case 1:
+                target = findCommunityFragment();
+                break;
+            case 2:
+                target = findSchoolFragment();
+                break;
+            case 3:
+                target = findChatFragment();
+                break;
+            default:
+                throw new IllegalArgumentException("Menu with id " + position + " not found.");
+        }
+        final Fragment targetAsFinal = target;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                getSupportFragmentManager().beginTransaction().replace(R.id
+                                .content_fragment_container,
+                        targetAsFinal).addToBackStack(null).commitAllowingStateLoss();
+            }
+        });
+    }
+
+    public void setupNavigationDrawer(Toolbar toolbar, String userPhotoId, String userName,
+                                      String realm) {
+        mNavigationDrawerFragment.setup(R.id.navigation_drawer_fragment,
+                (DrawerLayout) findViewById(R.id.navigation_drawer), toolbar, userPhotoId,
+                userName, realm);
+    }
+
+
 }

@@ -19,7 +19,6 @@
 
 package org.jorge.lolin1.ui.fragment;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -31,7 +30,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,7 +49,6 @@ import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
 import com.melnykov.fab.FloatingActionButton;
-import com.squareup.picasso.Picasso;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
@@ -64,21 +61,16 @@ import org.jorge.lolin1.util.PicassoUtils;
 
 import java.util.concurrent.Executors;
 
-public class FeedListFragment extends Fragment implements Interface.IOnBackPressed, Interface.IOnItemInteractionListener, ActionMode.Callback {
+public class FeedListFragment extends Fragment implements Interface.IOnItemInteractionListener {
 
     private RecyclerView mNewsView;
     private Context mContext;
     private FeedAdapter mFeedAdapter;
     private View mEmptyView;
-    private FloatingActionButton mFabShareButton;
-    public static final int NO_ITEM_SELECTED = -1;
-    private Integer mSelectedIndex = NO_ITEM_SELECTED;
-    private FloatingActionButton mFabMarkAsReadButton;
     private String TAG;
     protected static final String TAG_KEY = "TAG", LM_KEY = "LAYOUT_MANAGER";
     public static final String ERROR_RES_ID_KEY = "ERROR";
     private int mDefaultImageId;
-    private ActionMode mActionMode;
     protected ActionBarActivity mActivity;
     private Interface.IOnFeedArticleClickedListener mCallback;
     private Boolean mActionBarIsShowingOrShown = Boolean.TRUE;
@@ -103,22 +95,18 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
         public void unscheduleDrawable(Drawable who, Runnable what) {
         }
     };
-    private StickyParallaxNotifyingScrollView.OnScrollChangedListener mOnScrollChangedListener = new StickyParallaxNotifyingScrollView.OnScrollChangedListener() {
-        public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
-            final int headerHeight = mHeaderView.getHeight() - mActivity.getSupportActionBar().getHeight();
-            final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
-            final int newAlpha = (int) (ratio * 255);
-            mActionBarBackgroundDrawable.setAlpha(newAlpha);
-            if (mFabMarkAsReadButton != null)
-                if (!who.canScrollVertically(1)) {
-                    mFabMarkAsReadButton.show();
-                } else if (t < oldt) {
-                    mFabMarkAsReadButton.show();
-                } else if (t > oldt) {
-                    mFabMarkAsReadButton.hide();
+    private StickyParallaxNotifyingScrollView.OnScrollChangedListener mOnScrollChangedListener =
+            new StickyParallaxNotifyingScrollView.OnScrollChangedListener() {
+                public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
+                    final int headerHeight = mHeaderView.getHeight() - mActivity
+                            .getSupportActionBar()
+                            .getHeight();
+                    final float ratio = (float) Math.min(Math.max(t, 0),
+                            headerHeight) / headerHeight;
+                    final int newAlpha = (int) (ratio * 255);
+                    mActionBarBackgroundDrawable.setAlpha(newAlpha);
                 }
-        }
-    };
+            };
     private Integer FEED_REFRESH_TIME_MILLIS;
     private ActionBar mActionBar;
     private Float mOriginalElevation;
@@ -127,34 +115,37 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
     private StickyParallaxNotifyingScrollView mParallaxScrollView;
     private TextView mArticlePreviewView;
     private ChainableSwipeRefreshLayout mRefreshLayout;
-    private final SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new SwipeRefreshLayout.OnRefreshListener() {
-        @Override
-        public void onRefresh() {
-            new AsyncTask<Void, Void, Void>() {
+    private final SwipeRefreshLayout.OnRefreshListener mOnRefreshListener = new
+            SwipeRefreshLayout.OnRefreshListener() {
                 @Override
-                protected void onPreExecute() {
-                    super.onPreExecute();
-                    mFeedAdapter.notifyDataSetChanged();
-                }
+                public void onRefresh() {
+                    new AsyncTask<Void, Void, Void>() {
+                        @Override
+                        protected void onPreExecute() {
+                            super.onPreExecute();
+                            mFeedAdapter.notifyDataSetChanged();
+                        }
 
-                @Override
-                protected Void doInBackground(Void... params) {
-                    try {
-                        Thread.sleep(FEED_REFRESH_TIME_MILLIS);
-                    } catch (InterruptedException e) {
-                        Crashlytics.logException(e);
-                    }
-                    return null;
-                }
+                        @Override
+                        protected Void doInBackground(Void... params) {
+                            try {
+                                Thread.sleep(FEED_REFRESH_TIME_MILLIS);
+                            } catch (InterruptedException e) {
+                                Crashlytics.logException(e);
+                            }
+                            return null;
+                        }
 
-                @Override
-                protected void onPostExecute(Void aVoid) {
-                    super.onPostExecute(aVoid);
-                    mRefreshLayout.setRefreshing(Boolean.FALSE);
+                        @Override
+                        protected void onPostExecute(Void aVoid) {
+                            super.onPostExecute(aVoid);
+                            mRefreshLayout.setRefreshing(Boolean.FALSE);
+                            if (mIsDualPane)
+                                reCalculateDualPaneDimensions();
+                        }
+                    }.executeOnExecutor(Executors.newSingleThreadExecutor());
                 }
-            }.executeOnExecutor(Executors.newSingleThreadExecutor());
-        }
-    };
+            };
 
     protected enum LayoutManagerEnum {
         STAGGEREDGRID,
@@ -165,7 +156,8 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mContext = LoLin1Application.getInstance().getContext();
-        mActionBarBackgroundDrawable = new ColorDrawable(mContext.getResources().getColor(R.color.action_bar_background));
+        mActionBarBackgroundDrawable = new ColorDrawable(mContext.getResources().getColor(R.color
+                .toolbar_background));
         Bundle args = getArguments();
         if (args == null)
             throw new IllegalStateException("FeedListFragment created without arguments");
@@ -176,7 +168,8 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
         }
         mActivity = (ActionBarActivity) activity;
         mCallback = (Interface.IOnFeedArticleClickedListener) activity;
-        FEED_REFRESH_TIME_MILLIS = mContext.getResources().getInteger(R.integer.feed_refresh_time_millis);
+        FEED_REFRESH_TIME_MILLIS = mContext.getResources().getInteger(R.integer
+                .feed_refresh_time_millis);
     }
 
     @Override
@@ -193,58 +186,45 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
      */
     private void drawLastClickedArticle() {
         if (!mIsDualPane)
-            throw new IllegalStateException("Do not use drawLastClickedArticle in modes other than dual-pane");
-        PicassoUtils.loadInto(mContext, lastClickedArticle.getImageUrl(), mDefaultImageId, (android.widget.ImageView) mHeaderView, TAG);
+            throw new IllegalStateException("Do not use drawLastClickedArticle in modes other " +
+                    "than dual-pane");
+        PicassoUtils.loadInto(mContext, lastClickedArticle.getImageUrl(), mDefaultImageId,
+                (android.widget.ImageView) mHeaderView, TAG);
         final String title = lastClickedArticle.getTitle();
         mHeaderView.setContentDescription(title);
         mArticleTitleView.setText(title);
         mArticlePreviewView.setText(lastClickedArticle.getPreviewText());
         mActionBar.setTitle(lastClickedArticle.getTitle());
 
-        mActionBarBackgroundDrawable.setAlpha(0);
-
         mParallaxScrollView.setOnScrollChangedListener(mOnScrollChangedListener);
-        TypedValue tv = new TypedValue();
-        if (mContext.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, Boolean.TRUE)) {
-            int actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-            mParallaxScrollView.setTopOffset(actionBarHeight - mContext.getResources().getInteger(R.integer.action_bar_extra_bottom_article_reader));
-        } else
-            throw new IllegalStateException("ActionBar size not found");
         mParallaxScrollView.smoothScrollTo(0, 0);
-
-        if (!lastClickedArticle.isRead()) {
-            mFabMarkAsReadButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    lastClickedArticle.markAsRead();
-                    mFabMarkAsReadButton.hide();
-                }
-            });
-
-            mFabMarkAsReadButton.show();
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(Boolean.TRUE);
-        final View ret = inflater.inflate(R.layout.fragment_feed_article_list, container, Boolean.FALSE);
+        final View ret = inflater.inflate(R.layout.fragment_feed_article_list, container,
+                Boolean.FALSE);
         mNewsView = (RecyclerView) ret.findViewById(R.id.feed_article_list_view);
 
         mRefreshLayout = (ChainableSwipeRefreshLayout) ret.findViewById(R.id.refreshable_layout);
-        mRefreshLayout.setColorSchemeResources(R.color.material_orange_500, R.color.material_blue_500);
+        mRefreshLayout.setColorSchemeResources(R.color.material_orange_500,
+                R.color.material_blue_500);
         TypedValue tv = new TypedValue();
         int actionBarHeight = -1;
         if (mContext.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, Boolean.TRUE)) {
-            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+            actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data,
+                    getResources().getDisplayMetrics());
         }
         if (actionBarHeight == -1)
             throw new IllegalStateException("Couldn't get the ActionBar height attribute");
         final Integer progressBarStartMargin = getResources().getDimensionPixelSize(
-                R.dimen.swipe_refresh_progress_bar_start_margin), progressBarEndMargin = getResources().getDimensionPixelSize(
-                R.dimen.swipe_refresh_progress_bar_end_margin);
-        mRefreshLayout.setProgressViewOffset(Boolean.FALSE, actionBarHeight + progressBarStartMargin, actionBarHeight + progressBarEndMargin);
+                R.dimen.swipe_refresh_progress_bar_start_margin),
+                progressBarEndMargin = getResources().getDimensionPixelSize(
+                        R.dimen.swipe_refresh_progress_bar_end_margin);
+        mRefreshLayout.setProgressViewOffset(Boolean.FALSE,
+                actionBarHeight + progressBarStartMargin, actionBarHeight + progressBarEndMargin);
         mRefreshLayout.setOnRefreshListener(mOnRefreshListener);
         mRefreshLayout.setRecyclerView(mNewsView);
 
@@ -253,34 +233,27 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
         mActionBar.setBackgroundDrawable(mActionBarBackgroundDrawable);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mOriginalElevation = mActionBar.getElevation();
-            mActionBar.setElevation(0); //So that the shadow of the ActionBar doesn't show over the title
+            mActionBar.setElevation(0); //So that the shadow of the ActionBar doesn't show over
+            // the title
         }
 
-        mParallaxScrollView = (StickyParallaxNotifyingScrollView) ret.findViewById(R.id.scroll_view);
+        mParallaxScrollView = (StickyParallaxNotifyingScrollView) ret.findViewById(R.id
+                .scroll_view);
         mIsDualPane = mParallaxScrollView != null;
         mHeaderView = ret.findViewById(R.id.image);
         mArticleTitleView = (TextView) ret.findViewById(R.id.title);
         mArticlePreviewView = (TextView) ret.findViewById(android.R.id.text1);
-        mFabMarkAsReadButton = ((FloatingActionButton) ret.findViewById(R.id.fab_button_mark_as_read));
-        mFabMarkAsReadButton.hide();
         mNewsView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mEmptyView = ret.findViewById(android.R.id.empty);
-        if (!mIsDualPane) {
-            mFabShareButton = ((FloatingActionButton) ret.findViewById(R.id.fab_button_share));
-            mFabShareButton.hide();
-        }
         mFeedAdapter =
                 new FeedAdapter(
-                        mContext, mFabMarkAsReadButton, mFabShareButton, this, mDefaultImageId, mIsDualPane, TAG);
+                        mContext, this, mDefaultImageId, mIsDualPane, TAG);
         if (mIsDualPane) {
-            lastClickedArticle = mFeedAdapter.getItemCount() > 0 ? mFeedAdapter.getItem(0) : null;
-            if (lastClickedArticle != null)
-                drawLastClickedArticle();
-            else
-                ret.findViewById(R.id.news_list).setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+            reCalculateDualPaneDimensions();
         } else {
             final Integer BASE_TOP_PADDING = mNewsView.getPaddingTop();
-            mNewsView.setOnScrollListener(new FloatingActionButton.FabRecyclerOnViewScrollListener() {
+            mNewsView.setOnScrollListener(new FloatingActionButton
+                    .FabRecyclerOnViewScrollListener() {
 
                 final Integer MIN_SCROLL_TOGGLE_ACTION_BAR = mContext.getResources().getInteger(R.
                         integer.min_scroll_toggle_action_bar);
@@ -294,12 +267,14 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
                                 mNewsView.setPadding(0, 0, 0, 0);
                                 actionBar.hide();
                                 mActionBarIsShowingOrShown = Boolean.FALSE;
-                            } else if (dy < -1 * MIN_SCROLL_TOGGLE_ACTION_BAR && !mActionBarIsShowingOrShown) {
+                            } else if ((dy < -1 * MIN_SCROLL_TOGGLE_ACTION_BAR || !mNewsView
+                                    .canScrollVertically(-1)) && !mActionBarIsShowingOrShown) {
                                 mNewsView.setPadding(0, BASE_TOP_PADDING, 0, 0);
                                 actionBar.show();
                                 mActionBarIsShowingOrShown = Boolean.TRUE;
+                                if (!mNewsView.canScrollVertically(-1))
+                                    mNewsView.smoothScrollToPosition(0);
                             }
-                        mFeedAdapter.clearSelection();
                     }
                 }
             });
@@ -308,10 +283,20 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
         return ret;
     }
 
+    private void reCalculateDualPaneDimensions() {
+        lastClickedArticle = mFeedAdapter.getItemCount() > 0 ? mFeedAdapter.getItem(0) : null;
+        if (lastClickedArticle != null)
+            drawLastClickedArticle();
+        else
+            mNewsView.setLayoutParams(new FrameLayout.LayoutParams
+                    (FrameLayout.LayoutParams.MATCH_PARENT,
+                            FrameLayout.LayoutParams.MATCH_PARENT));
+    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Picasso.with(mContext).cancelTag(TAG);
+        PicassoUtils.cancel(mContext, TAG);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mActionBar.setElevation(mOriginalElevation);
         }
@@ -345,16 +330,19 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
             }
         });
         RecyclerView.LayoutManager layoutManager;
-        final Integer columnAmount = mContext.getResources().getInteger(mIsDualPane ? R.integer.dual_feed_column_amount : R.integer.feed_column_amount);
+        final Integer columnAmount = mContext.getResources().getInteger(mIsDualPane ? R.integer
+                .dual_feed_column_amount : R.integer.feed_column_amount);
         switch (mLMIndicator) {
             case GRID:
                 layoutManager = new GridLayoutManager(mContext, columnAmount);
                 break;
             case STAGGEREDGRID:
-                layoutManager = new StaggeredGridLayoutManager(columnAmount, StaggeredGridLayoutManager.VERTICAL);
+                layoutManager = new StaggeredGridLayoutManager(columnAmount,
+                        StaggeredGridLayoutManager.VERTICAL);
                 break;
             default:
-                throw new IllegalArgumentException("Illegal LayoutManager indicator: " + mLMIndicator);
+                throw new IllegalArgumentException("Illegal LayoutManager indicator: " +
+                        mLMIndicator);
         }
 
         mNewsView.setLayoutManager(layoutManager);
@@ -372,37 +360,6 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
     }
 
     @Override
-    public Boolean onBackPressed() {
-        Boolean ret = mSelectedIndex != NO_ITEM_SELECTED;
-        if (ret)
-            mFeedAdapter.clearSelection();
-        return ret;
-    }
-
-    @Override
-    public void setSelectedIndex(int selectedIndex) {
-        mSelectedIndex = selectedIndex;
-        if (mActionMode == null)
-            mActionMode = mActivity.startSupportActionMode(this);
-        else {
-            if (mActionMode.getCustomView() == null) {
-                @SuppressLint("InflateParams") TextView tv = (TextView) mActivity.getLayoutInflater().inflate(R.layout.action_mode_feed_article_title, null);
-                mActionMode.setCustomView(tv);
-            }
-            ((TextView) mActionMode.getCustomView()).setText(mFeedAdapter.getItem(mSelectedIndex).getTitle());
-        }
-    }
-
-    @Override
-    public void clearSelection() {
-        if (mSelectedIndex != NO_ITEM_SELECTED) {
-            mSelectedIndex = NO_ITEM_SELECTED;
-            mActionMode.finish();
-            mActionMode = null;
-        }
-    }
-
-    @Override
     public void onItemClick(FeedArticle item) {
         if (mIsDualPane)
             drawLastClickedArticle();
@@ -410,29 +367,6 @@ public class FeedListFragment extends Fragment implements Interface.IOnBackPress
             mCallback.onFeedArticleClicked(item, ((Object) this).getClass());
             mActivity.getSupportActionBar().show();
         }
-    }
-
-    @Override
-    public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
-        @SuppressLint("InflateParams") TextView tv = (TextView) mActivity.getLayoutInflater().inflate(R.layout.action_mode_feed_article_title, null);
-        tv.setText(mFeedAdapter.getItem(mSelectedIndex).getTitle());
-        actionMode.setCustomView(tv);
-        return Boolean.TRUE;
-    }
-
-    @Override
-    public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
-        return Boolean.TRUE;
-    }
-
-    @Override
-    public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
-        return Boolean.FALSE;
-    }
-
-    @Override
-    public void onDestroyActionMode(ActionMode actionMode) {
-        mFeedAdapter.clearSelection();
     }
 
     @Override

@@ -16,9 +16,23 @@
   ~
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <gradient
-        android:angle="90"
-        android:endColor="@android:color/holo_orange_light"
-        android:startColor="@android:color/white" />
-</shape>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:weightSum="1"
+              android:animateLayoutChanges="true"
+              android:background="@android:color/white">
+
+    <include
+        android:id="@+id/toolbar_actionbar"
+        layout="@layout/include_layout_toolbar_default"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <FrameLayout
+        android:id="@+id/settings_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </FrameLayout>
+</LinearLayout>

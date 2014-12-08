@@ -25,6 +25,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import org.jorge.lolin1.R;
 
@@ -44,6 +45,6 @@ public class NewsListFragment extends FeedListFragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         final ActionBar actionBar = mActivity.getSupportActionBar();
-        actionBar.setTitle(mActivity.getString(R.string.section_title_news));
+        actionBar.setTitle(mActivity.getString(R.string.title_section0));
     }
 }

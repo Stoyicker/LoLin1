@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of LoLin1.
+  ~
+  ~ LoLin1 is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ LoLin1 is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with LoLin1. If not, see <http://www.gnu.org/licenses/>.
+  ~
+  ~ Created by Jorge Antonio Diaz-Benito Soriano.
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:animateLayoutChanges="true"
+              android:background="@color/navigation_drawer_background">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/header_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@android:string/untitled"
+            android:src="@drawable/navigation_drawer_header"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignBottom="@id/header_image"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/navigation_drawer_user_data_left_margin">
+
+            <org.jorge.lolin1.ui.util.CircularImageView
+                android:id="@+id/user_photo"
+                android:layout_width="@dimen/navigation_drawer_user_photo_size"
+                android:layout_height="@dimen/navigation_drawer_user_photo_size"
+                android:layout_marginTop="@dimen/navigation_drawer_user_photo_right_margin"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_marginTop="@dimen/navigation_drawer_user_data_vertical_margin"
+                style="@style/NavigationDrawerUserData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/realm_name"
+                style="@style/NavigationDrawerUserData.Subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/navigation_drawer_user_data_vertical_margin"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/extra_elements_always_visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/navigation_drawer_entry_standard_margin"
+            android:layout_alignParentBottom="true"
+            android:background="@color/navigation_drawer_background">
+
+            <View
+                android:id="@+id/divider"
+                android:background="@color/navigation_drawer_divider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/navigation_drawer_divider_height"/>
+
+            <TextView
+                android:id="@+id/action_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:paddingLeft="@dimen/navigation_drawer_entry_standard_margin"
+                android:paddingRight="@dimen/navigation_drawer_entry_standard_margin"
+                android:layout_marginTop="@dimen/navigation_drawer_entry_standard_margin"
+                style="@style/NavigationDrawerEntryText"
+                android:text="@string/nav_drawer_aux_entry_settings"
+                android:drawableLeft="@drawable/ic_action_settings"
+                android:drawablePadding="@dimen/navigation_drawer_entry_standard_margin"
+                android:gravity="center_vertical"/>
+
+            <TextView
+                android:id="@+id/action_help"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackground"
+                android:paddingLeft="@dimen/navigation_drawer_entry_standard_margin"
+                android:paddingRight="@dimen/navigation_drawer_entry_standard_margin"
+                android:layout_marginTop="@dimen/navigation_drawer_entry_standard_margin"
+                style="@style/NavigationDrawerEntryText"
+                android:text="@string/nav_drawer_aux_entry_help"
+                android:drawableLeft="@drawable/ic_action_help"
+                android:drawablePadding="@dimen/navigation_drawer_entry_standard_margin"
+                android:gravity="center_vertical"/>
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/drawerList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            android:scrollbars="none"
+            android:focusable="true"
+            android:fillViewport="true"
+            android:layout_above="@id/extra_elements_always_visible"/>
+    </RelativeLayout>
+</LinearLayout>

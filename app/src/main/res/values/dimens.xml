@@ -25,8 +25,10 @@
     <dimen name="dual_pane_feed_article_list_width">300dp</dimen>
     <dimen name="swipe_refresh_progress_bar_start_margin">-40dp</dimen>
     <dimen name="swipe_refresh_progress_bar_end_margin">16dp</dimen>
-
-
     <item name="feed_article_selected_alpha" format="float" type="dimen">1.0</item>
     <item name="feed_article_unselected_alpha" format="float" type="dimen">0.5</item>
+    <item name="navigation_drawer_entry_alpha" format="float" type="dimen">0.87</item>
+    <dimen name="navigation_drawer_width">320dp</dimen>
+    <dimen name="navigation_drawer_entry_text">14sp</dimen>
+    <dimen name="navigation_drawer_divider_height">1dp</dimen>
 </resources>
