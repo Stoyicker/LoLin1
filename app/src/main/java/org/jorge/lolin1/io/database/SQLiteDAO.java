@@ -1,5 +1,24 @@
 package org.jorge.lolin1.io.database;
 
+/*
+ * This file is part of LoLin1.
+ *
+ * LoLin1 is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * LoLin1 is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with LoLin1. If not, see <http://www.gnu.org/licenses/>.
+ *
+ * Created by Jorge Antonio Diaz-Benito Soriano.
+ */
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
@@ -7,6 +26,7 @@ import android.database.sqlite.SQLiteException;
 
 import org.jorge.lolin1.BuildConfig;
 import org.jorge.lolin1.R;
+import org.jorge.lolin1.io.backup.LoLin1BackupAgent;
 
 public class SQLiteDAO extends RobustSQLiteOpenHelper {
 
@@ -45,14 +65,24 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
             // but neither of them are an issue.
             final Resources resources = mContext.getResources();
 
-            String[] oldTableNames = resources.getStringArray(R.array
+            final String[] oldTableNames = resources.getStringArray(R.array
                     .lolin1_v1_59_news_table_names);
 
             synchronized (DB_LOCK) {
-                super.dropAllTables(db);
                 for (String oldTableName : oldTableNames)
                     db.execSQL("DROP TABLE IF EXISTS " + oldTableName);
             }
+        }
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+        super.onCreate(db);
+
+
+        synchronized (DB_LOCK) {
+            //TODO onCreate SQLiteDAO
+            LoLin1BackupAgent.requestBackup(mContext);
         }
     }
 }
