@@ -19,6 +19,7 @@ package org.jorge.lolin1.ui.activity;
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -26,6 +27,7 @@ import android.support.v7.app.ActionBarActivity;
 import com.crashlytics.android.Crashlytics;
 
 import org.jorge.lolin1.LoLin1Application;
+import org.jorge.lolin1.io.database.SQLiteDAO;
 import org.jorge.lolin1.io.file.FileOperations;
 
 import java.io.File;
@@ -37,10 +39,16 @@ public class InitialActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initContext();
-        Fabric.with(LoLin1Application.getInstance().getContext(), new Crashlytics());
+        final Context context = initContext();
+        initTracking(context);
         flushCacheIfNecessary();
+        SQLiteDAO.setup(context);
+
         launchHomeActivity();
+    }
+
+    private void initTracking(Context context) {
+        Fabric.with(context, new Crashlytics());
     }
 
     private void launchHomeActivity() {
@@ -49,14 +57,18 @@ public class InitialActivity extends ActionBarActivity {
         startActivity(homeIntent);
     }
 
-    private void initContext() {
-        LoLin1Application.getInstance().setContext(getSupportActionBar().getThemedContext());
+    private Context initContext() {
+        Context ret;
+        LoLin1Application.getInstance().setContext(ret = getSupportActionBar().getThemedContext());
+
+        return ret;
     }
 
     private void flushCacheIfNecessary() {
         File cacheDir;
         int CACHE_SIZE_LIMIT_BYTES = 1048576;
-        if ((cacheDir = LoLin1Application.getInstance().getContext().getCacheDir()).length() > CACHE_SIZE_LIMIT_BYTES) {
+        if ((cacheDir = LoLin1Application.getInstance().getContext().getCacheDir()).length() >
+                CACHE_SIZE_LIMIT_BYTES) {
             FileOperations.recursivelyDelete(cacheDir);
         }
     }
