@@ -31,7 +31,7 @@ public abstract class FileOperations {
             for (String aChildren : children) {
                 Boolean success = recursivelyDelete(new File(file, aChildren));
                 if (!success) {
-                    return false;
+                    return Boolean.FALSE;
                 }
             }
         }

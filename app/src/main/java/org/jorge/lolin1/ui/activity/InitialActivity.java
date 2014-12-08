@@ -27,6 +27,7 @@ import android.support.v7.app.ActionBarActivity;
 import com.crashlytics.android.Crashlytics;
 
 import org.jorge.lolin1.LoLin1Application;
+import org.jorge.lolin1.io.backup.LoLin1BackupAgent;
 import org.jorge.lolin1.io.database.SQLiteDAO;
 import org.jorge.lolin1.io.file.FileOperations;
 
@@ -41,10 +42,19 @@ public class InitialActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         final Context context = initContext();
         initTracking(context);
-        flushCacheIfNecessary();
-        SQLiteDAO.setup(context);
+        requestBackupRestore();
+        flushCacheIfNecessary(context);
+        initDatabase(context);
 
         launchHomeActivity();
+    }
+
+    private void requestBackupRestore() {
+        LoLin1BackupAgent.restoreBackup();
+    }
+
+    private void initDatabase(Context context) {
+        SQLiteDAO.setup(context);
     }
 
     private void initTracking(Context context) {
@@ -64,10 +74,10 @@ public class InitialActivity extends ActionBarActivity {
         return ret;
     }
 
-    private void flushCacheIfNecessary() {
+    private void flushCacheIfNecessary(Context context) {
         File cacheDir;
-        int CACHE_SIZE_LIMIT_BYTES = 1048576;
-        if ((cacheDir = LoLin1Application.getInstance().getContext().getCacheDir()).length() >
+        final Integer CACHE_SIZE_LIMIT_BYTES = 1048576; //1MB, fair enough
+        if ((cacheDir = context.getCacheDir()).length() >
                 CACHE_SIZE_LIMIT_BYTES) {
             FileOperations.recursivelyDelete(cacheDir);
         }

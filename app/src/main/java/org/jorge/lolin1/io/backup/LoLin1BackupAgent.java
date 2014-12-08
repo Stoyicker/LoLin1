@@ -24,6 +24,7 @@ import android.app.backup.BackupDataInput;
 import android.app.backup.BackupDataOutput;
 import android.app.backup.BackupManager;
 import android.app.backup.FileBackupHelper;
+import android.app.backup.RestoreObserver;
 import android.app.backup.SharedPreferencesBackupHelper;
 import android.content.Context;
 import android.os.ParcelFileDescriptor;
@@ -39,10 +40,13 @@ public class LoLin1BackupAgent extends BackupAgentHelper {
 
     private static final String PREFERENCES_BACKUP_KEY = "PREFERENCES_BACKUP_KEY",
             DATABASE_BACKUP_KEY = "DATABASE_BACKUP_KEY";
+    private static BackupManager mBackupManager;
 
     @Override
     public void onCreate() {
         final Context context = LoLin1Application.getInstance().getContext();
+        mBackupManager = new BackupManager(context);
+
 
         final String[] backupablePreferences = context.getResources().getStringArray(R.array
                 .backupable_preference_keys);
@@ -75,8 +79,16 @@ public class LoLin1BackupAgent extends BackupAgentHelper {
         }
     }
 
-    public static void requestBackup(Context context) {
-        BackupManager bm = new BackupManager(context);
-        bm.dataChanged();
+    public static void requestBackup() {
+        mBackupManager.dataChanged();
+    }
+
+    public static void restoreBackup() {
+        mBackupManager.requestRestore(new RestoreObserver() {
+            @Override
+            public void restoreStarting(int numPackages) {
+                super.restoreStarting(numPackages);
+            }
+        });
     }
 }

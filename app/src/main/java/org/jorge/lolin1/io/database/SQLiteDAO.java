@@ -82,7 +82,6 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
 
         synchronized (DB_LOCK) {
             //TODO onCreate SQLiteDAO
-            LoLin1BackupAgent.requestBackup(mContext);
         }
     }
 }

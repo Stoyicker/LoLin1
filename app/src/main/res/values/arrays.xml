@@ -6,7 +6,7 @@
         <item>@string/title_section2</item>
         <item>@string/title_section3</item>
     </string-array>
-    <string-array name="lolin1_v1_59_news_table_names">
+    <string-array name="lolin1_v1_59_news_table_names" translatable="false">
         <item>LOLNEWS_EUW_FR_FR</item>
         <item>LOLNEWS_EUW_EN_US</item>
         <item>LOLNEWS_EUNE_RO_RO</item>
