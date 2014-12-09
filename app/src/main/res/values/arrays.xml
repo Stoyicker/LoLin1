@@ -7,26 +7,65 @@
         <item>@string/title_section3</item>
     </string-array>
     <string-array name="lolin1_v1_59_news_table_names" translatable="false">
-        <item>LOLNEWS_EUW_FR_FR</item>
-        <item>LOLNEWS_EUW_EN_US</item>
-        <item>LOLNEWS_EUNE_RO_RO</item>
-        <item>LOLNEWS_LAN_ES_ES</item>
-        <item>LOLNEWS_EUNE_EL_GR</item>
-        <item>LOLNEWS_NA_EN_US</item>
-        <item>LOLNEWS_KR_KO_KR</item>
-        <item>LOLNEWS_EUNE_EN_US</item>
-        <item>LOLNEWS_RU_RU_RU</item>
-        <item>LOLNEWS_EUW_DE_DE</item>
-        <item>LOLNEWS_TR_TR_TR</item>
-        <item>LOLNEWS_EUNE_CS_CZ</item>
-        <item>LOLNEWS_EUW_IT_IT</item>
-        <item>LOLNEWS_BR_PT_PT</item>
-        <item>LOLNEWS_OCE_EN_US</item>
-        <item>LOLNEWS_EUW_ES_ES</item>
-        <item>LOLNEWS_LAS_ES_ES</item>
-        <item>LOLNEWS_EUNE_PL_PL</item>
-        <item>LOLNEWS_EUNE_HU_HU</item>
+        <item>LOLNEWS_EUW_FR</item>
+        <item>LOLNEWS_EUW_EN</item>
+        <item>LOLNEWS_EUNE_RO</item>
+        <item>LOLNEWS_LAN_ES</item>
+        <item>LOLNEWS_EUNE_EL</item>
+        <item>LOLNEWS_NA_EN</item>
+        <item>LOLNEWS_KR_KO</item>
+        <item>LOLNEWS_EUNE_EN</item>
+        <item>LOLNEWS_RU_RU</item>
+        <item>LOLNEWS_EUW_DE</item>
+        <item>LOLNEWS_TR_TR</item>
+        <item>LOLNEWS_EUNE_CS</item>
+        <item>LOLNEWS_EUW_IT</item>
+        <item>LOLNEWS_BR_PT</item>
+        <item>LOLNEWS_OCE_EN</item>
+        <item>LOLNEWS_EUW_ES</item>
+        <item>LOLNEWS_LAS_ES</item>
+        <item>LOLNEWS_EUNE_PL</item>
+        <item>LOLNEWS_EUNE_HU</item>
         <item>SURRENDER</item>
     </string-array>
     <string-array name="backupable_preference_keys"/>
+    <string-array name="realm_na_languages">
+        <item>@string/locale_en_us</item>
+    </string-array>
+    <string-array name="realm_euw_languages">
+        <item>@string/locale_en_us</item>
+        <item>@string/locale_de_de</item>
+        <item>@string/locale_es_es</item>
+        <item>@string/locale_fr_fr</item>
+        <item>@string/locale_it_it</item>
+    </string-array>
+    <string-array name="realm_eune_languages">
+        <item>@string/locale_en_us</item>
+        <item>@string/locale_pl_pl</item>
+        <item>@string/locale_el_gr</item>
+        <item>@string/locale_ro_ro</item>
+        <item>@string/locale_cs_cz</item>
+        <item>@string/locale_hu_hu</item>
+    </string-array>
+    <string-array name="realm_br_languages">
+        <item>@string/locale_pt_pt</item>
+    </string-array>
+    <string-array name="realm_lan_languages">
+        <item>@string/locale_es_es</item>
+    </string-array>
+    <string-array name="realm_las_languages">
+        <item>@string/locale_es_es</item>
+    </string-array>
+    <string-array name="realm_tr_languages">
+        <item>@string/locale_tr_tr</item>
+    </string-array>
+    <string-array name="realm_ru_languages">
+        <item>@string/locale_ru_ru</item>
+    </string-array>
+    <string-array name="realm_oce_languages">
+        <item>@string/locale_en_us</item>
+    </string-array>
+    <string-array name="realm_kr_languages">
+        <item>@string/locale_ko_kr</item>
+    </string-array>
 </resources>

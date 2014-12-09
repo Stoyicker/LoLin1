@@ -27,6 +27,7 @@ import android.support.v7.app.ActionBarActivity;
 import com.crashlytics.android.Crashlytics;
 
 import org.jorge.lolin1.LoLin1Application;
+import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.backup.LoLin1BackupAgent;
 import org.jorge.lolin1.io.database.SQLiteDAO;
 import org.jorge.lolin1.io.file.FileOperations;
@@ -45,8 +46,13 @@ public class InitialActivity extends ActionBarActivity {
         requestBackupRestore();
         flushCacheIfNecessary(context);
         initDatabase(context);
+        initRealms(context);
 
         launchHomeActivity();
+    }
+
+    private void initRealms(Context context) {
+        Realm.initRealms(context);
     }
 
     private void requestBackupRestore() {

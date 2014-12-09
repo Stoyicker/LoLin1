@@ -33,4 +33,18 @@
     <string name="drawer_close">Menu closed</string>
     <string name="help_url" translatable="false">https://www.linkedin.com/in/jorgediazbenitosoriano</string>
     <string name="database_name" translatable="false">LoLin1_DB</string>
+    <string name="locale_tr_tr">tr_TR</string>
+    <string name="locale_en_us">en_US</string>
+    <string name="locale_es_es">es_ES</string>
+    <string name="locale_de_de">de_DE</string>
+    <string name="locale_fr_fr">fr_FR</string>
+    <string name="locale_it_it">it_IT</string>
+    <string name="locale_pt_pt">pt_PT</string>
+    <string name="locale_el_gr">el_GR</string>
+    <string name="locale_pl_pl">pl_PL</string>
+    <string name="locale_ro_ro">ro_RO</string>
+    <string name="locale_cs_cz">cs_CZ</string>
+    <string name="locale_hu_hu">hu_HU</string>
+    <string name="locale_ko_kr">ko_KR</string>
+    <string name="locale_ru_ru">ru_RU</string>
 </resources>
