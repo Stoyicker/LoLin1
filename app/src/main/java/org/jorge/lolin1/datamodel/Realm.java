@@ -10,13 +10,17 @@ import java.util.Locale;
 
 public class Realm {
 
+    public static Realm[] getAllRealms() {
+        return (Realm[]) singletonMap.values().toArray();
+    }
+
     public enum RealmEnum {
         NA, EUW, EUNE, BR, LAN, LAS, TR, RU, OCE, KR
     }
 
     private final String mKey;
     private final Locale[] mLocales;
-    public static final EnumMap<RealmEnum, Realm> singletonMap = new EnumMap<>(RealmEnum.class);
+    private static final EnumMap<RealmEnum, Realm> singletonMap = new EnumMap<>(RealmEnum.class);
 
     public static void initRealms(Context context) {
         RealmEnum[] enumValues = RealmEnum.values();
@@ -34,6 +38,11 @@ public class Realm {
         }
 
         return ret;
+    }
+
+    @Override
+    public String toString() {
+        return mKey;
     }
 
     private Realm(Context context, RealmEnum realmId) {

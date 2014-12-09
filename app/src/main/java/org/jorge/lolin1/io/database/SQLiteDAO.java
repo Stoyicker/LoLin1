@@ -26,11 +26,19 @@ import android.database.sqlite.SQLiteException;
 
 import org.jorge.lolin1.BuildConfig;
 import org.jorge.lolin1.R;
-import org.jorge.lolin1.io.backup.LoLin1BackupAgent;
+import org.jorge.lolin1.datamodel.Realm;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class SQLiteDAO extends RobustSQLiteOpenHelper {
 
     public static final Object DB_LOCK = new Object();
+    private static final String TABLE_KEY_TITLE = "TABLE_KEY_TITLE";
+    private static final String TABLE_KEY_URL = "TABLE_KEY_URL";
+    private static final String TABLE_KEY_DESC = "TABLE_KEY_DESC";
+    private static final String TABLE_KEY_IMG_URL = "TABLE_KEY_IMG_URL";
     private final int LOLIN1_V1_59_DB_VERSION;
     private static Context mContext;
     private static SQLiteDAO singleton;
@@ -79,9 +87,36 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         super.onCreate(db);
 
+        final Realm[] allRealms = Realm.getAllRealms();
+        final List<String> createTableCommands = new ArrayList<>();
+        final String communityTableName = "COMMUNITY", schoolTableName = "SCHOOL";
+
+        for (Realm x : allRealms) {
+            createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + x + " ( " +
+                    TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
+                    TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT ABORT, " +
+                    TABLE_KEY_DESC + " TEXT, " +
+                    TABLE_KEY_IMG_URL + " TEXT NOT NULL ON CONFLICT IGNORE " + ")").toUpperCase
+                    (Locale.ENGLISH));
+        }
+
+        createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + communityTableName + " ( " +
+                TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
+                TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT ABORT, " +
+                TABLE_KEY_DESC + " TEXT, " +
+                TABLE_KEY_IMG_URL + " TEXT NOT NULL ON CONFLICT IGNORE " + ")").toUpperCase
+                (Locale.ENGLISH));
+
+        createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + schoolTableName + " ( " +
+                TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
+                TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT ABORT, " +
+                TABLE_KEY_DESC + " TEXT, " +
+                TABLE_KEY_IMG_URL + " TEXT NOT NULL ON CONFLICT IGNORE " + ")").toUpperCase
+                (Locale.ENGLISH));
 
         synchronized (DB_LOCK) {
-            //TODO onCreate SQLiteDAO
+            for (String cmd : createTableCommands)
+                db.execSQL(cmd);
         }
     }
 }
