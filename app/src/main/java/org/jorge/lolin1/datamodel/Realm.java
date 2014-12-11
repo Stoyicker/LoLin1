@@ -15,7 +15,7 @@ public class Realm {
     }
 
     public enum RealmEnum {
-        NA, EUW, EUNE, BR, LAN, LAS, TR, RU, OCE, KR
+        NA, EUW, EUNE, BR, LAN, LAS, TR, RU, OCE
     }
 
     private final String mKey;
@@ -70,8 +70,6 @@ public class Realm {
             case RU:
                 break;
             case OCE:
-                break;
-            case KR:
                 break;
             default:
                 throw new IllegalArgumentException(realmId + " not recognized.");

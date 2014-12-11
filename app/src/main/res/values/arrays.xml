@@ -65,7 +65,4 @@
     <string-array name="realm_oce_languages">
         <item>@string/locale_en_us</item>
     </string-array>
-    <string-array name="realm_kr_languages">
-        <item>@string/locale_ko_kr</item>
-    </string-array>
 </resources>
