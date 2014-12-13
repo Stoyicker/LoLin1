@@ -56,26 +56,41 @@ public class Realm {
                         .realm_na_languages);
                 break;
             case EUW:
+                localesAsStringArray = context.getResources().getStringArray(R.array
+                        .realm_euw_languages);
                 break;
             case EUNE:
+                localesAsStringArray = context.getResources().getStringArray(R.array
+                        .realm_eune_languages);
                 break;
             case BR:
+                localesAsStringArray = context.getResources().getStringArray(R.array
+                        .realm_br_languages);
                 break;
             case LAN:
+                localesAsStringArray = context.getResources().getStringArray(R.array
+                        .realm_lan_languages);
                 break;
             case LAS:
+                localesAsStringArray = context.getResources().getStringArray(R.array
+                        .realm_las_languages);
                 break;
             case TR:
+                localesAsStringArray = context.getResources().getStringArray(R.array
+                        .realm_tr_languages);
                 break;
             case RU:
+                localesAsStringArray = context.getResources().getStringArray(R.array
+                        .realm_ru_languages);
                 break;
             case OCE:
+                localesAsStringArray = context.getResources().getStringArray(R.array
+                        .realm_oce_languages);
                 break;
             default:
                 throw new IllegalArgumentException(realmId + " not recognized.");
         }
 
-        assert localesAsStringArray != null;
         mLocales = new Locale[localesAsStringArray.length];
         for (int i = 0; i < localesAsStringArray.length; i++)
             mLocales[i] = LocaleUtils.getLocaleFromString(localesAsStringArray[i]);
