@@ -2,6 +2,7 @@ package org.jorge.lolin1.service;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.text.Html;
 
 import org.jorge.lolin1.datamodel.FeedArticle;
 import org.json.JSONArray;
@@ -31,7 +32,7 @@ public abstract class FeedHarvestService extends IntentService {
                     mostRecentContentLinkLowerCase = "".toLowerCase(); //TODO Fetch
             // mostRecentContentLinkLowerCase
             final List<FeedArticle> remainders = new ArrayList<>();
-            JSONArray array = new JSONArray(source);
+            JSONArray array = new org.json.JSONArray(source);
             for (int i = 0; i < array.length(); i++) {
                 final JSONObject obj = array.getJSONObject(i);
                 final String contentLink = obj.getString(KEY_CONTENT_URL);
@@ -39,7 +40,8 @@ public abstract class FeedHarvestService extends IntentService {
                     break;
                 else {
                     remainders.add(new FeedArticle(obj.getString(KEY_TITLE), contentLink,
-                            obj.getString(KEY_IMG_URL), obj.getString(KEY_CONTENT)));
+                            obj.getString(KEY_IMG_URL), Html.fromHtml(obj.getString(KEY_CONTENT))
+                            .toString()));
                 }
             }
             //TODO Add remainders to db's tableName

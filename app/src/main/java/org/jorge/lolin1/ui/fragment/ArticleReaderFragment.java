@@ -183,17 +183,17 @@ public class ArticleReaderFragment extends Fragment {
 
     private StickyParallaxNotifyingScrollView.OnScrollChangedListener mOnScrollChangedListener =
             new StickyParallaxNotifyingScrollView.OnScrollChangedListener() {
-        public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
-            if (mMarkAsReadFab != null)
-                if (!who.canScrollVertically(1)) {
-                    mMarkAsReadFab.show();
-                } else if (t < oldt) {
-                    mMarkAsReadFab.show();
-                } else if (t > oldt) {
-                    mMarkAsReadFab.hide();
+                public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
+                    if (mMarkAsReadFab != null)
+                        if (!who.canScrollVertically(1)) {
+                            mMarkAsReadFab.show();
+                        } else if (t < oldt) {
+                            mMarkAsReadFab.show();
+                        } else if (t > oldt) {
+                            mMarkAsReadFab.hide();
+                        }
                 }
-        }
-    };
+            };
 
     @Override
     public void onDestroy() {
