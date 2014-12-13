@@ -48,7 +48,7 @@ public class Realm {
     private Realm(Context context, RealmEnum realmId) {
         mKey = realmId.name();
 
-        String[] localesAsStringArray = null;
+        String[] localesAsStringArray;
 
         switch (realmId) {
             case NA:
