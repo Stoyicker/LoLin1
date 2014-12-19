@@ -27,6 +27,7 @@ import android.database.sqlite.SQLiteException;
 import org.jorge.lolin1.BuildConfig;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.Realm;
+import org.jorge.lolin1.io.backup.LoLin1BackupAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,6 +82,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                     db.execSQL("DROP TABLE IF EXISTS " + oldTableName);
             }
         }
+        LoLin1BackupAgent.requestBackup();
     }
 
     @Override
@@ -118,5 +120,6 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
             for (String cmd : createTableCommands)
                 db.execSQL(cmd);
         }
+        LoLin1BackupAgent.requestBackup();
     }
 }
