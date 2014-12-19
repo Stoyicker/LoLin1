@@ -30,7 +30,6 @@ import android.widget.TextView;
 
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
-import org.jorge.lolin1.ui.fragment.FeedListFragment;
 import org.jorge.lolin1.util.Interface;
 import org.jorge.lolin1.util.PicassoUtils;
 
@@ -53,16 +52,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         this.mCallback = onItemSelectedListener;
         mIsDualPane = isDualPane;
 
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
+//        items.add(new FeedArticle());
+//        items.add(new FeedArticle());
+//        items.add(new FeedArticle());
+//        items.add(new FeedArticle());
+//        items.add(new FeedArticle());
+//        items.add(new FeedArticle());
+//        items.add(new FeedArticle());
+//        items.add(new FeedArticle());
+//        items.add(new FeedArticle());
+//        items.add(new FeedArticle());
         mTag = _tag;
     }
 

@@ -32,7 +32,7 @@ public abstract class FeedHarvestService extends IntentService {
                     mostRecentContentLinkLowerCase = "".toLowerCase(); //TODO Fetch
             // mostRecentContentLinkLowerCase
             final List<FeedArticle> remainders = new ArrayList<>();
-            JSONArray array = new org.json.JSONArray(source);
+            JSONArray array = null; //TODO Fix NewApi warning in new org.json.JSONArray(source);
             for (int i = 0; i < array.length(); i++) {
                 final JSONObject obj = array.getJSONObject(i);
                 final String contentLink = obj.getString(KEY_CONTENT_URL);
