@@ -22,6 +22,7 @@ package org.jorge.lolin1.io.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.annotation.NonNull;
@@ -47,6 +48,11 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
     private final int LOLIN1_V1_59_DB_VERSION;
     private static Context mContext;
     private static SQLiteDAO singleton;
+
+    public static String getNewsTableName(Realm r, String l) {
+        return String.format(Locale.ENGLISH, mContext.getString(R.string.news_table_name_pattern)
+                , r, l).toUpperCase();
+    }
 
     private SQLiteDAO(@NonNull Context _context) {
         super(_context, _context.getString(R.string.database_name), null, BuildConfig.VERSION_CODE);
@@ -98,13 +104,16 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         final List<String> createTableCommands = new ArrayList<>();
         final String communityTableName = "COMMUNITY", schoolTableName = "SCHOOL";
 
-        for (Realm x : allRealms) {
-            createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + x.toString() + " ( " +
-                    TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
-                    TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT REPLACE, " +
-                    TABLE_KEY_DESC + " TEXT, " +
-                    TABLE_KEY_IMG_URL + " TEXT NOT NULL ON CONFLICT IGNORE " + ")").toUpperCase
-                    (Locale.ENGLISH));
+        for (Realm realm : allRealms) {
+            for (String locale : realm.getLocales())
+                createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + SQLiteDAO.getNewsTableName
+                        (realm,
+                                locale) + " ( " +
+                        TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
+                        TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT REPLACE, " +
+                        TABLE_KEY_DESC + " TEXT, " +
+                        TABLE_KEY_IMG_URL + " TEXT NOT NULL ON CONFLICT IGNORE " + ")").toUpperCase
+                        (Locale.ENGLISH));
         }
 
         createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + communityTableName + " ( " +
@@ -124,8 +133,9 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         synchronized (DB_LOCK) {
             for (String cmd : createTableCommands)
                 db.execSQL(cmd);
-            for (Realm x : allRealms)
-                RobustSQLiteOpenHelper.addTableName(x.toString());
+            for (Realm realm : allRealms)
+                for (String locale : realm.getLocales())
+                    RobustSQLiteOpenHelper.addTableName(getNewsTableName(realm, locale));
             RobustSQLiteOpenHelper.addTableName(communityTableName);
             RobustSQLiteOpenHelper.addTableName(schoolTableName);
         }
@@ -160,6 +170,36 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         ret.put(TABLE_KEY_URL, article.getUrl());
         ret.put(TABLE_KEY_DESC, article.getPreviewText());
         ret.put(TABLE_KEY_IMG_URL, article.getImageUrl());
+        return ret;
+    }
+
+    private FeedArticle mapStorableToFeedArticle(Cursor articleCursor) {
+        return new FeedArticle(articleCursor.getString(articleCursor.getColumnIndex
+                (TABLE_KEY_TITLE)),
+                articleCursor.getString(articleCursor.getColumnIndex(TABLE_KEY_URL)),
+                articleCursor.getString(articleCursor.getColumnIndex(TABLE_KEY_IMG_URL)),
+                articleCursor.getString(articleCursor.getColumnIndex(TABLE_KEY_DESC)));
+    }
+
+    public List<FeedArticle> getFeedArticlesFromTable(String tableName) {
+        List<FeedArticle> ret;
+        SQLiteDatabase db = getReadableDatabase();
+        synchronized (DB_LOCK) {
+            db.beginTransaction();
+            Cursor allStorableArticles = db.query(tableName, null, null, null, null, null, null);
+            ret = new ArrayList<>();
+            if (allStorableArticles != null && allStorableArticles.moveToFirst()) {
+                do {
+                    ret.add(mapStorableToFeedArticle(allStorableArticles));
+                } while (allStorableArticles.moveToNext());
+
+            }
+            if (allStorableArticles != null)
+                allStorableArticles.close();
+            db.setTransactionSuccessful();
+            db.endTransaction();
+        }
+
         return ret;
     }
 }

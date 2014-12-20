@@ -25,9 +25,10 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import org.jorge.lolin1.R;
+import org.jorge.lolin1.datamodel.Realm;
+import org.jorge.lolin1.io.database.SQLiteDAO;
 
 public class NewsListFragment extends FeedListFragment {
 
@@ -35,6 +36,11 @@ public class NewsListFragment extends FeedListFragment {
         Bundle args = new Bundle();
         args.putString(FeedListFragment.TAG_KEY, NewsListFragment.class.getName());
         args.putInt(FeedListFragment.ERROR_RES_ID_KEY, R.drawable.news_article_placeholder);
+        //TODO Pass the right acount data
+        Realm accRealm = Realm.getInstanceByRealmId(Realm.RealmEnum.EUW);
+        String accLocale = accRealm.getLocales()[0];
+        args.putString(FeedListFragment.TABLE_NAME_KEY, SQLiteDAO.getInstance().getNewsTableName
+                (accRealm, accLocale));
         args.putSerializable(FeedListFragment.LM_KEY, LayoutManagerEnum.GRID);
 
         return FeedListFragment.instantiate(context, NewsListFragment.class.getName(), args);

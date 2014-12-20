@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Queue;
 
 /**
@@ -239,9 +240,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                 selectedItemIcons = new ArrayList<>();
         for (int i = 0; i < itemNames.length; i++) {
             final String standardDrawableResourceName = String.format
-                    (NAVIGATION_TITLE_STANDARD_DRAWABLE_PATTERN, i),
+                    (Locale.ENGLISH, NAVIGATION_TITLE_STANDARD_DRAWABLE_PATTERN, i),
                     selectedDrawableResourceName = String.format
-                            (NAVIGATION_TITLE_SELECTED_DRAWABLE_PATTERN, i);
+                            (Locale.ENGLISH, NAVIGATION_TITLE_SELECTED_DRAWABLE_PATTERN, i);
             try {
                 final Field standardDrawableResourceField = R.drawable.class.getDeclaredField
                         (standardDrawableResourceName),

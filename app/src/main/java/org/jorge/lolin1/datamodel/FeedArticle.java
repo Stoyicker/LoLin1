@@ -51,50 +51,6 @@ public class FeedArticle implements Parcelable {
     private final String title, url, imageUrl, previewText;
     private boolean read = Boolean.FALSE;
 
-//TODO Delete this
-//    public FeedArticle() {
-//        this.title = "New free champion rotation: Akali, Quinn, Thresh and more!";
-//        this.url = "http://euw.leagueoflegends
-// .com/es/news/champions-skins/champion-update/blog-des-actualizacion-de-campeones";
-//        this.imageUrl = "http://euw.leagueoflegends
-// .com/sites/default/files/styles/wide_small/public/upload/viktor_0_base1_1920.jpg?itok=vdCKicyL";
-//        this.previewText = "A pair of ne’erdowells are putting the squeeze on League of Legends
-// . In the dead of night, they broke into the store and stole Hippalus’ most prized possessions
-// (he really loves his socks). The two best detectives in the history of detecting are on the
-// case but, to prevent further chaos, we’re giving in to their demands. These are dark days in
-// League… kind of." +
-//                "A pair of ne’erdowells are putting the squeeze on League of Legends. In the
-// dead of night, they broke into the store and stole Hippalus’ most prized possessions (he
-// really loves his socks). The two best detectives in the history of detecting are on the case
-// but, to prevent further chaos, we’re giving in to their demands. These are dark days in
-// League… kind of." +
-//                "A pair of ne’erdowells are putting the squeeze on League of Legends. In the
-// dead of night, they broke into the store and stole Hippalus’ most prized possessions (he
-// really loves his socks). The two best detectives in the history of detecting are on the case
-// but, to prevent further chaos, we’re giving in to their demands. These are dark days in
-// League… kind of." +
-//                "A pair of ne’erdowells are putting the squeeze on League of Legends. In the
-// dead of night, they broke into the store and stole Hippalus’ most prized possessions (he
-// really loves his socks). The two best detectives in the history of detecting are on the case
-// but, to prevent further chaos, we’re giving in to their demands. These are dark days in
-// League… kind of." +
-//                "A pair of ne’erdowells are putting the squeeze on League of Legends. In the
-// dead of night, they broke into the store and stole Hippalus’ most prized possessions (he
-// really loves his socks). The two best detectives in the history of detecting are on the case
-// but, to prevent further chaos, we’re giving in to their demands. These are dark days in
-// League… kind of." +
-//                "A pair of ne’erdowells are putting the squeeze on League of Legends. In the
-// dead of night, they broke into the store and stole Hippalus’ most prized possessions (he
-// really loves his socks). The two best detectives in the history of detecting are on the case
-// but, to prevent further chaos, we’re giving in to their demands. These are dark days in
-// League… kind of." +
-//                "A pair of ne’erdowells are putting the squeeze on League of Legends. In the
-// dead of night, they broke into the store and stole Hippalus’ most prized possessions (he
-// really loves his socks). The two best detectives in the history of detecting are on the case
-// but, to prevent further chaos, we’re giving in to their demands. These are dark days in
-// League… kind of.";
-//    }
-
     public FeedArticle(@NonNull String _title, @NonNull String _url, @NonNull String _imageUrl,
                        @NonNull String _previewText) {
         this.title = _title;

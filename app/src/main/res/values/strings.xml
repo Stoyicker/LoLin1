@@ -46,4 +46,5 @@
     <string name="locale_cs_cz" translatable="false">cs_CZ</string>
     <string name="locale_hu_hu" translatable="false">hu_HU</string>
     <string name="locale_ru_ru" translatable="false">ru_RU</string>
+    <string name="news_table_name_pattern" translatable="false">NEWS_%s_%s</string>
 </resources>
