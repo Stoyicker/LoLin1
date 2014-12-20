@@ -62,6 +62,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         new AsyncTask<String, Void, Void>() {
             @Override
             protected Void doInBackground(String... tableNames) {
+                items.clear();
                 items.addAll(SQLiteDAO.getInstance().getFeedArticlesFromTable(tableNames[0]));
                 return null;
             }
