@@ -35,9 +35,7 @@ abstract class FeedHarvestService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         try {
             final URL source = new URL(intent.getStringExtra(EXTRA_SOURCE_URL));
-            final String tableName = intent.getStringExtra(EXTRA_TABLE_NAME),
-                    mostRecentContentLinkLowerCase = "".toLowerCase(); //TODO Fetch
-            // mostRecentContentLinkLowerCase
+            final String tableName = intent.getStringExtra(EXTRA_TABLE_NAME);
             final List<FeedArticle> remainders = new ArrayList<>();
             Response resp;
             JSONArray array;
@@ -53,13 +51,9 @@ abstract class FeedHarvestService extends IntentService {
             for (int i = 0; i < array.length(); i++) {
                 final JSONObject obj = array.getJSONObject(i);
                 final String contentLink = obj.getString(KEY_CONTENT_URL);
-                if (contentLink.toLowerCase().contentEquals(mostRecentContentLinkLowerCase))
-                    break;
-                else {
-                    remainders.add(new FeedArticle(obj.getString(KEY_TITLE), contentLink,
-                            obj.getString(KEY_IMG_URL), Html.fromHtml(obj.getString(KEY_CONTENT))
-                            .toString()));
-                }
+                remainders.add(new FeedArticle(obj.getString(KEY_TITLE), contentLink,
+                        obj.getString(KEY_IMG_URL), Html.fromHtml(obj.getString(KEY_CONTENT))
+                        .toString()));
             }
             SQLiteDAO.getInstance().insertArticlesIntoTable(remainders, tableName);
         } catch (MalformedURLException e) {

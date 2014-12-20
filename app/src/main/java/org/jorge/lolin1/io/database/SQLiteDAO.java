@@ -59,6 +59,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         if (singleton == null) {
             singleton = new SQLiteDAO(_context);
             mContext = _context;
+            getInstance().getWritableDatabase(); //Force database creation
         }
     }
 
@@ -98,9 +99,9 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         final String communityTableName = "COMMUNITY", schoolTableName = "SCHOOL";
 
         for (Realm x : allRealms) {
-            createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + x + " ( " +
+            createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + x.toString() + " ( " +
                     TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
-                    TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT ABORT, " +
+                    TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT REPLACE, " +
                     TABLE_KEY_DESC + " TEXT, " +
                     TABLE_KEY_IMG_URL + " TEXT NOT NULL ON CONFLICT IGNORE " + ")").toUpperCase
                     (Locale.ENGLISH));
@@ -108,14 +109,14 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
 
         createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + communityTableName + " ( " +
                 TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
-                TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT ABORT, " +
+                TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT REPLACE, " +
                 TABLE_KEY_DESC + " TEXT, " +
                 TABLE_KEY_IMG_URL + " TEXT NOT NULL ON CONFLICT IGNORE " + ")").toUpperCase
                 (Locale.ENGLISH));
 
         createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + schoolTableName + " ( " +
                 TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
-                TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT ABORT, " +
+                TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT REPLACE, " +
                 TABLE_KEY_DESC + " TEXT, " +
                 TABLE_KEY_IMG_URL + " TEXT NOT NULL ON CONFLICT IGNORE " + ")").toUpperCase
                 (Locale.ENGLISH));
@@ -123,6 +124,10 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         synchronized (DB_LOCK) {
             for (String cmd : createTableCommands)
                 db.execSQL(cmd);
+            for (Realm x : allRealms)
+                RobustSQLiteOpenHelper.addTableName(x.toString());
+            RobustSQLiteOpenHelper.addTableName(communityTableName);
+            RobustSQLiteOpenHelper.addTableName(schoolTableName);
         }
         LoLin1BackupAgent.requestBackup();
     }
