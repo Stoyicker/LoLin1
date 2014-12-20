@@ -18,8 +18,6 @@
   -->
 
 <resources>
-    <color name="material_green_500">#4CAF50</color>
-    <color name="material_green_800">#2E7D32</color>
     <color name="material_blue_500">#3F51B5</color>
     <color name="material_blue_800">#0277BD</color>
 
@@ -27,12 +25,6 @@
     <color name="feed_article_on_list_title_shadow">@color/material_blue_500</color>
     <color name="empty_list_background_color">@color/material_blue_500</color>
     <color name="feed_article_on_list_title_background">#99000000</color>
-    <color name="share_floating_action_button_background_state_normal">
-        @color/material_green_500
-    </color>
-    <color name="share_floating_action_button_background_state_pressed">
-        @color/material_green_800
-    </color>
     <color name="mark_as_read_floating_action_button_background_state_normal">
         @color/material_blue_500
     </color>
@@ -42,21 +34,13 @@
     </color>
 
     <color name="ripple_light">@android:color/black</color>
-    <color name="ripple_dark">@android:color/white</color>
     <color name="feed_article_title">@android:color/white</color>
     <color name="feed_article_preview">@android:color/black</color>
     <color name="feed_article_preview_shadow">@android:color/white</color>
-    <color name="app_background">@android:color/background_light</color>
 
     <!-- Navigation Drawer colors -->
 
-    <color name="navigation_drawer_primary">@color/material_blue_500</color>
-    <color name="navigation_drawer_primary_dark">@color/material_blue_500</color>
-    <color name="navigation_drawer_accent">@color/material_blue_500</color>
     <color name="navigation_drawer_background">@android:color/black</color>
-    <color name="navigation_drawer_window_background">#DEDEDE</color>
-    <color name="navigation_drawer_text_primary">@android:color/white</color>
-    <color name="navigation_drawer_navigation">@android:color/black</color>
     <color name="navigation_drawer_entry_background_selected">#0F0F0F</color>
     <color name="navigation_drawer_entry_text_selected">@color/material_blue_800</color>
     <color name="navigation_drawer_entry_text_unselected">@android:color/white</color>
@@ -65,7 +49,6 @@
     <!-- Toolbar colors -->
 
     <color name="toolbar_title">@android:color/white</color>
-    <color name="contextual_toolbar_title">@android:color/white</color>
     <color name="toolbar_background">@color/material_blue_500</color>
     <color name="navigation_drawer_user_data">@android:color/white</color>
 </resources>

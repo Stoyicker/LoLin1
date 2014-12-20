@@ -17,6 +17,5 @@
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
 <resources>
-    <integer name="action_bar_extra_bottom_article_reader">20</integer>
     <integer name="feed_column_amount">2</integer>
 </resources>

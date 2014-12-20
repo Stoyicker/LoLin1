@@ -42,11 +42,6 @@
         <item name="android:shadowRadius">3</item>
     </style>
 
-    <style name="CabTitle">
-        <item name="android:textColor">@color/contextual_toolbar_title</item>
-        <item name="android:textSize">@dimen/cab_title</item>
-    </style>
-
     <style name="FeedArticleTitle">
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/feed_article_title</item>

@@ -79,7 +79,9 @@
             android:name=".service.NewsFeedHarvestService"
             android:exported="false"/>
 
-        <receiver android:name=".receiver.FeedScheduleBroadcastReceiver">
+        <receiver
+            android:name=".receiver.FeedScheduleBroadcastReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="org.jorge.lolin1.feed_harvest_schedule_filter"/>
             </intent-filter>

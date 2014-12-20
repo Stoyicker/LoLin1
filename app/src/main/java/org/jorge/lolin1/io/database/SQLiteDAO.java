@@ -51,7 +51,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
 
     public static String getNewsTableName(Realm r, String l) {
         return String.format(Locale.ENGLISH, mContext.getString(R.string.news_table_name_pattern)
-                , r, l).toUpperCase();
+                , r, l).toUpperCase(Locale.ENGLISH);
     }
 
     private SQLiteDAO(@NonNull Context _context) {

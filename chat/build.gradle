@@ -5,6 +5,9 @@ repositories {
 }
 
 android {
+    dexOptions {
+        preDexLibraries = false
+    }
     compileSdkVersion 15
     buildToolsVersion "21.1.2"
 
