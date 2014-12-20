@@ -19,6 +19,7 @@ package org.jorge.lolin1.io.database;
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
@@ -30,6 +31,7 @@ import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.backup.LoLin1BackupAgent;
+import org.jorge.lolin1.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +129,32 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
 
     public void insertArticlesIntoTable(@NonNull List<FeedArticle> articles,
                                         @NonNull String tableName) {
-        //TODO insertArticlesIntoTable
+        if (Utils.isMainThread()) {
+            throw new IllegalStateException("Attempted call to insertArticlesIntoTable on main " +
+                    "thread!");
+        }
+
+        SQLiteDatabase db = getWritableDatabase();
+        List<ContentValues> storableArticles = new ArrayList<>();
+        for (FeedArticle article : articles)
+            storableArticles.add(mapFeedArticleToStorable(article));
+
+        synchronized (DB_LOCK) {
+            db.beginTransaction();
+            for (ContentValues storableArticle : storableArticles)
+                db.insert(tableName, null, storableArticle);
+            db.setTransactionSuccessful();
+            db.endTransaction();
+            LoLin1BackupAgent.requestBackup();
+        }
+    }
+
+    private ContentValues mapFeedArticleToStorable(FeedArticle article) {
+        ContentValues ret = new ContentValues();
+        ret.put(TABLE_KEY_TITLE, article.getTitle());
+        ret.put(TABLE_KEY_URL, article.getUrl());
+        ret.put(TABLE_KEY_DESC, article.getPreviewText());
+        ret.put(TABLE_KEY_IMG_URL, article.getImageUrl());
+        return ret;
     }
 }
