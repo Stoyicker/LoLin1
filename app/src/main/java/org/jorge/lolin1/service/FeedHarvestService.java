@@ -8,6 +8,7 @@ import com.squareup.okhttp.Response;
 
 import org.apache.http.HttpStatus;
 import org.jorge.lolin1.datamodel.FeedArticle;
+import org.jorge.lolin1.io.database.SQLiteDAO;
 import org.jorge.lolin1.io.net.NetworkOperations;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,7 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class FeedHarvestService extends IntentService {
+abstract class FeedHarvestService extends IntentService {
 
     protected static final String EXTRA_SOURCE_URL = "SOURCE_URL", EXTRA_TABLE_NAME = "TABLE_NAME";
     private static final String KEY_IMG_URL = "KEY_IMG_URL", KEY_CONTENT_URL = "KEY_CONTENT_URL",
@@ -60,7 +61,7 @@ public abstract class FeedHarvestService extends IntentService {
                             .toString()));
                 }
             }
-            //TODO Add remainders to db's tableName
+            SQLiteDAO.getInstance().insertArticlesIntoTable(remainders, tableName);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Source url " + intent.getStringExtra
                     (EXTRA_SOURCE_URL) + " is malformed.");

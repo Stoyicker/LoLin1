@@ -26,7 +26,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import java.util.LinkedList;
 import java.util.List;
 
-public abstract class RobustSQLiteOpenHelper extends SQLiteOpenHelper {
+abstract class RobustSQLiteOpenHelper extends SQLiteOpenHelper {
     private static List<String> mTableNames = new LinkedList<>();
 
     public RobustSQLiteOpenHelper(Context context, String name,

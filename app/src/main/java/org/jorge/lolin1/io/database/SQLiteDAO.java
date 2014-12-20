@@ -23,9 +23,11 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.support.annotation.NonNull;
 
 import org.jorge.lolin1.BuildConfig;
 import org.jorge.lolin1.R;
+import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.backup.LoLin1BackupAgent;
 
@@ -44,14 +46,14 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
     private static Context mContext;
     private static SQLiteDAO singleton;
 
-    private SQLiteDAO(Context _context) {
+    private SQLiteDAO(@NonNull Context _context) {
         super(_context, _context.getString(R.string.database_name), null, BuildConfig.VERSION_CODE);
         mContext = _context;
         LOLIN1_V1_59_DB_VERSION = mContext.getResources().getInteger(R.integer
                 .lolin1_v1_v59_db_version);
     }
 
-    public synchronized static void setup(Context _context) {
+    public synchronized static void setup(@NonNull Context _context) {
         if (singleton == null) {
             singleton = new SQLiteDAO(_context);
             mContext = _context;
@@ -121,5 +123,10 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                 db.execSQL(cmd);
         }
         LoLin1BackupAgent.requestBackup();
+    }
+
+    public void insertArticlesIntoTable(@NonNull List<FeedArticle> articles,
+                                        @NonNull String tableName) {
+        //TODO insertArticlesIntoTable
     }
 }
