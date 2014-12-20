@@ -21,6 +21,7 @@ package org.jorge.lolin1.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,12 +31,13 @@ import android.widget.TextView;
 
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
-import org.jorge.lolin1.ui.fragment.FeedListFragment;
+import org.jorge.lolin1.io.database.SQLiteDAO;
 import org.jorge.lolin1.util.Interface;
 import org.jorge.lolin1.util.PicassoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
@@ -44,26 +46,33 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private int mDefaultImageId;
     private final Interface.IOnItemInteractionListener mCallback;
     private final Object mTag;
-    private final Boolean mIsDualPane;
+    private final String mTableName;
 
     public FeedAdapter(Context context, Interface.IOnItemInteractionListener
-            onItemSelectedListener, Integer defaultImageId, Boolean isDualPane, Object _tag) {
+            onItemSelectedListener, Integer defaultImageId, Object _tag, String tableName) {
         this.mContext = context;
         this.mDefaultImageId = defaultImageId;
         this.mCallback = onItemSelectedListener;
-        mIsDualPane = isDualPane;
-
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
-        items.add(new FeedArticle());
         mTag = _tag;
+        mTableName = tableName;
+        requestDataLoad();
+    }
+
+    public void requestDataLoad() {
+        new AsyncTask<String, Void, Void>() {
+            @Override
+            protected Void doInBackground(String... tableNames) {
+                items.clear();
+                items.addAll(SQLiteDAO.getInstance().getFeedArticlesFromTable(tableNames[0]));
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                notifyDataSetChanged();
+            }
+        }.executeOnExecutor(Executors.newSingleThreadExecutor(), mTableName);
     }
 
     @Override
@@ -75,17 +84,18 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mCallback.onItemClick(items.get(i));
-                }
-            });
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.onItemClick(items.get(i));
+            }
+        });
+        viewHolder.imageView.setImageDrawable(null);
         FeedArticle item = items.get(i);
         if (!item.isRead()) {
             viewHolder.titleView.setTextSize(mContext.getResources().getInteger(R.integer
                     .feed_article_on_list_title_unread));
-            viewHolder.titleView.setTypeface(null, Typeface.BOLD_ITALIC);
+            viewHolder.titleView.setTypeface(null, Typeface.BOLD);
         } else {
             viewHolder.titleView.setTextSize(mContext.getResources().getInteger(R.integer
                     .feed_article_on_list_title_read));
@@ -117,13 +127,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             super(itemView);
             titleView = (TextView) itemView.findViewById(android.R.id.title);
             imageView = (ImageView) itemView.findViewById(android.R.id.icon);
-        }
-    }
-
-    private void markAsRead(int i) {
-        if (i >= 0 && i < items.size()) {
-            items.get(i).markAsRead();
-            notifyItemChanged(i);
         }
     }
 }

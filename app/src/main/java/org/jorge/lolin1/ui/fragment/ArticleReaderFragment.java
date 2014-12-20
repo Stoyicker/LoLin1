@@ -23,6 +23,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -43,8 +44,12 @@ import com.melnykov.fab.FloatingActionButton;
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
+import org.jorge.lolin1.datamodel.Realm;
+import org.jorge.lolin1.io.database.SQLiteDAO;
 import org.jorge.lolin1.ui.util.StickyParallaxNotifyingScrollView;
 import org.jorge.lolin1.util.PicassoUtils;
+
+import java.util.concurrent.Executors;
 
 public class ArticleReaderFragment extends Fragment {
 
@@ -171,29 +176,55 @@ public class ArticleReaderFragment extends Fragment {
             mMarkAsReadFab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mArticle.markAsRead();
-                    mMarkAsReadFab.hide();
+                    markArticleAsRead(mArticle);
+                    if (mMarkAsReadFab.isShown())
+                        mMarkAsReadFab.hide();
+                }
+
+                private void markArticleAsRead(FeedArticle article) {
+                    //TODO Pass the right data
+                    final Realm r = Realm.getInstanceByRealmId(Realm.RealmEnum.EUW);
+                    final String l = r.getLocales()[0];
+                    new AsyncTask<Object, Void, Void>() {
+                        @Override
+                        protected Void doInBackground(Object... params) {
+                            SQLiteDAO.getInstance().markArticleAsRead((FeedArticle) params[0],
+                                    SQLiteDAO.getNewsTableName((Realm) params[1],
+                                            (String) params[2]));
+                            return null;
+                        }
+                    }.executeOnExecutor(Executors.newSingleThreadExecutor(), article, r, l);
+                    article.markAsRead();
                 }
             });
 
-            mMarkAsReadFab.show();
+            mMarkAsReadFab.hide();
+            mMarkAsReadFab.setVisibility(View.VISIBLE);
+
+            showMarkAsReadFabIfItProceeds();
         }
         return ret;
     }
 
+    private void showMarkAsReadFabIfItProceeds() {
+        if (!mArticle.isRead() && !mMarkAsReadFab.isShown())
+            mMarkAsReadFab.show();
+    }
+
     private StickyParallaxNotifyingScrollView.OnScrollChangedListener mOnScrollChangedListener =
             new StickyParallaxNotifyingScrollView.OnScrollChangedListener() {
-        public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
-            if (mMarkAsReadFab != null)
-                if (!who.canScrollVertically(1)) {
-                    mMarkAsReadFab.show();
-                } else if (t < oldt) {
-                    mMarkAsReadFab.show();
-                } else if (t > oldt) {
-                    mMarkAsReadFab.hide();
+                public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
+                    if (mMarkAsReadFab != null)
+                        if (!who.canScrollVertically(1)) {
+                            showMarkAsReadFabIfItProceeds();
+                        } else if (t < oldt) {
+                            showMarkAsReadFabIfItProceeds();
+                        } else if (t > oldt) {
+                            if (mMarkAsReadFab.isShown())
+                                mMarkAsReadFab.hide();
+                        }
                 }
-        }
-    };
+            };
 
     @Override
     public void onDestroy() {

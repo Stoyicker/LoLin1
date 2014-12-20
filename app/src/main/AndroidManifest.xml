@@ -37,7 +37,8 @@
         <activity
             android:name=".ui.activity.InitialActivity"
             android:theme="@style/AppTheme.Transparent"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="locked">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -73,5 +74,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activity.MainActivity"/>
         </activity>
+
+        <service
+            android:name=".service.NewsFeedHarvestService"
+            android:exported="false"/>
+
+        <receiver
+            android:name=".receiver.FeedScheduleBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="org.jorge.lolin1.feed_harvest_schedule_filter"/>
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

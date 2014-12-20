@@ -46,6 +46,7 @@ public class NavigationDrawerAdapter extends RecyclerView.Adapter<NavigationDraw
     @Override
     public void onBindViewHolder(NavigationDrawerAdapter.ViewHolder viewHolder, final int i) {
         viewHolder.textView.setText(mData.get(i).getText());
+        viewHolder.textView.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
 
         viewHolder.itemView.setOnTouchListener(new View.OnTouchListener() {
                                                    @Override

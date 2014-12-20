@@ -26,7 +26,7 @@ public class SettingsActivity extends ActionBarActivity {
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
-        actionBar.setTitle(context.getResources().getString(R.string
+        actionBar.setTitle(context.getString(R.string
                 .nav_drawer_aux_entry_settings));
 
         getFragmentManager().beginTransaction().replace(R.id.settings_container,

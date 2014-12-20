@@ -1,9 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <!-- I know that I'm using different layouts, and it's fine-->
-    <issue id="InconsistentLayout" severity="ignore" />
+    <issue id="InconsistentLayout" severity="ignore"/>
     <!-- DNSJava has its problems -->
-    <issue id="InvalidPackage" severity="ignore" />
+    <issue id="InvalidPackage" severity="ignore"/>
     <!-- Some icons are density-independent-->
-    <issue id="IconLocation" severity="ignore" />
+    <issue id="IconLocation" severity="ignore"/>
+    <!-- False alarms -->
+    <issue id="Overdraw">
+        <ignore path="src/main/res/layout/activity_settings.xml"/>
+        <ignore path="src/main/res/layout/fragment_navigation_drawer.xml"/>
+        <ignore path="src/main/res/layout/include_layout_toolbar_default.xml"/>
+    </issue>
+    <issue id="ClickableViewAccessibility">
+        <ignore path="src/main/java/org/jorge/lolin1/ui/adapter/NavigationDrawerAdapter.java"/>
+    </issue>
+    <issue id="IconDipSize">
+        <ignore path="src/main/res/drawable-xxxhdpi/ic_launcher.png"/>
+        <ignore path="src/main/res/drawable-xxhdpi/ic_launcher.png"/>
+        <ignore path="src/main/res/drawable-xhdpi/ic_launcher.png"/>
+        <ignore path="src/main/res/drawable-hdpi/ic_launcher.png"/>
+        <ignore path="src/main/res/drawable-mdpi/ic_launcher.png"/>
+    </issue>
+    <issue id="UnusedResources">
+        <ignore path="src/main/res/drawable-xxxhdpi/drawable_section0_selected.png"/>
+        <ignore path="src/main/res/drawable-xxhdpi/drawable_section0_selected.png"/>
+        <ignore path="src/main/res/drawable-xhdpi/drawable_section0_selected.png"/>
+        <ignore path="src/main/res/drawable-hdpi/drawable_section0_selected.png"/>
+        <ignore path="src/main/res/drawable-mdpi/drawable_section0_selected.png"/>
+        <ignore path="src/main/res/drawable-xxxhdpi/drawable_section1_selected.png"/>
+        <ignore path="src/main/res/drawable-xxhdpi/drawable_section1_selected.png"/>
+        <ignore path="src/main/res/drawable-xhdpi/drawable_section1_selected.png"/>
+        <ignore path="src/main/res/drawable-hdpi/drawable_section1_selected.png"/>
+        <ignore path="src/main/res/drawable-mdpi/drawable_section1_selected.png"/>
+        <ignore path="src/main/res/drawable-xxxhdpi/drawable_section2_selected.png"/>
+        <ignore path="src/main/res/drawable-xxhdpi/drawable_section2_selected.png"/>
+        <ignore path="src/main/res/drawable-xhdpi/drawable_section2_selected.png"/>
+        <ignore path="src/main/res/drawable-hdpi/drawable_section2_selected.png"/>
+        <ignore path="src/main/res/drawable-mdpi/drawable_section2_selected.png"/>
+        <ignore path="src/main/res/drawable-xxxhdpi/drawable_section3_selected.png"/>
+        <ignore path="src/main/res/drawable-xxhdpi/drawable_section3_selected.png"/>
+        <ignore path="src/main/res/drawable-xhdpi/drawable_section3_selected.png"/>
+        <ignore path="src/main/res/drawable-hdpi/drawable_section3_selected.png"/>
+        <ignore path="src/main/res/drawable-mdpi/drawable_section3_selected.png"/>
+        <ignore path="src/main/res/drawable-xxxhdpi/drawable_section0.png"/>
+        <ignore path="src/main/res/drawable-xxhdpi/drawable_section0.png"/>
+        <ignore path="src/main/res/drawable-xhdpi/drawable_section0.png"/>
+        <ignore path="src/main/res/drawable-hdpi/drawable_section0.png"/>
+        <ignore path="src/main/res/drawable-mdpi/drawable_section0.png"/>
+        <ignore path="src/main/res/drawable-xxxhdpi/drawable_section1.png"/>
+        <ignore path="src/main/res/drawable-xxhdpi/drawable_section1.png"/>
+        <ignore path="src/main/res/drawable-xhdpi/drawable_section1.png"/>
+        <ignore path="src/main/res/drawable-hdpi/drawable_section1.png"/>
+        <ignore path="src/main/res/drawable-mdpi/drawable_section1.png"/>
+        <ignore path="src/main/res/drawable-xxxhdpi/drawable_section2.png"/>
+        <ignore path="src/main/res/drawable-xxhdpi/drawable_section2.png"/>
+        <ignore path="src/main/res/drawable-xhdpi/drawable_section2.png"/>
+        <ignore path="src/main/res/drawable-hdpi/drawable_section2.png"/>
+        <ignore path="src/main/res/drawable-mdpi/drawable_section2.png"/>
+        <ignore path="src/main/res/drawable-xxxhdpi/drawable_section3.png"/>
+        <ignore path="src/main/res/drawable-xxhdpi/drawable_section3.png"/>
+        <ignore path="src/main/res/drawable-xhdpi/drawable_section3.png"/>
+        <ignore path="src/main/res/drawable-hdpi/drawable_section3.png"/>
+        <ignore path="src/main/res/drawable-mdpi/drawable_section3.png"/>
+    </issue>
 </lint>

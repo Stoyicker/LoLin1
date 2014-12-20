@@ -68,7 +68,8 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
     private FeedAdapter mFeedAdapter;
     private View mEmptyView;
     private String TAG;
-    protected static final String TAG_KEY = "TAG", LM_KEY = "LAYOUT_MANAGER";
+    protected static final String TAG_KEY = "TAG", LM_KEY = "LAYOUT_MANAGER",
+            TABLE_NAME_KEY = "TABLE_NAME";
     public static final String ERROR_RES_ID_KEY = "ERROR";
     private int mDefaultImageId;
     protected ActionBarActivity mActivity;
@@ -123,13 +124,13 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
                         @Override
                         protected void onPreExecute() {
                             super.onPreExecute();
-                            mFeedAdapter.notifyDataSetChanged();
                         }
 
                         @Override
                         protected Void doInBackground(Void... params) {
                             try {
                                 Thread.sleep(FEED_REFRESH_TIME_MILLIS);
+                                mFeedAdapter.requestDataLoad();
                             } catch (InterruptedException e) {
                                 Crashlytics.logException(e);
                             }
@@ -146,6 +147,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
                     }.executeOnExecutor(Executors.newSingleThreadExecutor());
                 }
             };
+    private String mTableName;
 
     protected enum LayoutManagerEnum {
         STAGGEREDGRID,
@@ -165,6 +167,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
             TAG = args.getString(TAG_KEY);
             mLMIndicator = (LayoutManagerEnum) args.getSerializable(LM_KEY);
             mDefaultImageId = args.getInt(ERROR_RES_ID_KEY);
+            mTableName = args.getString(TABLE_NAME_KEY);
         }
         mActivity = (ActionBarActivity) activity;
         mCallback = (Interface.IOnFeedArticleClickedListener) activity;
@@ -219,9 +222,9 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
         }
         if (actionBarHeight == -1)
             throw new IllegalStateException("Couldn't get the ActionBar height attribute");
-        final Integer progressBarStartMargin = getResources().getDimensionPixelSize(
+        final Integer progressBarStartMargin = mContext.getResources().getDimensionPixelSize(
                 R.dimen.swipe_refresh_progress_bar_start_margin),
-                progressBarEndMargin = getResources().getDimensionPixelSize(
+                progressBarEndMargin = mContext.getResources().getDimensionPixelSize(
                         R.dimen.swipe_refresh_progress_bar_end_margin);
         mRefreshLayout.setProgressViewOffset(Boolean.FALSE,
                 actionBarHeight + progressBarStartMargin, actionBarHeight + progressBarEndMargin);
@@ -247,7 +250,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
         mEmptyView = ret.findViewById(android.R.id.empty);
         mFeedAdapter =
                 new FeedAdapter(
-                        mContext, this, mDefaultImageId, mIsDualPane, TAG);
+                        mContext, this, mDefaultImageId, TAG, mTableName);
         if (mIsDualPane) {
             reCalculateDualPaneDimensions();
         } else {
@@ -281,6 +284,12 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
         }
 
         return ret;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mFeedAdapter.requestDataLoad();
     }
 
     private void reCalculateDualPaneDimensions() {

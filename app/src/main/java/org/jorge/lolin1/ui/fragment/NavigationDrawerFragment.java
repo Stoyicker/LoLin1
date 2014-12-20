@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Queue;
 
 /**
@@ -119,7 +120,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                     @Override
                     public void run() {
                         Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                                Uri.parse(getResources().getString(R.string.help_url)));
+                                Uri.parse(mContext.getString(R.string.help_url)));
                         startActivity(browserIntent);
                     }
                 });
@@ -229,19 +230,19 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
 
     public List<NavigationItem> readMenuItems() {
         List<NavigationItem> items = new ArrayList<>();
-        Resources resources = getResources();
-        final String NAVIGATION_TITLE_STANDARD_DRAWABLE_PATTERN = resources.getString(R.string
+        Resources resources = mContext.getResources();
+        final String NAVIGATION_TITLE_STANDARD_DRAWABLE_PATTERN = mContext.getString(R.string
                 .navigation_title_standard_resource_pattern),
-                NAVIGATION_TITLE_SELECTED_DRAWABLE_PATTERN = resources.getString(R.string
+                NAVIGATION_TITLE_SELECTED_DRAWABLE_PATTERN = mContext.getString(R.string
                         .navigation_title_selected_resource_pattern);
         final String[] itemNames = resources.getStringArray(R.array.navigation_drawer_items);
         final List<Drawable> standardItemIcons = new ArrayList<>(),
                 selectedItemIcons = new ArrayList<>();
         for (int i = 0; i < itemNames.length; i++) {
             final String standardDrawableResourceName = String.format
-                    (NAVIGATION_TITLE_STANDARD_DRAWABLE_PATTERN, i),
+                    (Locale.ENGLISH, NAVIGATION_TITLE_STANDARD_DRAWABLE_PATTERN, i),
                     selectedDrawableResourceName = String.format
-                            (NAVIGATION_TITLE_SELECTED_DRAWABLE_PATTERN, i);
+                            (Locale.ENGLISH, NAVIGATION_TITLE_SELECTED_DRAWABLE_PATTERN, i);
             try {
                 final Field standardDrawableResourceField = R.drawable.class.getDeclaredField
                         (standardDrawableResourceName),

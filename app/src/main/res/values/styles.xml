@@ -34,17 +34,17 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <style name="FeedArticleOnListTitleRead">
+    <style name="FeedArticleOnListTitleUnread">
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/feed_article_on_list_title</item>
         <item name="android:shadowColor">@color/feed_article_on_list_title_shadow</item>
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">0</item>
-        <item name="android:shadowRadius">3</item>
+        <item name="android:shadowRadius">2</item>
     </style>
 
-    <style name="CabTitle">
-        <item name="android:textColor">@color/contextual_toolbar_title</item>
-        <item name="android:textSize">@dimen/cab_title</item>
+    <style name="FeedArticleOnListTitleRead" parent="@style/FeedArticleOnListTitleUnread">
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="FeedArticleTitle">

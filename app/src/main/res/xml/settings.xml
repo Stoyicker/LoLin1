@@ -16,5 +16,9 @@
  <p/>
  Created by Jorge Antonio Diaz-Benito Soriano on 06/01/14.
  -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<!--
+TODO When preferences are added, add them to values/arrays.xml backupable_preference_keys if they
+should be backed up
+-->
+<PreferenceScreen>
 </PreferenceScreen>

@@ -23,7 +23,7 @@ public class CustomTitleToolbar extends Toolbar {
 
     @Override
     public void setTitle(int resId) {
-        ((TextView) findViewById(R.id.toolbar_title)).setText(super.getContext().getResources().getString(resId));
+        ((TextView) findViewById(R.id.toolbar_title)).setText(getContext().getResources().getString(resId));
     }
 
     @Override
