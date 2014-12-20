@@ -247,7 +247,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
         mEmptyView = ret.findViewById(android.R.id.empty);
         mFeedAdapter =
                 new FeedAdapter(
-                        mContext, this, mDefaultImageId, mIsDualPane, TAG);
+                        mContext, this, mDefaultImageId, TAG);
         if (mIsDualPane) {
             reCalculateDualPaneDimensions();
         } else {

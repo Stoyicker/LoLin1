@@ -43,25 +43,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private int mDefaultImageId;
     private final Interface.IOnItemInteractionListener mCallback;
     private final Object mTag;
-    private final Boolean mIsDualPane;
 
     public FeedAdapter(Context context, Interface.IOnItemInteractionListener
-            onItemSelectedListener, Integer defaultImageId, Boolean isDualPane, Object _tag) {
+            onItemSelectedListener, Integer defaultImageId, Object _tag) {
         this.mContext = context;
         this.mDefaultImageId = defaultImageId;
         this.mCallback = onItemSelectedListener;
-        mIsDualPane = isDualPane;
-
-//        items.add(new FeedArticle());
-//        items.add(new FeedArticle());
-//        items.add(new FeedArticle());
-//        items.add(new FeedArticle());
-//        items.add(new FeedArticle());
-//        items.add(new FeedArticle());
-//        items.add(new FeedArticle());
-//        items.add(new FeedArticle());
-//        items.add(new FeedArticle());
-//        items.add(new FeedArticle());
         mTag = _tag;
     }
 
@@ -74,12 +61,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mCallback.onItemClick(items.get(i));
-                }
-            });
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.onItemClick(items.get(i));
+            }
+        });
         FeedArticle item = items.get(i);
         if (!item.isRead()) {
             viewHolder.titleView.setTextSize(mContext.getResources().getInteger(R.integer
@@ -116,13 +103,6 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
             super(itemView);
             titleView = (TextView) itemView.findViewById(android.R.id.title);
             imageView = (ImageView) itemView.findViewById(android.R.id.icon);
-        }
-    }
-
-    private void markAsRead(int i) {
-        if (i >= 0 && i < items.size()) {
-            items.get(i).markAsRead();
-            notifyItemChanged(i);
         }
     }
 }
