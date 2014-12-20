@@ -53,7 +53,7 @@ abstract class FeedHarvestService extends IntentService {
                 final String contentLink = obj.getString(KEY_CONTENT_URL);
                 remainders.add(new FeedArticle(obj.getString(KEY_TITLE), contentLink,
                         obj.getString(KEY_IMG_URL), Html.fromHtml(obj.getString(KEY_CONTENT))
-                        .toString()));
+                        .toString(), Boolean.FALSE));
             }
             SQLiteDAO.getInstance().insertArticlesIntoTable(remainders, tableName);
         } catch (MalformedURLException e) {

@@ -49,14 +49,15 @@ import org.jorge.lolin1.R;
 
 public class FeedArticle implements Parcelable {
     private final String title, url, imageUrl, previewText;
-    private boolean read = Boolean.FALSE;
+    private Boolean read;
 
     public FeedArticle(@NonNull String _title, @NonNull String _url, @NonNull String _imageUrl,
-                       @NonNull String _previewText) {
+                       @NonNull String _previewText, Boolean _read) {
         this.title = _title;
         this.url = _url;
         this.imageUrl = _imageUrl;
         this.previewText = _previewText;
+        this.read = _read;
     }
 
     public String getTitle() {
@@ -76,9 +77,8 @@ public class FeedArticle implements Parcelable {
     }
 
     public void markAsRead() {
-        if (read)
-            throw new IllegalStateException("Article was already marked as read.");
-        read = Boolean.TRUE;
+        if (!read)
+            read = Boolean.TRUE;
     }
 
     public String getPreviewText() {

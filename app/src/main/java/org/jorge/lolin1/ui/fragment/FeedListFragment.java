@@ -286,6 +286,12 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
         return ret;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mFeedAdapter.requestDataLoad();
+    }
+
     private void reCalculateDualPaneDimensions() {
         lastClickedArticle = mFeedAdapter.getItemCount() > 0 ? mFeedAdapter.getItem(0) : null;
         if (lastClickedArticle != null)

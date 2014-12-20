@@ -95,7 +95,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         if (!item.isRead()) {
             viewHolder.titleView.setTextSize(mContext.getResources().getInteger(R.integer
                     .feed_article_on_list_title_unread));
-            viewHolder.titleView.setTypeface(null, Typeface.BOLD_ITALIC);
+            viewHolder.titleView.setTypeface(null, Typeface.BOLD);
         } else {
             viewHolder.titleView.setTextSize(mContext.getResources().getInteger(R.integer
                     .feed_article_on_list_title_read));

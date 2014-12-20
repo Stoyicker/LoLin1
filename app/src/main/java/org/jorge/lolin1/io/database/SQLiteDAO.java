@@ -44,6 +44,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
     private static final String TABLE_KEY_TITLE = "TABLE_KEY_TITLE";
     private static final String TABLE_KEY_URL = "TABLE_KEY_URL";
     private static final String TABLE_KEY_DESC = "TABLE_KEY_DESC";
+    private static final String TABLE_KEY_READ = "TABLE_KEY_READ";
     private static final String TABLE_KEY_IMG_URL = "TABLE_KEY_IMG_URL";
     private final int LOLIN1_V1_59_DB_VERSION;
     private static Context mContext;
@@ -110,8 +111,9 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                         (realm,
                                 locale) + " ( " +
                         TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
-                        TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT REPLACE, " +
+                        TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT IGNORE, " +
                         TABLE_KEY_DESC + " TEXT, " +
+                        TABLE_KEY_READ + " INTEGER NOT NULL ON CONFLICT IGNORE, " +
                         TABLE_KEY_IMG_URL + " TEXT NOT NULL ON CONFLICT IGNORE " + ")").toUpperCase
                         (Locale.ENGLISH));
         }
@@ -120,6 +122,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                 TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
                 TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT REPLACE, " +
                 TABLE_KEY_DESC + " TEXT, " +
+                TABLE_KEY_READ + " INTEGER NOT NULL ON CONFLICT IGNORE, " +
                 TABLE_KEY_IMG_URL + " TEXT NOT NULL ON CONFLICT IGNORE " + ")").toUpperCase
                 (Locale.ENGLISH));
 
@@ -127,6 +130,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                 TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
                 TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT REPLACE, " +
                 TABLE_KEY_DESC + " TEXT, " +
+                TABLE_KEY_READ + " INTEGER NOT NULL ON CONFLICT IGNORE, " +
                 TABLE_KEY_IMG_URL + " TEXT NOT NULL ON CONFLICT IGNORE " + ")").toUpperCase
                 (Locale.ENGLISH));
 
@@ -170,6 +174,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         ret.put(TABLE_KEY_URL, article.getUrl());
         ret.put(TABLE_KEY_DESC, article.getPreviewText());
         ret.put(TABLE_KEY_IMG_URL, article.getImageUrl());
+        ret.put(TABLE_KEY_READ, article.isRead() ? 1 : 0);
         return ret;
     }
 
@@ -178,10 +183,16 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                 (TABLE_KEY_TITLE)),
                 articleCursor.getString(articleCursor.getColumnIndex(TABLE_KEY_URL)),
                 articleCursor.getString(articleCursor.getColumnIndex(TABLE_KEY_IMG_URL)),
-                articleCursor.getString(articleCursor.getColumnIndex(TABLE_KEY_DESC)));
+                articleCursor.getString(articleCursor.getColumnIndex(TABLE_KEY_DESC)),
+                articleCursor.getInt(articleCursor.getColumnIndex(TABLE_KEY_READ)) == 0 ? Boolean
+                        .FALSE : Boolean.TRUE);
     }
 
     public List<FeedArticle> getFeedArticlesFromTable(String tableName) {
+        if (Utils.isMainThread()) {
+            throw new IllegalStateException("Attempted call to getFeedArticlesFromTable on main " +
+                    "thread!");
+        }
         List<FeedArticle> ret;
         SQLiteDatabase db = getReadableDatabase();
         synchronized (DB_LOCK) {
@@ -201,5 +212,23 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         }
 
         return ret;
+    }
+
+    public void markArticleAsRead(FeedArticle article, String tableName) {
+        if (Utils.isMainThread()) {
+            throw new IllegalStateException("Attempted call to markArticleAsRead on main " +
+                    "thread!");
+        }
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues newReadContainer = new ContentValues();
+        newReadContainer.put(TABLE_KEY_READ, 1);
+        synchronized (DB_LOCK) {
+            db.beginTransaction();
+            db.update(tableName, newReadContainer, TABLE_KEY_URL + " = '" + article.getUrl() +
+                    "'", null);
+            db.setTransactionSuccessful();
+            db.endTransaction();
+            LoLin1BackupAgent.requestBackup(mContext);
+        }
     }
 }

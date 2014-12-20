@@ -17,10 +17,10 @@
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <org.jorge.lolin1.ui.util.StickyParallaxNotifyingScrollView
         android:id="@+id/scroll_view"
@@ -46,7 +46,7 @@
                 tools:ignore="ContentDescription"
                 android:adjustViewBounds="true"
                 android:maxWidth="@dimen/default_feed_article_image_width"
-                android:maxHeight="@dimen/default_feed_article_image_height" />
+                android:maxHeight="@dimen/default_feed_article_image_height"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,7 +64,7 @@
                     android:ellipsize="none"
                     style="@style/FeedArticleTitle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
             <FrameLayout
@@ -81,7 +81,7 @@
                     android:ellipsize="none"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/FeedArticlePreview" />
+                    style="@style/FeedArticlePreview"/>
 
             </FrameLayout>
         </LinearLayout>
@@ -93,6 +93,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start">
 
-        <include layout="@layout/include_layout_mark_as_read_fab" />
+        <include
+            layout="@layout/include_layout_mark_as_read_fab"
+            android:visibility="gone"/>
     </LinearLayout>
 </FrameLayout>

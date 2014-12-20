@@ -29,29 +29,29 @@
                                     android:hapticFeedbackEnabled="true"
                                     android:animateLayoutChanges="true">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center">
-
-        <ImageView
-            android:id="@android:id/icon"
-            android:scaleType="centerCrop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:ignore="ContentDescription"
-            android:adjustViewBounds="true"
-            android:maxWidth="@dimen/default_feed_article_image_width"
-            android:maxHeight="@dimen/default_feed_article_image_height"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:gravity="center_horizontal|bottom">
 
         <TextView
             android:id="@android:id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="@dimen/feed_article_on_list_title_padding"
             android:background="@color/feed_article_on_list_title_background"
+            android:layout_margin="@dimen/feed_article_on_list_title_padding"
             android:ellipsize="none"
-            style="@style/FeedArticleOnListTitleRead"
-            android:layout_alignBottom="@android:id/icon"/>
-    </RelativeLayout>
+            style="@style/FeedArticleOnListTitleRead"/>
+
+        <ImageView
+            android:id="@android:id/icon"
+            android:scaleType="centerCrop"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            tools:ignore="ContentDescription"
+            android:adjustViewBounds="true"
+            android:maxWidth="@dimen/default_feed_article_image_width"
+            android:maxHeight="@dimen/default_feed_article_image_height"/>
+    </LinearLayout>
 </android.support.v7.widget.CardView>
