@@ -4,11 +4,16 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.text.Html;
 
+import com.squareup.okhttp.Response;
+
+import org.apache.http.HttpStatus;
 import org.jorge.lolin1.datamodel.FeedArticle;
+import org.jorge.lolin1.io.net.NetworkOperations;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -19,6 +24,7 @@ public abstract class FeedHarvestService extends IntentService {
     protected static final String EXTRA_SOURCE_URL = "SOURCE_URL", EXTRA_TABLE_NAME = "TABLE_NAME";
     private static final String KEY_IMG_URL = "KEY_IMG_URL", KEY_CONTENT_URL = "KEY_CONTENT_URL",
             KEY_TITLE = "KEY_TITLE", KEY_CONTENT = "KEY_CONTENT";
+    private static final Integer SERVER_UPDATING_STATUS_CODE = HttpStatus.SC_CONFLICT;
 
     public FeedHarvestService(String className) {
         super(className);
@@ -32,7 +38,17 @@ public abstract class FeedHarvestService extends IntentService {
                     mostRecentContentLinkLowerCase = "".toLowerCase(); //TODO Fetch
             // mostRecentContentLinkLowerCase
             final List<FeedArticle> remainders = new ArrayList<>();
-            JSONArray array = null; //TODO Fix NewApi warning in new org.json.JSONArray(source);
+            Response resp;
+            JSONArray array;
+            try {
+                resp = NetworkOperations.doJSONRequest(source);
+                if (resp.code() == SERVER_UPDATING_STATUS_CODE)
+                    throw new IOException("Server is updating");
+                array = new JSONArray(resp.body().string());
+            } catch (IOException e) {
+                //Just finish without any new news
+                return;
+            }
             for (int i = 0; i < array.length(); i++) {
                 final JSONObject obj = array.getJSONObject(i);
                 final String contentLink = obj.getString(KEY_CONTENT_URL);
