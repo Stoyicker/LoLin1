@@ -90,6 +90,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 mCallback.onItemClick(items.get(i));
             }
         });
+        viewHolder.imageView.setImageDrawable(null);
         FeedArticle item = items.get(i);
         if (!item.isRead()) {
             viewHolder.titleView.setTextSize(mContext.getResources().getInteger(R.integer
