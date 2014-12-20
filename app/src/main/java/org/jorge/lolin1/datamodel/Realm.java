@@ -1,23 +1,42 @@
 package org.jorge.lolin1.datamodel;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.jorge.lolin1.R;
 
 import java.util.EnumMap;
 
-public class Realm {
+public class Realm implements Parcelable {
+
+    private final String mKey;
+    private final String[] mLocales;
 
     public static Realm[] getAllRealms() {
         return (Realm[]) singletonMap.values().toArray();
+    }
+
+    public Realm(Parcel in) {
+        Realm copied = Realm.getInstanceByRealmId(RealmEnum.valueOf(in.readString()));
+        mKey = copied.mKey;
+        mLocales = copied.mLocales;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mKey);
     }
 
     public enum RealmEnum {
         NA, EUW, EUNE, BR, LAN, LAS, TR, RU, OCE
     }
 
-    private final String mKey;
-    private final String[] mLocales;
     private static final EnumMap<RealmEnum, Realm> singletonMap = new EnumMap<>(RealmEnum.class);
 
     public static void initRealms(Context context) {
@@ -91,4 +110,14 @@ public class Realm {
     public String[] getLocales() {
         return mLocales;
     }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Realm createFromParcel(Parcel in) {
+            return new Realm(in);
+        }
+
+        public Realm[] newArray(int size) {
+            return new Realm[size];
+        }
+    };
 }

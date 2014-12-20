@@ -248,7 +248,6 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
         mArticlePreviewView = (TextView) ret.findViewById(android.R.id.text1);
         mNewsView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         mEmptyView = ret.findViewById(android.R.id.empty);
-        //TODO Calculate table name
         mFeedAdapter =
                 new FeedAdapter(
                         mContext, this, mDefaultImageId, TAG, mTableName);

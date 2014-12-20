@@ -36,10 +36,10 @@ public class NewsListFragment extends FeedListFragment {
         Bundle args = new Bundle();
         args.putString(FeedListFragment.TAG_KEY, NewsListFragment.class.getName());
         args.putInt(FeedListFragment.ERROR_RES_ID_KEY, R.drawable.news_article_placeholder);
-        //TODO Pass the right acount data
+        //TODO Pass the right account data
         Realm accRealm = Realm.getInstanceByRealmId(Realm.RealmEnum.EUW);
         String accLocale = accRealm.getLocales()[0];
-        args.putString(FeedListFragment.TABLE_NAME_KEY, SQLiteDAO.getInstance().getNewsTableName
+        args.putString(FeedListFragment.TABLE_NAME_KEY, SQLiteDAO.getNewsTableName
                 (accRealm, accLocale));
         args.putSerializable(FeedListFragment.LM_KEY, LayoutManagerEnum.GRID);
 
