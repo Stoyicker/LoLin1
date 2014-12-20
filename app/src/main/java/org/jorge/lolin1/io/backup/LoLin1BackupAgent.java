@@ -45,8 +45,6 @@ public class LoLin1BackupAgent extends BackupAgentHelper {
     @Override
     public void onCreate() {
         final Context context = LoLin1Application.getInstance().getContext();
-        mBackupManager = new BackupManager(context);
-
 
         final String[] backupablePreferences = context.getResources().getStringArray(R.array
                 .backupable_preference_keys);
@@ -79,11 +77,15 @@ public class LoLin1BackupAgent extends BackupAgentHelper {
         }
     }
 
-    public static void requestBackup() {
+    public static void requestBackup(Context context) {
+        if (mBackupManager == null)
+            mBackupManager = new BackupManager(context);
         mBackupManager.dataChanged();
     }
 
-    public static void restoreBackup() {
+    public static void restoreBackup(Context context) {
+        if (mBackupManager == null)
+            mBackupManager = new BackupManager(context);
         mBackupManager.requestRestore(new RestoreObserver() {
             @Override
             public void restoreStarting(int numPackages) {

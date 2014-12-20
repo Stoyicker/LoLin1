@@ -48,7 +48,7 @@ public class InitialActivity extends ActionBarActivity {
         final Context context = initContext();
         initTracking(context);
         initRealms(context);
-        requestBackupRestore();
+        requestBackupRestore(context);
         flushCacheIfNecessary(context);
         initDatabase(context);
         scheduleFeedServices(context);
@@ -71,8 +71,8 @@ public class InitialActivity extends ActionBarActivity {
         Realm.initRealms(context);
     }
 
-    private void requestBackupRestore() {
-        LoLin1BackupAgent.restoreBackup();
+    private void requestBackupRestore(Context context) {
+        LoLin1BackupAgent.restoreBackup(context);
     }
 
     private void initDatabase(Context context) {

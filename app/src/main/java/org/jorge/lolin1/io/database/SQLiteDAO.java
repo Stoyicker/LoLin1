@@ -93,7 +93,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                     db.execSQL("DROP TABLE IF EXISTS " + oldTableName);
             }
         }
-        LoLin1BackupAgent.requestBackup();
+        LoLin1BackupAgent.requestBackup(mContext);
     }
 
     @Override
@@ -139,7 +139,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
             RobustSQLiteOpenHelper.addTableName(communityTableName);
             RobustSQLiteOpenHelper.addTableName(schoolTableName);
         }
-        LoLin1BackupAgent.requestBackup();
+        LoLin1BackupAgent.requestBackup(mContext);
     }
 
     public void insertArticlesIntoTable(@NonNull List<FeedArticle> articles,
@@ -160,7 +160,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                 db.insert(tableName, null, storableArticle);
             db.setTransactionSuccessful();
             db.endTransaction();
-            LoLin1BackupAgent.requestBackup();
+            LoLin1BackupAgent.requestBackup(mContext);
         }
     }
 

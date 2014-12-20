@@ -14,7 +14,13 @@ public class Realm implements Parcelable {
     private final String[] mLocales;
 
     public static Realm[] getAllRealms() {
-        return (Realm[]) singletonMap.values().toArray();
+        Realm[] ret = new Realm[singletonMap.size()];
+        int i = 0;
+        for (Object x : singletonMap.values()) {
+            ret[i] = (Realm) x;
+            i++;
+        }
+        return ret;
     }
 
     public Realm(Parcel in) {
