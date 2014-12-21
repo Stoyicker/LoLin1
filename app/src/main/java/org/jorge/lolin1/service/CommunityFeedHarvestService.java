@@ -9,7 +9,7 @@ import java.util.Locale;
 public class CommunityFeedHarvestService extends FeedHarvestService {
 
     private static final String COMMUNITY_URL = "http://lolin1-feed-parser.herokuapp" +
-            ".com/services/news?realm=%s&locale=%s";
+            ".com/services/community";
 
     public CommunityFeedHarvestService() {
         super(CommunityFeedHarvestService.class.getName());
