@@ -207,19 +207,20 @@ public class ArticleReaderFragment extends Fragment {
     }
 
     private void showMarkAsReadFabIfItProceeds() {
-        if (!mArticle.isRead() && !mMarkAsReadFab.isShown())
+        if (!mArticle.isRead())
             mMarkAsReadFab.show();
     }
 
     private StickyParallaxNotifyingScrollView.OnScrollChangedListener mOnScrollChangedListener =
             new StickyParallaxNotifyingScrollView.OnScrollChangedListener() {
-                public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
+                public void onScrollChanged(ScrollView who, int l, int t, int oldL,
+                                            int oldT) {
                     if (mMarkAsReadFab != null)
-                        if (!who.canScrollVertically(1)) {
+                        if (!who.canScrollVertically(1) || !who.canScrollVertically(-1)) {
                             showMarkAsReadFabIfItProceeds();
-                        } else if (t < oldt) {
+                        } else if (t < oldT) {
                             showMarkAsReadFabIfItProceeds();
-                        } else if (t > oldt) {
+                        } else if (t > oldT) {
                             if (mMarkAsReadFab.isShown())
                                 mMarkAsReadFab.hide();
                         }
