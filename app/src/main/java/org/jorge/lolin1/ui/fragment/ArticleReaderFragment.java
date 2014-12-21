@@ -36,6 +36,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -83,12 +84,7 @@ public class ArticleReaderFragment extends Fragment {
     public static Fragment newInstance(Context context, FeedArticle article, Class c) {
         Bundle args = new Bundle();
         args.putParcelable(ArticleReaderFragment.ARTICLE_KEY, article);
-        int errorResId;
-        if (c == NewsListFragment.class)
-            errorResId = R.drawable.news_article_placeholder;
-        else
-            throw new IllegalArgumentException("Class " + c.getName() + " doesn't correspond to a" +
-                    " feed reader");
+        int errorResId = R.drawable.feed_article_image_placeholder;
         args.putInt(FeedListFragment.ERROR_RES_ID_KEY, errorResId);
 
         return ArticleReaderFragment.instantiate(context, ArticleReaderFragment.class.getName(),
@@ -99,12 +95,12 @@ public class ArticleReaderFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mContext = LoLin1Application.getInstance().getContext();
+        mActivity = (ActionBarActivity) activity;
         Bundle args = getArguments();
         if (args == null)
             throw new IllegalStateException("ArticleReader created without arguments");
         mArticle = args.getParcelable(ARTICLE_KEY);
         TAG = mArticle.getUrl();
-        mActivity = (ActionBarActivity) activity;
         mDefaultImageId = getArguments().getInt(FeedListFragment.ERROR_RES_ID_KEY);
     }
 
@@ -152,7 +148,10 @@ public class ArticleReaderFragment extends Fragment {
         final String title = mArticle.getTitle();
         mHeaderView.setContentDescription(title);
         ((TextView) ret.findViewById(R.id.title)).setText(title);
-        ((TextView) ret.findViewById(android.R.id.text1)).setText(mArticle.getPreviewText());
+        WebView contentView = (WebView) ret.findViewById(android.R.id.text1);
+        contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(Boolean.TRUE);
+        contentView.setBackgroundColor(0x00000000); //I wonder why the default background is white
+        contentView.loadData(mArticle.getPreviewText(), "text/html", "utf-8");
 
         mActionBar = mActivity.getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);

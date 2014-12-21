@@ -32,10 +32,13 @@ public class ArticleReaderActivity extends ActionBarActivity {
 
         if (mArticleReaderFragment == null) {
             FeedArticle article = extras.getParcelable(ArticleReaderFragment.ARTICLE_KEY);
-            Class c = (Class) extras.getSerializable(ArticleReaderActivity.READER_LIST_FRAGMENT_CLASS);
+            Class c = (Class) extras.getSerializable(ArticleReaderActivity
+                    .READER_LIST_FRAGMENT_CLASS);
             mArticleReaderFragment = ArticleReaderFragment.newInstance(context, article, c);
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.article_reader_fragment_container, mArticleReaderFragment).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().replace(R.id
+                .article_reader_fragment_container, mArticleReaderFragment)
+                .commitAllowingStateLoss();
     }
 
     @Override

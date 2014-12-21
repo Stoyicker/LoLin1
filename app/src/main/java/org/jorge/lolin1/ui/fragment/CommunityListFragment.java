@@ -27,23 +27,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 import org.jorge.lolin1.R;
-import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.database.SQLiteDAO;
 
-public class NewsListFragment extends FeedListFragment {
+public class CommunityListFragment extends FeedListFragment {
 
     public static Fragment newInstance(Context context) {
         Bundle args = new Bundle();
-        args.putString(FeedListFragment.TAG_KEY, NewsListFragment.class.getName());
+        args.putString(FeedListFragment.TAG_KEY, CommunityListFragment.class.getName());
         args.putInt(FeedListFragment.ERROR_RES_ID_KEY, R.drawable.feed_article_image_placeholder);
-        //TODO Pass the right account data
-        Realm accRealm = Realm.getInstanceByRealmId(Realm.RealmEnum.EUW);
-        String accLocale = accRealm.getLocales()[0];
-        args.putString(FeedListFragment.TABLE_NAME_KEY, SQLiteDAO.getNewsTableName
-                (accRealm, accLocale));
+        args.putString(FeedListFragment.TABLE_NAME_KEY, SQLiteDAO.getCommunityTableName());
         args.putSerializable(FeedListFragment.LM_KEY, LayoutManagerEnum.GRID);
 
-        return FeedListFragment.instantiate(context, NewsListFragment.class.getName(), args);
+        return FeedListFragment.instantiate(context, CommunityListFragment.class.getName(), args);
     }
 
     @Override
@@ -51,6 +46,6 @@ public class NewsListFragment extends FeedListFragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         final ActionBar actionBar = mActivity.getSupportActionBar();
-        actionBar.setTitle(mActivity.getString(R.string.title_section0));
+        actionBar.setTitle(mActivity.getString(R.string.title_section1));
     }
 }

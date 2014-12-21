@@ -45,6 +45,7 @@
                 android:layout_height="wrap_content"
                 tools:ignore="ContentDescription"
                 android:adjustViewBounds="true"
+                android:background="@color/article_reader_default_image_background"
                 android:maxWidth="@dimen/default_feed_article_image_width"
                 android:maxHeight="@dimen/default_feed_article_image_height"/>
 
@@ -76,12 +77,10 @@
                 android:paddingTop="@dimen/feed_article_reader_text_vertical_padding"
                 android:paddingBottom="@dimen/feed_article_reader_text_vertical_padding">
 
-                <TextView
+                <WebView
                     android:id="@android:id/text1"
-                    android:ellipsize="none"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    style="@style/FeedArticlePreview"/>
+                    android:layout_height="wrap_content"/>
 
             </FrameLayout>
         </LinearLayout>
