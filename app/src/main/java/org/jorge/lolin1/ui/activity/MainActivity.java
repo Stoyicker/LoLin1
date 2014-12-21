@@ -32,6 +32,7 @@ import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter;
 import org.jorge.lolin1.ui.fragment.ArticleReaderFragment;
+import org.jorge.lolin1.ui.fragment.CommunityListFragment;
 import org.jorge.lolin1.ui.fragment.NavigationDrawerFragment;
 import org.jorge.lolin1.ui.fragment.NewsListFragment;
 import org.jorge.lolin1.util.Interface;
@@ -85,11 +86,13 @@ public class MainActivity extends ActionBarActivity implements Interface
         return mContentFragments[0];
     }
 
-    private Fragment findCommunityFragment() {
-        throw new UnsupportedOperationException("Not yet implemented.");
+    private Fragment findCommunityListFragment() {
+        if (mContentFragments[1] == null)
+            mContentFragments[1] = CommunityListFragment.newInstance(mContext);
+        return mContentFragments[1];
     }
 
-    private Fragment findSchoolFragment() {
+    private Fragment findSchoolListFragment() {
         throw new UnsupportedOperationException("Not yet implemented.");
     }
 
@@ -131,13 +134,13 @@ public class MainActivity extends ActionBarActivity implements Interface
                 Interface.IOnBackPressed) {
             handled = ((Interface.IOnBackPressed) mContentFragments[mNavigatedIndexesStack.peek()
                     ]).onBackPressed();
-            if (!handled) {
-                super.onBackPressed();
-                if (mNavigatedIndexesStack.size() > 1) {
-                    mNavigatedIndexesStack.pop();
-                }
-                mNavigationDrawerFragment.selectItem(mNavigatedIndexesStack.peek());
+        }
+        if (!handled) {
+            super.onBackPressed();
+            if (mNavigatedIndexesStack.size() > 1) {
+                mNavigatedIndexesStack.pop();
             }
+            mNavigationDrawerFragment.selectItem(mNavigatedIndexesStack.peek());
         }
     }
 
@@ -155,10 +158,10 @@ public class MainActivity extends ActionBarActivity implements Interface
                 target = findNewsListFragment();
                 break;
             case 1:
-                target = findCommunityFragment();
+                target = findCommunityListFragment();
                 break;
             case 2:
-                target = findSchoolFragment();
+                target = findSchoolListFragment();
                 break;
             case 3:
                 target = findChatFragment();

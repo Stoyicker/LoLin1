@@ -83,12 +83,7 @@ public class ArticleReaderFragment extends Fragment {
     public static Fragment newInstance(Context context, FeedArticle article, Class c) {
         Bundle args = new Bundle();
         args.putParcelable(ArticleReaderFragment.ARTICLE_KEY, article);
-        int errorResId;
-        if (c == NewsListFragment.class)
-            errorResId = R.drawable.news_article_placeholder;
-        else
-            throw new IllegalArgumentException("Class " + c.getName() + " doesn't correspond to a" +
-                    " feed reader");
+        int errorResId = R.drawable.feed_article_image_placeholder;
         args.putInt(FeedListFragment.ERROR_RES_ID_KEY, errorResId);
 
         return ArticleReaderFragment.instantiate(context, ArticleReaderFragment.class.getName(),
