@@ -35,7 +35,7 @@
     </style>
 
     <style name="FeedArticleOnListTitleUnread">
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/feed_article_on_list_title</item>
         <item name="android:textColor">@color/feed_article_on_list_title</item>
         <item name="android:shadowColor">@color/feed_article_on_list_title_shadow</item>
         <item name="android:shadowDx">0</item>
@@ -44,7 +44,7 @@
     </style>
 
     <style name="FeedArticleOnListTitleRead" parent="@style/FeedArticleOnListTitleUnread">
-        <item name="android:textStyle">normal</item>
+        <item name="android:shadowRadius">0</item>
     </style>
 
     <style name="FeedArticleTitle">

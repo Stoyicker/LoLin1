@@ -20,7 +20,6 @@
 package org.jorge.lolin1.ui.adapter;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -93,13 +92,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         viewHolder.imageView.setImageDrawable(null);
         FeedArticle item = items.get(i);
         if (!item.isRead()) {
-            viewHolder.titleView.setTextSize(mContext.getResources().getInteger(R.integer
-                    .feed_article_on_list_title_unread));
-            viewHolder.titleView.setTypeface(null, Typeface.BOLD);
+            viewHolder.titleView.setTextAppearance(mContext, R.style.FeedArticleOnListTitleUnread);
         } else {
-            viewHolder.titleView.setTextSize(mContext.getResources().getInteger(R.integer
-                    .feed_article_on_list_title_read));
-            viewHolder.titleView.setTypeface(null, Typeface.NORMAL);
+            viewHolder.titleView.setTextAppearance(mContext, R.style.FeedArticleOnListTitleRead);
         }
         final String title = item.getTitle();
         viewHolder.titleView.setText(title);
