@@ -60,6 +60,10 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                 , r, l).toUpperCase(Locale.ENGLISH);
     }
 
+    public static String getSchoolTableName() {
+        return SCHOOL_TABLE_NAME;
+    }
+
     private SQLiteDAO(@NonNull Context _context) {
         super(_context, _context.getString(R.string.database_name), null, BuildConfig.VERSION_CODE);
         mContext = _context;

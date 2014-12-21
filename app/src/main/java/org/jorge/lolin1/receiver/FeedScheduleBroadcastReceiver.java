@@ -7,6 +7,7 @@ import android.content.Intent;
 import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.service.CommunityFeedHarvestService;
 import org.jorge.lolin1.service.NewsFeedHarvestService;
+import org.jorge.lolin1.service.SchoolFeedHarvestService;
 
 public class FeedScheduleBroadcastReceiver extends BroadcastReceiver {
 
@@ -26,6 +27,7 @@ public class FeedScheduleBroadcastReceiver extends BroadcastReceiver {
         final Intent communityIntent = new Intent(context, CommunityFeedHarvestService.class);
         context.startService(communityIntent);
 
-        //TODO Schedule also services for school
+        final Intent schoolIntent = new Intent(context, SchoolFeedHarvestService.class);
+        context.startService(schoolIntent);
     }
 }

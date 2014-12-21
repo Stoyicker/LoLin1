@@ -21,6 +21,7 @@ package org.jorge.lolin1.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -30,14 +31,18 @@ import android.support.v7.widget.Toolbar;
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
+import org.jorge.lolin1.datamodel.Realm;
+import org.jorge.lolin1.io.database.SQLiteDAO;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter;
 import org.jorge.lolin1.ui.fragment.ArticleReaderFragment;
 import org.jorge.lolin1.ui.fragment.CommunityListFragment;
 import org.jorge.lolin1.ui.fragment.NavigationDrawerFragment;
 import org.jorge.lolin1.ui.fragment.NewsListFragment;
+import org.jorge.lolin1.ui.fragment.SchoolListFragment;
 import org.jorge.lolin1.util.Interface;
 
 import java.util.Stack;
+import java.util.concurrent.Executors;
 
 public class MainActivity extends ActionBarActivity implements Interface
         .IOnFeedArticleClickedListener, NavigationDrawerAdapter.NavigationDrawerCallbacks {
@@ -93,7 +98,9 @@ public class MainActivity extends ActionBarActivity implements Interface
     }
 
     private Fragment findSchoolListFragment() {
-        throw new UnsupportedOperationException("Not yet implemented.");
+        if (mContentFragments[2] == null)
+            mContentFragments[2] = SchoolListFragment.newInstance(mContext);
+        return mContentFragments[2];
     }
 
     private Fragment findChatFragment() {
@@ -112,6 +119,33 @@ public class MainActivity extends ActionBarActivity implements Interface
         //Link-type post auto-parsing
         if (article.getPreviewText().contentEquals("null")) {
             article.requestBrowseToAction(mContext);
+            article.markAsRead();
+            final Class newsClassName = NewsListFragment.class;
+            final Class communityClassName = CommunityListFragment.class;
+            final Class schoolClassName = SchoolListFragment.class;
+            String tableName;
+            if (c == newsClassName) {
+                //TODO Pass the right data
+                final Realm r = Realm.getInstanceByRealmId(Realm.RealmEnum.EUW);
+                final String l = r.getLocales()[0];
+                tableName = SQLiteDAO.getNewsTableName(r, l);
+            } else if (c == communityClassName) {
+                tableName = SQLiteDAO.getCommunityTableName();
+            } else if (c == schoolClassName) {
+                tableName = SQLiteDAO.getSchoolTableName();
+            } else {
+                throw new IllegalArgumentException("Feed list fragment class " + c
+                        .getCanonicalName() + " not recognized.");
+            }
+            new AsyncTask<Object, Void, Void>() {
+                @Override
+                protected Void doInBackground(Object... params) {
+                    SQLiteDAO.getInstance().markArticleAsRead((FeedArticle) params[0],
+                            SQLiteDAO.getNewsTableName((Realm) params[1],
+                                    (String) params[2]));
+                    return null;
+                }
+            }.executeOnExecutor(Executors.newSingleThreadExecutor(), article, tableName);
             return;
         }
 
