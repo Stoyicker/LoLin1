@@ -46,9 +46,14 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
     private static final String TABLE_KEY_DESC = "TABLE_KEY_DESC";
     private static final String TABLE_KEY_READ = "TABLE_KEY_READ";
     private static final String TABLE_KEY_IMG_URL = "TABLE_KEY_IMG_URL";
+    private static final String COMMUNITY_TABLE_NAME = "COMMUNITY", SCHOOL_TABLE_NAME = "SCHOOL";
     private final int LOLIN1_V1_59_DB_VERSION;
     private static Context mContext;
     private static SQLiteDAO singleton;
+
+    public static String getCommunityTableName() {
+        return COMMUNITY_TABLE_NAME;
+    }
 
     public static String getNewsTableName(Realm r, String l) {
         return String.format(Locale.ENGLISH, mContext.getString(R.string.news_table_name_pattern)
@@ -103,7 +108,6 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
 
         final Realm[] allRealms = Realm.getAllRealms();
         final List<String> createTableCommands = new ArrayList<>();
-        final String communityTableName = "COMMUNITY", schoolTableName = "SCHOOL";
 
         for (Realm realm : allRealms) {
             for (String locale : realm.getLocales())
@@ -118,7 +122,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                         (Locale.ENGLISH));
         }
 
-        createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + communityTableName + " ( " +
+        createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + COMMUNITY_TABLE_NAME + " ( " +
                 TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
                 TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT REPLACE, " +
                 TABLE_KEY_DESC + " TEXT, " +
@@ -126,7 +130,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                 TABLE_KEY_IMG_URL + " TEXT NOT NULL ON CONFLICT IGNORE " + ")").toUpperCase
                 (Locale.ENGLISH));
 
-        createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + schoolTableName + " ( " +
+        createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + SCHOOL_TABLE_NAME + " ( " +
                 TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
                 TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT REPLACE, " +
                 TABLE_KEY_DESC + " TEXT, " +
@@ -140,8 +144,8 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
             for (Realm realm : allRealms)
                 for (String locale : realm.getLocales())
                     RobustSQLiteOpenHelper.addTableName(getNewsTableName(realm, locale));
-            RobustSQLiteOpenHelper.addTableName(communityTableName);
-            RobustSQLiteOpenHelper.addTableName(schoolTableName);
+            RobustSQLiteOpenHelper.addTableName(COMMUNITY_TABLE_NAME);
+            RobustSQLiteOpenHelper.addTableName(SCHOOL_TABLE_NAME);
         }
         LoLin1BackupAgent.requestBackup(mContext);
     }
