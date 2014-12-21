@@ -127,16 +127,16 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         }
 
         createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + COMMUNITY_TABLE_NAME + " ( " +
-                TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
-                TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT REPLACE, " +
+                TABLE_KEY_TITLE + " TEXT PRIMARY KEY ON CONFLICT IGNORE, " +
+                TABLE_KEY_URL + " TEXT NOT NULL ON CONFLICT REPLACE, " +
                 TABLE_KEY_DESC + " TEXT, " +
                 TABLE_KEY_READ + " INTEGER NOT NULL ON CONFLICT IGNORE, " +
                 TABLE_KEY_IMG_URL + " TEXT NOT NULL ON CONFLICT IGNORE " + ")").toUpperCase
                 (Locale.ENGLISH));
 
         createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + SCHOOL_TABLE_NAME + " ( " +
-                TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
-                TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT REPLACE, " +
+                TABLE_KEY_TITLE + " TEXT PRIMARY KEY ON CONFLICT IGNORE, " +
+                TABLE_KEY_URL + " TEXT NOT NULL ON CONFLICT REPLACE, " +
                 TABLE_KEY_DESC + " TEXT, " +
                 TABLE_KEY_READ + " INTEGER NOT NULL ON CONFLICT IGNORE, " +
                 TABLE_KEY_IMG_URL + " TEXT NOT NULL ON CONFLICT IGNORE " + ")").toUpperCase
@@ -197,10 +197,6 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
     }
 
     public List<FeedArticle> getFeedArticlesFromTable(String tableName) {
-        if (Utils.isMainThread()) {
-            throw new IllegalStateException("Attempted call to getFeedArticlesFromTable on main " +
-                    "thread!");
-        }
         List<FeedArticle> ret;
         SQLiteDatabase db = getReadableDatabase();
         synchronized (DB_LOCK) {

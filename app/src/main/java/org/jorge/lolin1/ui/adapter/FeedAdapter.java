@@ -20,7 +20,6 @@
 package org.jorge.lolin1.ui.adapter;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,7 +35,6 @@ import org.jorge.lolin1.util.PicassoUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executors;
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
@@ -45,6 +43,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private int mDefaultImageId;
     private final Interface.IOnItemInteractionListener mCallback;
     private final Object mTag;
+    private static final Object ADAPTER_RELOAD_LOCK = new Object();
     private final String mTableName;
 
     public FeedAdapter(Context context, Interface.IOnItemInteractionListener
@@ -58,20 +57,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     }
 
     public void requestDataLoad() {
-        new AsyncTask<String, Void, Void>() {
-            @Override
-            protected Void doInBackground(String... tableNames) {
-                items.clear();
-                items.addAll(SQLiteDAO.getInstance().getFeedArticlesFromTable(tableNames[0]));
-                return null;
+        synchronized (ADAPTER_RELOAD_LOCK) {
+            items.clear();
+            List<FeedArticle> allArticles = SQLiteDAO.getInstance().getFeedArticlesFromTable
+                    (mTableName);
+            for (FeedArticle thisArticle : allArticles) {
+                if (!items.contains(thisArticle)) {
+                    items.add(thisArticle);
+                }
             }
-
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                notifyDataSetChanged();
-            }
-        }.executeOnExecutor(Executors.newSingleThreadExecutor(), mTableName);
+        }
     }
 
     @Override
