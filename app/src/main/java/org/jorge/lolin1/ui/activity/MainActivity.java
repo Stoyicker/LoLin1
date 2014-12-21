@@ -108,6 +108,13 @@ public class MainActivity extends ActionBarActivity implements Interface
      *                in the ArticleReaderFragment constructor.
      */
     private void launchArticleReader(FeedArticle article, Class c) {
+
+        //Link-type post auto-parsing
+        if (article.getPreviewText().contentEquals("null")) {
+            article.requestBrowseToAction(mContext);
+            return;
+        }
+
         Intent intent = new Intent(mContext, ArticleReaderActivity.class);
 
         intent.putExtra(ArticleReaderFragment.ARTICLE_KEY, article);
