@@ -180,8 +180,11 @@ public class MainActivity extends ActionBarActivity implements Interface
             super.onBackPressed();
             if (mNavigatedIndexesStack.size() > 1) {
                 mNavigatedIndexesStack.pop();
-            }
-            mNavigationDrawerFragment.selectItem(mNavigatedIndexesStack.peek());
+                mNavigationDrawerFragment.selectItem(mNavigatedIndexesStack.peek());
+                mNavigatedIndexesStack.pop(); //Remove the element that was added because of the
+                // backpress
+            } else
+                finish();
         }
     }
 
