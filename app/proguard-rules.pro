@@ -3,7 +3,16 @@
 -verbose
 -dontoptimize
 -dontpreverify
--dontwarn org.jaxen.*
+-dontwarn org.jaxen.**
+-dontwarn java.awt.**
+-dontwarn javax.xml.**
+-dontwarn org.codehaus.**
+-dontwarn java.nio.**
+-dontwarn javax.swing.**
+-dontwarn junit.swingui.**
+-dontwarn junit.awtui.**
+-dontwarn android.test.**
+-dontwarn com.squareup.**
 -ignorewarnings
 
 -keepattributes *Annotation*
