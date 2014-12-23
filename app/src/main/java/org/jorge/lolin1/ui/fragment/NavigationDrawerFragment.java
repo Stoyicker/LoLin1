@@ -169,9 +169,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                 super.onDrawerClosed(drawerView);
                 if (!isAdded()) return;
                 mActivity.invalidateOptionsMenu();
-                while (!mWhenClosedTasks.isEmpty()) {
-                    mActivity.runOnUiThread(mWhenClosedTasks.poll());
-                }
             }
 
             @Override
@@ -221,6 +218,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     public void closeDrawer(Runnable... runnables) {
         mDrawerLayout.closeDrawer(mFragmentContainerView);
         Collections.addAll(mWhenClosedTasks, runnables);
+        while (!mWhenClosedTasks.isEmpty()) {
+            mActivity.runOnUiThread(mWhenClosedTasks.poll());
+        }
     }
 
     @Override
