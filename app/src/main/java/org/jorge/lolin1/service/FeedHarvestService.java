@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 abstract class FeedHarvestService extends IntentService {
@@ -62,6 +63,7 @@ abstract class FeedHarvestService extends IntentService {
                         if (!remainders.contains(thisArticle))
                             remainders.add(thisArticle);
                     }
+                    Collections.reverse(remainders);
                     SQLiteDAO.getInstance().insertArticlesIntoTable(remainders, tableName);
                 } catch (MalformedURLException e) {
                     throw new IllegalArgumentException("Source url " + intent.getStringExtra

@@ -27,6 +27,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.support.annotation.NonNull;
 
+import com.crashlytics.android.Crashlytics;
+
 import org.jorge.lolin1.BuildConfig;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
@@ -119,7 +121,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                 createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + SQLiteDAO.getNewsTableName
                         (realm,
                                 locale) + " ( " +
-                        TABLE_KEY_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP, " +
+                        TABLE_KEY_TIMESTAMP + " INTEGER NOT NULL ON CONFLICT IGNORE, " +
                         TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
                         TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT IGNORE, " +
                         TABLE_KEY_DESC + " TEXT, " +
@@ -129,7 +131,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         }
 
         createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + COMMUNITY_TABLE_NAME + " ( " +
-                TABLE_KEY_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP, " +
+                TABLE_KEY_TIMESTAMP + " INTEGER DEFAULT CURRENT_TIMESTAMP, " +
                 TABLE_KEY_TITLE + " TEXT PRIMARY KEY ON CONFLICT IGNORE, " +
                 TABLE_KEY_URL + " TEXT NOT NULL ON CONFLICT REPLACE, " +
                 TABLE_KEY_DESC + " TEXT, " +
@@ -138,7 +140,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                 (Locale.ENGLISH));
 
         createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + SCHOOL_TABLE_NAME + " ( " +
-                TABLE_KEY_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP, " +
+                TABLE_KEY_TIMESTAMP + " INTEGER DEFAULT CURRENT_TIMESTAMP, " +
                 TABLE_KEY_TITLE + " TEXT PRIMARY KEY ON CONFLICT IGNORE, " +
                 TABLE_KEY_URL + " TEXT NOT NULL ON CONFLICT REPLACE, " +
                 TABLE_KEY_DESC + " TEXT, " +
@@ -183,6 +185,12 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
     private ContentValues mapFeedArticleToStorable(FeedArticle article) {
         ContentValues ret = new ContentValues();
         ret.put(TABLE_KEY_TITLE, article.getTitle());
+        ret.put(TABLE_KEY_TIMESTAMP, System.currentTimeMillis());
+        try {
+            Thread.sleep(1); //To make sure that the millis time is always unique
+        } catch (InterruptedException e) {
+            Crashlytics.logException(e);
+        }
         ret.put(TABLE_KEY_URL, article.getUrl());
         ret.put(TABLE_KEY_DESC, article.getPreviewText());
         ret.put(TABLE_KEY_IMG_URL, article.getImageUrl());
