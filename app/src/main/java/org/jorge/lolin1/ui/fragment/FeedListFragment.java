@@ -140,6 +140,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
                         @Override
                         protected void onPostExecute(Void aVoid) {
                             super.onPostExecute(aVoid);
+                            mFeedAdapter.notifyDataSetChanged();
                             mRefreshLayout.setRefreshing(Boolean.FALSE);
                             if (mIsDualPane)
                                 reCalculateDualPaneDimensions();
