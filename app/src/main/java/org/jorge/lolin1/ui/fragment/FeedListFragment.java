@@ -290,7 +290,19 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
     @Override
     public void onResume() {
         super.onResume();
-        mFeedAdapter.requestDataLoad();
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                mFeedAdapter.requestDataLoad();
+                return null;
+            }
+            
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                super.onPostExecute(aVoid);
+                mFeedAdapter.notifyDataSetChanged();
+            }
+        }.executeOnExecutor(Executors.newSingleThreadExecutor());
     }
 
     private void reCalculateDualPaneDimensions() {
