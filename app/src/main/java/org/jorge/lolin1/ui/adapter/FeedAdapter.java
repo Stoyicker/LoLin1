@@ -81,22 +81,28 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mCallback.onItemClick(items.get(i));
+                FeedArticle item = getItem(i);
+                if (item != null)
+                    mCallback.onItemClick(item);
             }
         });
         viewHolder.imageView.setImageDrawable(null);
-        FeedArticle item = items.get(i);
-        if (!item.isRead()) {
-            viewHolder.titleView.setTextAppearance(mContext, R.style.FeedArticleOnListTitleUnread);
-        } else {
-            viewHolder.titleView.setTextAppearance(mContext, R.style.FeedArticleOnListTitleRead);
-        }
-        final String title = item.getTitle();
-        viewHolder.titleView.setText(title);
-        if (viewHolder.imageView.getDrawable() == null) {
-            PicassoUtils.loadInto(mContext, item.getImageUrl(), mDefaultImageId,
-                    viewHolder.imageView, mTag);
-            viewHolder.imageView.setContentDescription(title);
+        FeedArticle item = getItem(i);
+        if (item != null) {
+            if (!item.isRead()) {
+                viewHolder.titleView.setTextAppearance(mContext,
+                        R.style.FeedArticleOnListTitleUnread);
+            } else {
+                viewHolder.titleView.setTextAppearance(mContext,
+                        R.style.FeedArticleOnListTitleRead);
+            }
+            final String title = item.getTitle();
+            viewHolder.titleView.setText(title);
+            if (viewHolder.imageView.getDrawable() == null) {
+                PicassoUtils.loadInto(mContext, item.getImageUrl(), mDefaultImageId,
+                        viewHolder.imageView, mTag);
+                viewHolder.imageView.setContentDescription(title);
+            }
         }
     }
 
@@ -106,6 +112,8 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     }
 
     public FeedArticle getItem(Integer i) {
+        if (i >= items.size())
+            return null;
         return items.get(i);
     }
 
