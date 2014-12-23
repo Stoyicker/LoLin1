@@ -41,6 +41,7 @@ import java.util.Locale;
 public class SQLiteDAO extends RobustSQLiteOpenHelper {
 
     public static final Object DB_LOCK = new Object();
+    private static final String TABLE_KEY_TIMESTAMP = "TABLE_KEY_TIMESTAMP";
     private static final String TABLE_KEY_TITLE = "TABLE_KEY_TITLE";
     private static final String TABLE_KEY_URL = "TABLE_KEY_URL";
     private static final String TABLE_KEY_DESC = "TABLE_KEY_DESC";
@@ -118,6 +119,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                 createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + SQLiteDAO.getNewsTableName
                         (realm,
                                 locale) + " ( " +
+                        TABLE_KEY_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP, " +
                         TABLE_KEY_TITLE + " TEXT NOT NULL ON CONFLICT IGNORE, " +
                         TABLE_KEY_URL + " TEXT PRIMARY KEY ON CONFLICT IGNORE, " +
                         TABLE_KEY_DESC + " TEXT, " +
@@ -127,6 +129,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         }
 
         createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + COMMUNITY_TABLE_NAME + " ( " +
+                TABLE_KEY_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP, " +
                 TABLE_KEY_TITLE + " TEXT PRIMARY KEY ON CONFLICT IGNORE, " +
                 TABLE_KEY_URL + " TEXT NOT NULL ON CONFLICT REPLACE, " +
                 TABLE_KEY_DESC + " TEXT, " +
@@ -135,6 +138,7 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
                 (Locale.ENGLISH));
 
         createTableCommands.add(("CREATE TABLE IF NOT EXISTS " + SCHOOL_TABLE_NAME + " ( " +
+                TABLE_KEY_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP, " +
                 TABLE_KEY_TITLE + " TEXT PRIMARY KEY ON CONFLICT IGNORE, " +
                 TABLE_KEY_URL + " TEXT NOT NULL ON CONFLICT REPLACE, " +
                 TABLE_KEY_DESC + " TEXT, " +
@@ -201,7 +205,8 @@ public class SQLiteDAO extends RobustSQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         synchronized (DB_LOCK) {
             db.beginTransaction();
-            Cursor allStorableArticles = db.query(tableName, null, null, null, null, null, null);
+            Cursor allStorableArticles = db.query(tableName, null, null, null, null, null,
+                    TABLE_KEY_TIMESTAMP + " DESC");
             ret = new ArrayList<>();
             if (allStorableArticles != null && allStorableArticles.moveToFirst()) {
                 do {

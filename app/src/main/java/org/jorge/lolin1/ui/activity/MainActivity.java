@@ -124,9 +124,10 @@ public class MainActivity extends ActionBarActivity implements Interface
             final Class communityClassName = CommunityListFragment.class;
             final Class schoolClassName = SchoolListFragment.class;
             String tableName;
+            //TODO Pass the right data
+            final Realm r = Realm.getInstanceByRealmId(Realm.RealmEnum.EUW);
             if (c == newsClassName) {
                 //TODO Pass the right data
-                final Realm r = Realm.getInstanceByRealmId(Realm.RealmEnum.EUW);
                 final String l = r.getLocales()[0];
                 tableName = SQLiteDAO.getNewsTableName(r, l);
             } else if (c == communityClassName) {
@@ -145,7 +146,7 @@ public class MainActivity extends ActionBarActivity implements Interface
                                     (String) params[2]));
                     return null;
                 }
-            }.executeOnExecutor(Executors.newSingleThreadExecutor(), article, tableName);
+            }.executeOnExecutor(Executors.newSingleThreadExecutor(), article, r, tableName);
             return;
         }
 

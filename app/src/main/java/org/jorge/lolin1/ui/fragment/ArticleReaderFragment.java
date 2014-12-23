@@ -36,6 +36,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -149,7 +150,10 @@ public class ArticleReaderFragment extends Fragment {
         mHeaderView.setContentDescription(title);
         ((TextView) ret.findViewById(R.id.title)).setText(title);
         WebView contentView = (WebView) ret.findViewById(android.R.id.text1);
-        contentView.getSettings().setJavaScriptCanOpenWindowsAutomatically(Boolean.TRUE);
+        WebSettings webViewSettings = contentView.getSettings();
+        contentView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        webViewSettings.setJavaScriptCanOpenWindowsAutomatically(Boolean.TRUE);
+        webViewSettings.setBuiltInZoomControls(Boolean.FALSE);
         contentView.setBackgroundColor(0x00000000); //I wonder why the default background is white
         contentView.loadData(mArticle.getPreviewText(), "text/html", "utf-8");
 
