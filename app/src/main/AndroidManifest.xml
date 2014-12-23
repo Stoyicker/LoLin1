@@ -46,7 +46,7 @@
         </activity>
         <activity
             android:name=".ui.activity.MainActivity"
-            android:configChanges="keyboardHidden|orientation"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -54,7 +54,7 @@
         </activity>
         <activity
             android:name=".ui.activity.ArticleReaderActivity"
-            android:configChanges="keyboardHidden|orientation"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -65,7 +65,7 @@
         </activity>
         <activity
             android:name=".ui.activity.SettingsActivity"
-            android:configChanges="keyboardHidden|orientation"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>

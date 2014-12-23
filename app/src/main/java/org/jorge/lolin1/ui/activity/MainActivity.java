@@ -21,6 +21,7 @@ package org.jorge.lolin1.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -107,6 +108,17 @@ public class MainActivity extends ActionBarActivity implements Interface
         throw new UnsupportedOperationException("Not yet implemented.");
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        if (getResources().getConfiguration().orientation != newConfig.orientation) {
+            mNavigationDrawerFragment.selectItem(mNavigatedIndexesStack.peek());
+            mNavigatedIndexesStack.pop(); //Remove the element that was added because of the
+            // call to selectItem
+        }
+
+        super.onConfigurationChanged(newConfig);
+    }
+
     /**
      * Launches an article reader.
      *
@@ -183,7 +195,7 @@ public class MainActivity extends ActionBarActivity implements Interface
                 mNavigatedIndexesStack.pop();
                 mNavigationDrawerFragment.selectItem(mNavigatedIndexesStack.peek());
                 mNavigatedIndexesStack.pop(); //Remove the element that was added because of the
-                // backpress
+                // call to selectItem
             } else
                 finish();
         }
