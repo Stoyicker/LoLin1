@@ -155,7 +155,7 @@ public class ArticleReaderFragment extends Fragment {
         webViewSettings.setJavaScriptCanOpenWindowsAutomatically(Boolean.TRUE);
         webViewSettings.setBuiltInZoomControls(Boolean.FALSE);
         contentView.setBackgroundColor(0x00000000); //I wonder why the default background is white
-        contentView.loadData(mArticle.getPreviewText(), "text/html", "utf-8");
+        contentView.loadData(mArticle.getPreviewText(), "text/html; charset=UTF-8", "UTF-8");
 
         mActionBar = mActivity.getSupportActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
