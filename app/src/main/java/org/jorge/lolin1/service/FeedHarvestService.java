@@ -54,12 +54,12 @@ abstract class FeedHarvestService extends IntentService {
                     }
                     for (int i = 0; i < array.length(); i++) {
                         final JSONObject obj = array.getJSONObject(i);
-                        final String contentLink = obj.getString(KEY_CONTENT_URL);
-                        FeedArticle thisArticle = new FeedArticle(obj.getString(KEY_TITLE),
-                                contentLink,
+                        FeedArticle thisArticle = new FeedArticle(Html.fromHtml(obj.getString
+                                (KEY_TITLE)).toString(),
+                                obj.getString(KEY_CONTENT_URL),
                                 obj.getString(KEY_IMG_URL), Html.fromHtml(obj.getString
-                                (KEY_CONTENT))
-                                .toString(), Boolean.FALSE);
+                                (KEY_CONTENT)).toString(),
+                                Boolean.FALSE);
                         if (!remainders.contains(thisArticle))
                             remainders.add(thisArticle);
                     }
