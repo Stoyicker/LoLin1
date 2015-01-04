@@ -120,6 +120,8 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
             SwipeRefreshLayout.OnRefreshListener() {
                 @Override
                 public void onRefresh() {
+                    mFeedAdapter.requestDataLoad(mActivity.getWindow()
+                            .getDecorView());
                     new AsyncTask<Void, Void, Void>() {
                         @Override
                         protected void onPreExecute() {
@@ -130,7 +132,6 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
                         protected Void doInBackground(Void... params) {
                             try {
                                 Thread.sleep(FEED_REFRESH_TIME_MILLIS);
-                                mFeedAdapter.requestDataLoad();
                             } catch (InterruptedException e) {
                                 Crashlytics.logException(e);
                             }
@@ -140,7 +141,6 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
                         @Override
                         protected void onPostExecute(Void aVoid) {
                             super.onPostExecute(aVoid);
-                            mFeedAdapter.notifyDataSetChanged();
                             mRefreshLayout.setRefreshing(Boolean.FALSE);
                             if (mIsDualPane)
                                 reCalculateDualPaneDimensions();
@@ -251,7 +251,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
         mEmptyView = ret.findViewById(android.R.id.empty);
         mFeedAdapter =
                 new FeedAdapter(
-                        mContext, this, mDefaultImageId, TAG, mTableName);
+                        mContext, this, mDefaultImageId, TAG, mTableName, ret);
         if (mIsDualPane) {
             reCalculateDualPaneDimensions();
         } else {
@@ -289,20 +289,8 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
 
     @Override
     public void onResume() {
+        mFeedAdapter.requestDataLoad(mActivity.getWindow().getDecorView());
         super.onResume();
-        new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... voids) {
-                mFeedAdapter.requestDataLoad();
-                return null;
-            }
-            
-            @Override
-            protected void onPostExecute(Void aVoid) {
-                super.onPostExecute(aVoid);
-                mFeedAdapter.notifyDataSetChanged();
-            }
-        }.executeOnExecutor(Executors.newSingleThreadExecutor());
     }
 
     private void reCalculateDualPaneDimensions() {

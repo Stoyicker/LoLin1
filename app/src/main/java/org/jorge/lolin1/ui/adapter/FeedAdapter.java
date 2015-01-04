@@ -47,26 +47,34 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private final String mTableName;
 
     public FeedAdapter(Context context, Interface.IOnItemInteractionListener
-            onItemSelectedListener, Integer defaultImageId, Object _tag, String tableName) {
+            onItemSelectedListener, Integer defaultImageId, Object _tag, String tableName,
+                       View initiallyLoadResponsibleView) {
         this.mContext = context;
         this.mDefaultImageId = defaultImageId;
         this.mCallback = onItemSelectedListener;
         mTag = _tag;
         mTableName = tableName;
-        requestDataLoad();
+        requestDataLoad(initiallyLoadResponsibleView);
     }
 
-    public void requestDataLoad() {
-        synchronized (ADAPTER_RELOAD_LOCK) {
-            items.clear();
-            List<FeedArticle> allArticles = SQLiteDAO.getInstance().getFeedArticlesFromTable
-                    (mTableName);
-            for (FeedArticle thisArticle : allArticles) {
-                if (!items.contains(thisArticle)) {
-                    items.add(thisArticle);
+    public void requestDataLoad(View loadResponsibleView) {
+        //Workaround for RecyclerView bug (https://code.google.com/p/android/issues/detail?id=77232)
+        loadResponsibleView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                synchronized (ADAPTER_RELOAD_LOCK) {
+                    items.clear();
+                    List<FeedArticle> allArticles = SQLiteDAO.getInstance().getFeedArticlesFromTable
+                            (mTableName);
+                    for (FeedArticle thisArticle : allArticles) {
+                        if (!items.contains(thisArticle)) {
+                            items.add(thisArticle);
+                        }
+                    }
+                    notifyDataSetChanged();
                 }
             }
-        }
+        }, 100);
     }
 
     @Override
