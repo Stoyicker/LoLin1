@@ -73,19 +73,11 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout
                 .list_item_feed_article, viewGroup, Boolean.FALSE);
-        return new ViewHolder(v);
+        return new ViewHolder(v, this);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FeedArticle item = getItem(i);
-                if (item != null)
-                    mCallback.onItemClick(item);
-            }
-        });
         viewHolder.imageView.setImageDrawable(null);
         FeedArticle item = getItem(i);
         if (item != null) {
@@ -117,14 +109,24 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         return items.get(i);
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final ImageView imageView;
         private final TextView titleView;
+        private final FeedAdapter mAdapter;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, FeedAdapter adapter) {
             super(itemView);
+            itemView.setOnClickListener(this);
+            mAdapter = adapter;
             titleView = (TextView) itemView.findViewById(android.R.id.title);
             imageView = (ImageView) itemView.findViewById(android.R.id.icon);
+        }
+
+        @Override
+        public void onClick(View v) {
+            FeedArticle item = mAdapter.getItem(getPosition());
+            if (item != null)
+                mAdapter.mCallback.onItemClick(item);
         }
     }
 }
