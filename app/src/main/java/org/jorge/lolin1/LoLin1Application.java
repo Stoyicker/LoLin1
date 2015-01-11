@@ -39,7 +39,7 @@ public class LoLin1Application extends Application {
 
     public Context getContext() {
         if (mContext == null)
-            throw new IllegalStateException("Context requested when it is null.");
+            return getApplicationContext();
         return mContext;
     }
 
