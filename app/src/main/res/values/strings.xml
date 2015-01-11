@@ -21,7 +21,6 @@
     <string name="title_section0">News</string>
     <string name="title_section1">Community</string>
     <string name="title_section2">Summoner\'s school</string>
-    <string name="title_section3">Chat</string>
     <string name="nav_drawer_aux_entry_settings">Settings</string>
     <string name="nav_drawer_aux_entry_help">Help &amp; feedback</string>
     <string name="no_feed_articles">There are no news right now.</string>
