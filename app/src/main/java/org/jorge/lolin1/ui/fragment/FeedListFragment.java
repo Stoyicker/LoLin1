@@ -124,11 +124,6 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
                             .getDecorView());
                     new AsyncTask<Void, Void, Void>() {
                         @Override
-                        protected void onPreExecute() {
-                            super.onPreExecute();
-                        }
-
-                        @Override
                         protected Void doInBackground(Void... params) {
                             try {
                                 Thread.sleep(FEED_REFRESH_TIME_MILLIS);

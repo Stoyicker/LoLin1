@@ -57,7 +57,7 @@ public class Realm implements Parcelable {
         Realm ret;
 
         if (!singletonMap.containsKey(realmId) || (ret = singletonMap.get(realmId)) == null) {
-            throw new IllegalArgumentException(realmId + " not recognized.");
+            return null;
         }
 
         return ret;

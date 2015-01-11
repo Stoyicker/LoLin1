@@ -3,13 +3,11 @@ package org.jorge.lolin1.ui.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
@@ -24,11 +22,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
+import org.jorge.lolin1.io.prefs.PreferenceAssistant;
 import org.jorge.lolin1.ui.activity.SettingsActivity;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter.NavigationItem;
@@ -49,7 +49,6 @@ import java.util.Queue;
 public class NavigationDrawerFragment extends Fragment implements NavigationDrawerAdapter
         .NavigationDrawerCallbacks {
     private final String TAG = NavigationDrawerFragment.class.getName();
-    private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
     private static final String STATE_SELECTED_POSITION = "selected_navigation_drawer_position";
     private NavigationDrawerAdapter.NavigationDrawerCallbacks mCallbacks;
     private RecyclerView mDrawerList;
@@ -138,8 +137,8 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUserLearnedDrawer = Boolean.valueOf(readSharedSetting(mActivity,
-                PREF_USER_LEARNED_DRAWER, "false"));
+        mUserLearnedDrawer = PreferenceAssistant.readSharedBoolean(mContext,
+                PreferenceAssistant.PREF_USER_LEARNED_DRAWER, Boolean.FALSE);
         if (savedInstanceState != null) {
             mCurrentSelectedPosition = savedInstanceState.getInt(STATE_SELECTED_POSITION);
             mFromSavedInstanceState = Boolean.TRUE;
@@ -169,6 +168,18 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                 super.onDrawerClosed(drawerView);
                 if (!isAdded()) return;
                 mActivity.invalidateOptionsMenu();
+                if (!PreferenceAssistant.readSharedBoolean(mContext,
+                        PreferenceAssistant.PREF_PULL_TO_REFRESH_LEARNED, Boolean.FALSE)) {
+                    mActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(mActivity, R.string.pull_to_refresh,
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    PreferenceAssistant.writeSharedBoolean(mContext,
+                            PreferenceAssistant.PREF_PULL_TO_REFRESH_LEARNED, Boolean.TRUE);
+                }
             }
 
             @Override
@@ -177,7 +188,9 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                 if (!isAdded()) return;
                 if (!mUserLearnedDrawer) {
                     mUserLearnedDrawer = Boolean.TRUE;
-                    saveSharedSetting(mActivity, PREF_USER_LEARNED_DRAWER, "true");
+                    PreferenceAssistant.writeSharedBoolean(mContext,
+                            PreferenceAssistant.PREF_USER_LEARNED_DRAWER,
+                            Boolean.TRUE);
                 }
 
                 mActivity.invalidateOptionsMenu();
@@ -297,18 +310,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         selectItem(position);
-    }
-
-    public static void saveSharedSetting(Context ctx, String settingName, String settingValue) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString(settingName, settingValue);
-        editor.apply();
-    }
-
-    public static String readSharedSetting(Context ctx, String settingName, String defaultValue) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ctx);
-        return sharedPref.getString(settingName, defaultValue);
     }
 
     public int getPosition() {
