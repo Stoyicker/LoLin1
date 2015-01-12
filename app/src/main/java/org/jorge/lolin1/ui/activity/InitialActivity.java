@@ -53,7 +53,7 @@ public class InitialActivity extends ActionBarActivity {
         initDatabase(context);
         scheduleFeedServices(context);
 
-        launchHomeActivity();
+        launchFirstActivity();
     }
 
     private void scheduleFeedServices(Context context) {
@@ -83,8 +83,12 @@ public class InitialActivity extends ActionBarActivity {
         Fabric.with(context, new Crashlytics());
     }
 
-    private void launchHomeActivity() {
-        final Intent homeIntent = new Intent(getApplicationContext(), MainActivity.class);
+    private void launchFirstActivity() {
+        final Intent homeIntent;
+        if (Boolean.TRUE)
+            homeIntent = new Intent(getApplicationContext(), LoginActivity.class);
+        else
+            homeIntent = new Intent(getApplicationContext(), MainActivity.class);
         finish();
         startActivity(homeIntent);
     }

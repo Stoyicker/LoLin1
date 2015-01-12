@@ -47,4 +47,7 @@
     <string name="locale_ru_ru" translatable="false">ru_RU</string>
     <string name="news_table_name_pattern" translatable="false">NEWS_%s_%s</string>
     <string name="pull_to_refresh">Pull to refresh!</string>
+    <string name="login_background_content_description">Log In</string>
+    <string name="legal_jibber_jabber">%s isn\'t endorsed by Riot Games and doesn\'t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</string>
+    <string name="account_login_title">Account login</string>
 </resources>
