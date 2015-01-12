@@ -81,4 +81,5 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.1.0-RC1'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.1.0-RC1'
     compile 'com.github.nirhart:parallaxscroll:1.0'
+    compile 'com.sothree.slidinguppanel:library:2.0.4'
 }

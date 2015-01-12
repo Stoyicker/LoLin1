@@ -45,4 +45,6 @@
     <dimen name="feed_article_on_list_title">18sp</dimen>
     <dimen name="feed_article_title">18sp</dimen>
     <dimen name="feed_article_preview">14sp</dimen>
+    <dimen name="chat_unexpanded_height">50dp</dimen>
+    <dimen name="chat_parallax_offset">70dp</dimen>
 </resources>
