@@ -50,4 +50,5 @@
     <dimen name="login_screen_content_margin">40dp</dimen>
     <dimen name="login_screen_card_padding">16dp</dimen>
     <dimen name="disclaimer_text_size">16sp</dimen>
+    <dimen name="login_frame_element_bottom_margin">4dp</dimen>
 </resources>
