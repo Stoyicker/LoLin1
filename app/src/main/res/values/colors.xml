@@ -52,5 +52,5 @@
     <color name="toolbar_background">@color/material_blue_500</color>
     <color name="navigation_drawer_user_data">@android:color/white</color>
     <color name="article_reader_default_image_background">@android:color/white</color>
-    <color name="login_card_background">#AA000000</color>
+    <color name="login_card_background">#88000000</color>
 </resources>
