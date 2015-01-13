@@ -31,4 +31,5 @@
     <string name="legal_jibber_jabber">%s isn\'t endorsed by Riot Games and doesn\'t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing League of Legends. League of Legends and Riot Games are trademarks or registered trademarks of Riot Games, Inc. League of Legends © Riot Games, Inc.</string>
     <string name="account_login_title">Account Login</string>
     <string name="login_activity_username_hint">Username</string>
+    <string name="login_activity_password_hint">Password</string>
 </resources>
