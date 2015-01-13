@@ -7,10 +7,11 @@ import android.preference.PreferenceManager;
 public final class PreferenceAssistant {
 
     public static final String PREF_PULL_TO_REFRESH_LEARNED = "PREF_PULL_TO_REFRESH_LEARNED";
-    public static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
+    public static final String PREF_USER_LEARNED_DRAWER = "PREF_USER_LEARNED_DRAWER";
+    public static final String PREF_REALM_NAME = "PREF_REALM_NAME";
 
     private PreferenceAssistant() {
-        throw new IllegalStateException("Do not instantiate " + getClass().getName());
+        throw new UnsupportedOperationException("Do not instantiate " + getClass().getName());
     }
 
     public static void writeSharedString(Context ctx, String settingName, String settingValue) {

@@ -19,11 +19,14 @@ package org.jorge.lolin1.ui.activity;
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBarActivity;
 
 import com.crashlytics.android.Crashlytics;
@@ -34,6 +37,7 @@ import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.backup.LoLin1BackupAgent;
 import org.jorge.lolin1.io.database.SQLiteDAO;
 import org.jorge.lolin1.io.file.FileOperations;
+import org.jorge.lolin1.io.prefs.PreferenceAssistant;
 import org.jorge.lolin1.receiver.FeedScheduleBroadcastReceiver;
 
 import java.io.File;
@@ -53,7 +57,7 @@ public class InitialActivity extends ActionBarActivity {
         initDatabase(context);
         scheduleFeedServices(context);
 
-        launchFirstActivity();
+        launchFirstActivity(context);
     }
 
     private void scheduleFeedServices(Context context) {
@@ -83,14 +87,35 @@ public class InitialActivity extends ActionBarActivity {
         Fabric.with(context, new Crashlytics());
     }
 
-    private void launchFirstActivity() {
+    private void launchFirstActivity(Context context) {
         final Intent homeIntent;
-        if (Boolean.TRUE)
-            homeIntent = new Intent(getApplicationContext(), LoginActivity.class);
-        else
-            homeIntent = new Intent(getApplicationContext(), MainActivity.class);
+        final Account acc;
+        if ((acc = loadAccount(context)) != null) {
+            //TODO Pass the data using acc
+            homeIntent = new Intent(context, MainActivity.class);
+        } else
+            homeIntent = new Intent(context, LoginActivity.class);
         finish();
         startActivity(homeIntent);
+    }
+
+    @Nullable
+    private Account loadAccount(Context context) {
+        final AccountManager accountManager = AccountManager.get(context);
+        Account[] accounts = accountManager.getAccountsByType(context.getString(R.string
+                .account_type));
+        final String upperCaseRealm = PreferenceAssistant.readSharedString(context,
+                PreferenceAssistant.PREF_REALM_NAME, null);
+        if (upperCaseRealm == null) return null;
+        Account thisRealmAccount = null;
+        for (Account acc : accounts) {
+            if (acc.name.contentEquals(upperCaseRealm)) {
+                thisRealmAccount = acc;
+                break;
+            }
+        }
+
+        return thisRealmAccount;
     }
 
     private Context initContext() {
