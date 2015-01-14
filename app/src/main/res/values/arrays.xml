@@ -28,6 +28,17 @@
         <item>SURRENDER</item>
     </string-array>
     <string-array name="backupable_preference_keys"/>
+    <string-array name="realm_list">
+        <item>@string/realm_na</item>
+        <item>@string/realm_euw</item>
+        <item>@string/realm_eune</item>
+        <item>@string/realm_br</item>
+        <item>@string/realm_lan</item>
+        <item>@string/realm_las</item>
+        <item>@string/realm_tr</item>
+        <item>@string/realm_ru</item>
+        <item>@string/realm_oce</item>
+    </string-array>
     <string-array name="realm_na_languages">
         <item>@string/locale_en_us</item>
     </string-array>

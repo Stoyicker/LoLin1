@@ -49,12 +49,17 @@
                 <org.ligi.floatlabel.FloatingLabelLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    fll:floatLabelTrigger="text"
+                    fll:floatLabelTrigger="focus"
                     android:layout_marginBottom="@dimen/login_frame_element_bottom_margin"
                     fll:floatLabelTextAppearance="@style/AppTheme.CredentialsFloatLabelStyle">
 
                     <EditText
                         android:id="@+id/user_name_field"
+                        android:nextFocusUp="@+id/password_field"
+                        android:nextFocusForward="@+id/password_field"
+                        android:nextFocusDown="@+id/password_field"
+                        android:nextFocusLeft="@+id/password_field"
+                        android:nextFocusRight="@+id/password_field"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/login_frame_shadow"
@@ -70,12 +75,17 @@
                 <org.ligi.floatlabel.FloatingLabelLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    fll:floatLabelTrigger="text"
+                    fll:floatLabelTrigger="focus"
                     android:layout_marginBottom="@dimen/login_frame_element_bottom_margin"
                     fll:floatLabelTextAppearance="@style/AppTheme.CredentialsFloatLabelStyle">
 
                     <EditText
                         android:id="@+id/password_field"
+                        android:nextFocusUp="@+id/account_login_button"
+                        android:nextFocusForward="@+id/account_login_button"
+                        android:nextFocusDown="@+id/account_login_button"
+                        android:nextFocusLeft="@+id/account_login_button"
+                        android:nextFocusRight="@+id/account_login_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/login_frame_shadow"
@@ -87,6 +97,31 @@
                         android:textColor="@android:color/white"
                         android:background="@null"/>
                 </org.ligi.floatlabel.FloatingLabelLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/login_frame_element_bottom_margin">
+
+                    <TextView
+                        android:id="@+id/account_login_button"
+                        android:text="@string/account_login_button"
+                        android:layout_width="wrap_content"
+                        android:ellipsize="marquee"
+                        android:textAllCaps="true"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        style="@style/AppTheme.LoginButtonTextStyle"/>
+
+                    <Spinner
+                        android:background="@null"
+                        android:id="@+id/realm_spinner"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_toLeftOf="@id/account_login_button"
+                        android:entries="@array/realm_list"/>
+                </RelativeLayout>
 
                 <TextView
                     android:id="@+id/disclaimer_view"

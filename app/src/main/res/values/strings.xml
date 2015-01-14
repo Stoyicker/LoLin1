@@ -52,4 +52,14 @@
     <string name="account_login_title">Account Login</string>
     <string name="login_activity_username_hint">Username</string>
     <string name="login_activity_password_hint">Password</string>
+    <string name="account_login_button">Log In</string>
+    <string name="realm_na" translatable="false">NA</string>
+    <string name="realm_euw" translatable="false">EUW</string>
+    <string name="realm_eune" translatable="false">EUNE</string>
+    <string name="realm_br" translatable="false">BR</string>
+    <string name="realm_lan" translatable="false">LAN</string>
+    <string name="realm_las" translatable="false">LAS</string>
+    <string name="realm_tr" translatable="false">TR</string>
+    <string name="realm_ru" translatable="false">RU</string>
+    <string name="realm_oce" translatable="false">OCE</string>
 </resources>

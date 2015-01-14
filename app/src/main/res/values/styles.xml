@@ -102,6 +102,10 @@
         <item name="android:shadowRadius">2</item>
     </style>
 
+    <style name="AppTheme.LoginButtonTextStyle" parent="AppTheme.InformativeLoginTextStyle">
+        <item name="android:shadowColor">@color/material_orange_500</item>
+    </style>
+
     <style name="AppTheme.CredentialsFloatLabelStyle" parent="TextAppearance.FLL.FloatLabel">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:shadowColor">@color/material_blue_500</item>
