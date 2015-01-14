@@ -26,7 +26,12 @@ import org.jorge.lolin1.datamodel.FeedArticle;
  * The reason it's being done here is a bug that causes
  * Android Studio to mistakenly find a cyclic hierarchy.
  */
-public abstract class Interface {
+public final class Interface {
+
+    private Interface() {
+        throw new UnsupportedOperationException("DO NOT CALL THIS METHOD!");
+    }
+
     public interface IOnFeedArticleClickedListener {
         public void onFeedArticleClicked(FeedArticle item, Class c);
     }
