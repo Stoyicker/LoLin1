@@ -52,5 +52,4 @@
     <string name="account_login_title">Account Login</string>
     <string name="login_activity_username_hint">Username</string>
     <string name="login_activity_password_hint">Password</string>
-    <string name="account_type" translatable="false">org.jorge.lolin1.2</string>
 </resources>
