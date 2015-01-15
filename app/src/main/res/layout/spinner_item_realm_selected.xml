@@ -4,7 +4,6 @@
           android:textStyle="bold"
           android:textColor="@android:color/white"
           android:background="@android:color/transparent"
-          android:gravity="center"
           android:textSize="@dimen/realm_list_text"
           android:padding="@dimen/realm_list_dropdown_item_padding"
           android:textAllCaps="true"

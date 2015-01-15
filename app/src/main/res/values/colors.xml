@@ -19,6 +19,7 @@
 
 <resources>
     <color name="material_blue_500">#3F51B5</color>
+    <color name="material_blue_600">#1E88E5</color>
     <color name="material_blue_800">#0277BD</color>
 
     <color name="feed_article_on_list_title">@android:color/black</color>

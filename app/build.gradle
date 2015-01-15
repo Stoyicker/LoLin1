@@ -83,4 +83,5 @@ dependencies {
     compile 'com.github.nirhart:parallaxscroll:1.0'
     compile 'com.sothree.slidinguppanel:library:2.0.4'
     compile 'org.ligi:floatlabel:0.2.0'
+    compile 'com.github.navasmdc:MaterialDesign:1.3'
 }

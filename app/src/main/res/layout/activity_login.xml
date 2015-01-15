@@ -104,6 +104,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/login_frame_element_margin">
 
+                    <com.gc.materialdesign.views.ProgressBarCircularIndeterminate
+                        android:id="@+id/progress_bar"
+                        android:layout_width="@dimen/login_progressbar_square_side"
+                        android:layout_height="32dp"
+                        android:layout_margin="@dimen/login_progressbar_margin"
+                        android:layout_alignParentRight="true"
+                        android:background="@color/material_blue_600"/>
+
                     <TextView
                         android:id="@+id/account_login_button"
                         android:text="@string/account_login_button"
@@ -121,6 +129,7 @@
                         android:layout_width="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_toLeftOf="@id/account_login_button"
+                        android:dropDownWidth="@dimen/realm_dropdown_width"
                         android:prompt="@string/realm_prompt"/>
                 </RelativeLayout>
 
