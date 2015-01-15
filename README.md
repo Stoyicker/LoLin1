@@ -13,6 +13,6 @@ Feel free to take a story or add yours!
 
 League of Legends LoLin1 app for Android.
 
-This varianton is not yet available Google Play, but you are free to build a debug version by yourself.
+This variant is not yet available on Google Play, but you are free to build a debug version by yourself.
 
 Pull requests are welcome.
