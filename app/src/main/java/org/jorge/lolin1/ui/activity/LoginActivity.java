@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import org.jorge.lolin1.LoLin1Application;
@@ -32,7 +34,6 @@ import java.util.Locale;
 
 public class LoginActivity extends ActionBarActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,5 +47,10 @@ public class LoginActivity extends ActionBarActivity {
                 getString(R.string.legal_jibber_jabber), getString(R.string.app_name)));
 
         final Context context = LoLin1Application.getInstance().getContext();
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.realm_list, R.layout.spinner_item_realm_selected);
+        adapter.setDropDownViewResource(R.layout.spinner_item_realm_dropdown);
+        ((Spinner) findViewById(R.id.realm_spinner)).setAdapter(adapter);
     }
 }
