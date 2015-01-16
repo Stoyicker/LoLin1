@@ -86,15 +86,15 @@ public class InitialActivity extends ActionBarActivity {
     }
 
     private void launchFirstActivity(Context context) {
-        final Intent homeIntent;
+        final Intent nextActivityIntent;
         final Account acc;
         if ((acc = AccountManagerSingleton.getInstance().loadFirstAccount(context)) != null) {
-            //TODO Pass the data using acc
-            homeIntent = new Intent(context, MainActivity.class);
+            nextActivityIntent = new Intent(context, MainActivity.class);
+            nextActivityIntent.putExtra(MainActivity.EXTRA_KEY_LOLIN1_ACCOUNT, acc);
         } else
-            homeIntent = new Intent(context, LoginActivity.class);
+            nextActivityIntent = new Intent(context, LoginActivity.class);
         finish();
-        startActivity(homeIntent);
+        startActivity(nextActivityIntent);
     }
 
     private Context initContext() {

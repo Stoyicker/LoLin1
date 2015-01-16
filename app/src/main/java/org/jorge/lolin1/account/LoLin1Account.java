@@ -38,7 +38,7 @@ import java.util.concurrent.Executors;
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
-public class LoLin1Account {
+public class LoLin1Account {  //TODO FIRST PRIORITY IMPLEMENT PARCELABLE
 
     private final String mUsername, mPassword;
     private final Realm.RealmEnum mRealmEnum;

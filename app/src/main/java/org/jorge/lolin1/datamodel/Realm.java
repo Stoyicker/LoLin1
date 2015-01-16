@@ -59,7 +59,7 @@ public class Realm implements Parcelable {
     }
 
     public enum RealmEnum {
-        NA, EUW, EUNE, BR, LAN, LAS, TR, RU, OCE
+        NA, EUW, EUNE, BR, LAN, LAS, TR, RU, OCE, NONE
     }
 
     private static final EnumMap<RealmEnum, Realm> singletonMap = new EnumMap<>(RealmEnum.class);

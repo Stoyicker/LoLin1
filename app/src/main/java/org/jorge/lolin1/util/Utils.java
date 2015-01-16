@@ -1,6 +1,11 @@
 package org.jorge.lolin1.util;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Looper;
+
+import org.jorge.lolin1.LoLin1Application;
 
 /*
  * This file is part of LoLin1.
@@ -25,5 +30,25 @@ public abstract class Utils {
 
     public static Boolean isMainThread() {
         return Looper.myLooper() == Looper.getMainLooper();
+    }
+
+    public static Boolean isInternetReachable() {
+        final Context context = LoLin1Application.getInstance().getContext();
+        Boolean ret;
+
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiNetworkInfo =
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI),
+                dataNetworkInfo =
+                        connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        Boolean isWifiConnected =
+                (wifiNetworkInfo == null) ? Boolean.FALSE : wifiNetworkInfo.isConnected(),
+                isDataConnected =
+                        (dataNetworkInfo == null) ? Boolean.FALSE :
+                                dataNetworkInfo.isConnected();
+        ret = isWifiConnected || isDataConnected;
+
+        return ret;
     }
 }

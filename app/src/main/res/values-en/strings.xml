@@ -35,4 +35,5 @@
     <string name="account_login_button">Log In</string>
     <string name="realm_prompt">Realm</string>
     <string name="login_error_empty_username_or_password">How do you want to log in without username and password?</string>
+    <string name="login_error_no_internet">No internet connection detected</string>
 </resources>

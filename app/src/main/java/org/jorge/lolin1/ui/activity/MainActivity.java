@@ -48,6 +48,7 @@ import java.util.concurrent.Executors;
 public class MainActivity extends ActionBarActivity implements Interface
         .IOnFeedArticleClickedListener, NavigationDrawerAdapter.NavigationDrawerCallbacks {
 
+    public static final String EXTRA_KEY_LOLIN1_ACCOUNT = "EXTRA_KEY_LOLIN1_ACCOUNT";
     private Context mContext;
     private Fragment[] mContentFragments;
     private NavigationDrawerFragment mNavigationDrawerFragment;

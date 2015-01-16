@@ -1,6 +1,7 @@
 package org.jorge.lolin1.ui.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -17,6 +18,8 @@ import android.widget.Toast;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
+import org.jorge.lolin1.account.AccountManagerSingleton;
+import org.jorge.lolin1.util.Utils;
 
 import java.util.Locale;
 
@@ -125,8 +128,17 @@ public class LoginActivity extends ActionBarActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
+        mLoginButton.setVisibility(View.GONE);
+
+        final Intent nextActivityIntent = new Intent(mContext, MainActivity.class);
+        if (!Utils.isInternetReachable()) {
+            Toast.makeText(mContext, R.string.login_error_no_internet, Toast.LENGTH_SHORT).show();
+            nextActivityIntent.putExtra(MainActivity.EXTRA_KEY_LOLIN1_ACCOUNT,
+                    AccountManagerSingleton.getInstance().getNullAccount());
+            finish();
+            startActivity(nextActivityIntent);
+        }
         //TODO attemptLogin
-        //If no internet, toast and move on to the news
         //If internet and incorrect login, toast and login again
         //If internet and correct login, toast and move on to the news
     }
