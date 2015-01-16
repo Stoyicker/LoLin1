@@ -24,7 +24,7 @@
         android:layout_margin="@dimen/login_screen_content_margin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        card_view:cardElevation="8dp"
+        card_view:cardElevation="@dimen/standard_card_elevation"
         card_view:cardBackgroundColor="@color/login_card_background">
 
         <ScrollView
@@ -48,13 +48,15 @@
                     style="@style/AppTheme.InformativeLoginTextStyle"/>
 
                 <org.ligi.floatlabel.FloatingLabelLayout
+                    android:id="@+id/user_name_field_wrapper"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    fll:floatLabelTrigger="focus"
+                    fll:floatLabelTrigger="text"
                     android:layout_marginBottom="@dimen/login_frame_element_margin"
                     fll:floatLabelTextAppearance="@style/AppTheme.CredentialsFloatLabelStyle">
 
                     <EditText
+                        android:imeOptions="actionNext"
                         android:id="@+id/user_name_field"
                         android:nextFocusUp="@+id/password_field"
                         android:nextFocusForward="@+id/password_field"
@@ -66,7 +68,7 @@
                         android:paddingLeft="@dimen/login_frame_shadow"
                         android:paddingRight="@dimen/login_frame_shadow"
                         android:hint="@string/login_activity_username_hint"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:inputType="textNoSuggestions"
                         android:textColorHint="@color/login_credential_hint"
                         android:textColor="@android:color/white"
@@ -76,11 +78,13 @@
                 <org.ligi.floatlabel.FloatingLabelLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    fll:floatLabelTrigger="focus"
+                    android:id="@+id/password_field_wrapper"
+                    fll:floatLabelTrigger="text"
                     android:layout_marginBottom="@dimen/login_frame_element_margin"
                     fll:floatLabelTextAppearance="@style/AppTheme.CredentialsFloatLabelStyle">
 
                     <EditText
+                        android:imeOptions="actionDone"
                         android:id="@+id/password_field"
                         android:nextFocusUp="@+id/account_login_button"
                         android:nextFocusForward="@+id/account_login_button"
@@ -92,7 +96,7 @@
                         android:paddingLeft="@dimen/login_frame_shadow"
                         android:paddingRight="@dimen/login_frame_shadow"
                         android:hint="@string/login_activity_password_hint"
-                        android:gravity="center"
+                        android:gravity="left"
                         android:inputType="textPassword"
                         android:textColorHint="@color/login_credential_hint"
                         android:textColor="@android:color/white"
@@ -107,7 +111,7 @@
                     <com.gc.materialdesign.views.ProgressBarCircularIndeterminate
                         android:id="@+id/progress_bar"
                         android:layout_width="@dimen/login_progressbar_square_side"
-                        android:layout_height="32dp"
+                        android:layout_height="@dimen/login_progressbar_square_side"
                         android:layout_margin="@dimen/login_progressbar_margin"
                         android:layout_alignParentRight="true"
                         android:background="@color/material_blue_600"/>

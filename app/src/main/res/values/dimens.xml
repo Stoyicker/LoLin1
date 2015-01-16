@@ -57,4 +57,5 @@
     <dimen name="realm_dropdown_width">100dp</dimen>
     <dimen name="login_progressbar_margin">12dp</dimen>
     <dimen name="login_progressbar_square_side">32dp</dimen>
+    <dimen name="standard_card_elevation">8dp</dimen>
 </resources>
