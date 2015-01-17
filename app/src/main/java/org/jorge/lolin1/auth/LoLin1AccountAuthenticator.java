@@ -8,14 +8,19 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import org.jorge.lolin1.R;
+import org.jorge.lolin1.datamodel.LoLin1Account;
 import org.jorge.lolin1.ui.activity.LoginActivity;
 
 public class LoLin1AccountAuthenticator extends AbstractAccountAuthenticator {
 
+    public static final String ACCOUNT_DATA_REALM = "ACCOUNT_DATA_REALM";
     private final Context mContext;
+    public static final String TOKEN_GENERATION_JOINT = "AtnY8Y9vJAgE0t6cpG60"; //Generated
+    // with Random.org
 
     public LoLin1AccountAuthenticator(Context context) {
         super(context);
@@ -58,7 +63,8 @@ public class LoLin1AccountAuthenticator extends AbstractAccountAuthenticator {
             password = accountManager.getPassword(account);
             bundle.putString(AccountManager.KEY_ACCOUNT_NAME, username);
             bundle.putString(AccountManager.KEY_ACCOUNT_TYPE, authTokenType);
-            bundle.putString(AccountManager.KEY_PASSWORD, password);
+            bundle.putString(AccountManager.KEY_AUTH_TOKEN_LABEL,
+                    username + TOKEN_GENERATION_JOINT + password);
         } else {
             final Intent intent = new Intent(mContext, LoginActivity.class);
             intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
@@ -83,6 +89,18 @@ public class LoLin1AccountAuthenticator extends AbstractAccountAuthenticator {
     @Override
     public Bundle hasFeatures(AccountAuthenticatorResponse response, Account account,
                               String[] features) throws NetworkErrorException {
+        return null;
+    }
+
+    @Nullable
+    public static LoLin1Account loadAccount(Context context) {
+        final AccountManager accountManager = AccountManager.get(context);
+        Account[] accounts = accountManager.getAccountsByType(context.getString(R.string
+                .account_type));
+        if (accounts != null && accounts.length > 0) {
+            return new LoLin1Account(context, accounts[0]);
+        }
+
         return null;
     }
 }

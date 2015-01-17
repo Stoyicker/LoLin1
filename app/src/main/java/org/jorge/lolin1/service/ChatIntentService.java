@@ -18,7 +18,7 @@ import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 import org.jivesoftware.smack.SmackAndroid;
 import org.jivesoftware.smack.SmackException;
 import org.jorge.lolin1.R;
-import org.jorge.lolin1.account.LoLin1Account;
+import org.jorge.lolin1.datamodel.LoLin1Account;
 
 import java.io.IOException;
 import java.util.List;

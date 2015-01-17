@@ -19,7 +19,6 @@ package org.jorge.lolin1.ui.activity;
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
-import android.accounts.Account;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -31,7 +30,8 @@ import com.crashlytics.android.Crashlytics;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
-import org.jorge.lolin1.account.AccountManagerSingleton;
+import org.jorge.lolin1.datamodel.LoLin1Account;
+import org.jorge.lolin1.auth.LoLin1AccountAuthenticator;
 import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.backup.LoLin1BackupAgent;
 import org.jorge.lolin1.io.database.SQLiteDAO;
@@ -87,14 +87,15 @@ public class InitialActivity extends ActionBarActivity {
 
     private void launchFirstActivity(Context context) {
         final Intent nextActivityIntent;
-        final Account acc;
-        if ((acc = AccountManagerSingleton.getInstance().loadFirstAccount(context)) != null) {
+        final LoLin1Account acc;
+        if ((acc = LoLin1AccountAuthenticator.loadAccount(context)) != null) {
             nextActivityIntent = new Intent(context, MainActivity.class);
             nextActivityIntent.putExtra(MainActivity.EXTRA_KEY_LOLIN1_ACCOUNT, acc);
         } else
             nextActivityIntent = new Intent(context, LoginActivity.class);
         finish();
         startActivity(nextActivityIntent);
+        //TODO If I show the login activity I want to know when it finishes to go to news
     }
 
     private Context initContext() {

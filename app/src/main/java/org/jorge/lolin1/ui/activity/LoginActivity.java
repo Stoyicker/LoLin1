@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
+import org.jorge.lolin1.auth.LoLin1AccountAuthenticator;
 
 import java.util.Locale;
 
@@ -132,20 +133,25 @@ public class LoginActivity extends AccountAuthenticatorActivity {
                     Toast.LENGTH_SHORT).show();
             return;
         }
-        mLoginButton.setVisibility(View.GONE);
 
         final Intent parameters = new Intent();
         parameters.putExtra(AccountManager.KEY_ACCOUNT_NAME, userName);
         parameters.putExtra(AccountManager.KEY_PASSWORD, password);
+        parameters.putExtra(AccountManager.KEY_USERDATA, mRealmSpinner.getSelectedItem().toString
+                ());
         saveAccount(parameters);
     }
 
     private void saveAccount(Intent intent) {
         AccountManager accountManager = AccountManager.get(getApplicationContext());
-        String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-        String accountPassword = intent.getStringExtra(AccountManager.KEY_PASSWORD);
+        final String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+        final String accountPassword = intent.getStringExtra(AccountManager.KEY_PASSWORD);
+        final String accountRealm = intent.getStringExtra(AccountManager.KEY_USERDATA);
         final Account account =
                 new Account(accountName, AccountManager.KEY_ACCOUNT_TYPE);
+        accountManager.setUserData(account, LoLin1AccountAuthenticator.ACCOUNT_DATA_REALM,
+                accountRealm.toUpperCase(Locale.ENGLISH));
+        //FIXME NPE in line above, accountRealm might be null?
         if (intent.getBooleanExtra(KEY_NEW_ACCOUNT, Boolean.FALSE)) {
             accountManager.addAccountExplicitly(account, accountPassword, null);
         }
