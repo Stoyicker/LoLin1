@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -129,8 +130,12 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 
         if (TextUtils.isEmpty(userName = mUserNameField.getText().toString()) || TextUtils.isEmpty
                 (password = mPasswordField.getText().toString())) {
-            Toast.makeText(mContext, getString(R.string.login_error_empty_username_or_password),
-                    Toast.LENGTH_SHORT).show();
+            Toast emptyCredentialsToast = Toast.makeText(mContext,
+                    getString(R.string.login_error_empty_username_or_password),
+                    Toast.LENGTH_SHORT);
+            emptyCredentialsToast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0,
+                    0);
+            emptyCredentialsToast.show();
             return;
         }
 
@@ -151,7 +156,6 @@ public class LoginActivity extends AccountAuthenticatorActivity {
                 new Account(accountName, AccountManager.KEY_ACCOUNT_TYPE);
         accountManager.setUserData(account, LoLin1AccountAuthenticator.ACCOUNT_DATA_REALM,
                 accountRealm.toUpperCase(Locale.ENGLISH));
-        //FIXME NPE in line above, accountRealm might be null?
         if (intent.getBooleanExtra(KEY_NEW_ACCOUNT, Boolean.FALSE)) {
             accountManager.addAccountExplicitly(account, accountPassword, null);
         }
