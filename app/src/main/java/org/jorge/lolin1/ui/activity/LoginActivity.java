@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
-import org.jorge.lolin1.account.AccountManagerSingleton;
+import org.jorge.lolin1.account.LoLin1Account;
 import org.jorge.lolin1.util.Utils;
 
 import java.util.Locale;
@@ -45,6 +45,7 @@ import java.util.Locale;
 public class LoginActivity extends ActionBarActivity {
 
     private EditText mUserNameField, mPasswordField;
+    private Spinner mRealmSpinner;
     private Context mContext;
     private View mLoginButton;
 
@@ -134,7 +135,8 @@ public class LoginActivity extends ActionBarActivity {
         if (!Utils.isInternetReachable()) {
             Toast.makeText(mContext, R.string.login_error_no_internet, Toast.LENGTH_SHORT).show();
             nextActivityIntent.putExtra(MainActivity.EXTRA_KEY_LOLIN1_ACCOUNT,
-                    AccountManagerSingleton.getInstance().getNullAccount());
+                    new LoLin1Account(userName, password, mRealmSpinner.getSelectedItem()
+                            .toString()));
             finish();
             startActivity(nextActivityIntent);
         }

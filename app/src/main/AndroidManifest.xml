@@ -97,6 +97,10 @@
             android:name=".service.SchoolFeedHarvestService"
             android:exported="false"/>
 
+        <service
+            android:name=".service.ChatIntentService"
+            android:exported="false"/>
+
         <receiver
             android:name=".receiver.FeedScheduleBroadcastReceiver"
             android:exported="false">

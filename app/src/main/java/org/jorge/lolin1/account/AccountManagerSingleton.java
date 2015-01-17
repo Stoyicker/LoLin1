@@ -29,7 +29,6 @@ public class AccountManagerSingleton {
     private static final Object LOCK = new Object();
     private static volatile AccountManagerSingleton mInstance;
     static String ACCOUNT_TYPE = "org.jorge.lolin1.2";
-    private LoLin1Account mNullAccount = new LoLin1Account("null", "null", "NONE");
 
     public static AccountManagerSingleton getInstance() {
         AccountManagerSingleton ret = mInstance;
@@ -54,9 +53,5 @@ public class AccountManagerSingleton {
         }
 
         return null;
-    }
-
-    public LoLin1Account getNullAccount() {
-        return mNullAccount;
     }
 }
