@@ -35,5 +35,6 @@
     <string name="account_login_button">Log In</string>
     <string name="realm_prompt">Realm</string>
     <string name="login_error_empty_username_or_password">How do you want to log in without username and password?</string>
-    <string name="login_error_no_internet">No internet connection detected</string>
+    <string name="auth_token_label">Secure access to a LoLin1 account</string>
+    <string name="account_save_success">Account saved successfully</string>
 </resources>

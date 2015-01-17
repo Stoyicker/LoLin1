@@ -5,6 +5,8 @@ import android.accounts.AccountManager;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
+import org.jorge.lolin1.R;
+
 /*
  * This file is part of LoLin1.
  *
@@ -28,7 +30,6 @@ public class AccountManagerSingleton {
 
     private static final Object LOCK = new Object();
     private static volatile AccountManagerSingleton mInstance;
-    static String ACCOUNT_TYPE = "org.jorge.lolin1.2";
 
     public static AccountManagerSingleton getInstance() {
         AccountManagerSingleton ret = mInstance;
@@ -47,7 +48,8 @@ public class AccountManagerSingleton {
     @Nullable
     public Account loadFirstAccount(Context context) {
         final AccountManager accountManager = AccountManager.get(context);
-        Account[] accounts = accountManager.getAccountsByType(ACCOUNT_TYPE);
+        Account[] accounts = accountManager.getAccountsByType(context.getString(R.string
+                .account_type));
         if (accounts != null && accounts.length > 0) {
             return accounts[0];
         }

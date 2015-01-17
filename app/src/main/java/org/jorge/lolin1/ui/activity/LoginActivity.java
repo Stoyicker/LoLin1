@@ -1,10 +1,11 @@
 package org.jorge.lolin1.ui.activity;
 
+import android.accounts.Account;
+import android.accounts.AccountAuthenticatorActivity;
+import android.accounts.AccountManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -18,8 +19,6 @@ import android.widget.Toast;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
-import org.jorge.lolin1.account.LoLin1Account;
-import org.jorge.lolin1.util.Utils;
 
 import java.util.Locale;
 
@@ -42,8 +41,11 @@ import java.util.Locale;
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends AccountAuthenticatorActivity {
 
+    public static final String KEY_ACCOUNT_TYPE = "KEY_ACCOUNT_TYPE";
+    public static final String KEY_NEW_ACCOUNT = "KEY_NEW_ACCOUNT";
+    public static final String KEY_RESPONSE = "KEY_RESPONSE";
     private EditText mUserNameField, mPasswordField;
     private Spinner mRealmSpinner;
     private Context mContext;
@@ -52,9 +54,9 @@ public class LoginActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final ActionBar supportActionBar;
-        if ((supportActionBar = getSupportActionBar()) != null)
-            supportActionBar.hide();
+        final android.app.ActionBar actionBar;
+        if ((actionBar = getActionBar()) != null)
+            actionBar.hide();
 
         setContentView(R.layout.activity_login);
 
@@ -70,6 +72,7 @@ public class LoginActivity extends ActionBarActivity {
 
         mUserNameField = (EditText) findViewById(R.id.user_name_field);
         mPasswordField = (EditText) findViewById(R.id.password_field);
+        mRealmSpinner = (Spinner) findViewById(R.id.realm_spinner);
 
         mUserNameField.requestFocus();
 
@@ -96,7 +99,7 @@ public class LoginActivity extends ActionBarActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                attemptLogin();
+                attemptAddCredentials();
             }
         });
 
@@ -110,7 +113,7 @@ public class LoginActivity extends ActionBarActivity {
                         .getAction() == KeyEvent
                         .ACTION_DOWN &&
                         event.getKeyCode() == KeyEvent.KEYCODE_ENTER))) {
-                    attemptLogin();
+                    attemptAddCredentials();
                     return Boolean.TRUE;
                 }
                 return Boolean.FALSE;
@@ -120,7 +123,7 @@ public class LoginActivity extends ActionBarActivity {
         mPasswordField.setOnEditorActionListener(listener);
     }
 
-    private synchronized void attemptLogin() {
+    private synchronized void attemptAddCredentials() {
         final String userName, password;
 
         if (TextUtils.isEmpty(userName = mUserNameField.getText().toString()) || TextUtils.isEmpty
@@ -131,17 +134,25 @@ public class LoginActivity extends ActionBarActivity {
         }
         mLoginButton.setVisibility(View.GONE);
 
-        final Intent nextActivityIntent = new Intent(mContext, MainActivity.class);
-        if (!Utils.isInternetReachable()) {
-            Toast.makeText(mContext, R.string.login_error_no_internet, Toast.LENGTH_SHORT).show();
-            nextActivityIntent.putExtra(MainActivity.EXTRA_KEY_LOLIN1_ACCOUNT,
-                    new LoLin1Account(userName, password, mRealmSpinner.getSelectedItem()
-                            .toString()));
-            finish();
-            startActivity(nextActivityIntent);
+        final Intent parameters = new Intent();
+        parameters.putExtra(AccountManager.KEY_ACCOUNT_NAME, userName);
+        parameters.putExtra(AccountManager.KEY_PASSWORD, password);
+        saveAccount(parameters);
+    }
+
+    private void saveAccount(Intent intent) {
+        AccountManager accountManager = AccountManager.get(getApplicationContext());
+        String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
+        String accountPassword = intent.getStringExtra(AccountManager.KEY_PASSWORD);
+        final Account account =
+                new Account(accountName, AccountManager.KEY_ACCOUNT_TYPE);
+        if (intent.getBooleanExtra(KEY_NEW_ACCOUNT, Boolean.FALSE)) {
+            accountManager.addAccountExplicitly(account, accountPassword, null);
         }
-        //TODO attemptLogin
-        //If internet and incorrect login, toast and login again
-        //If internet and correct login, toast and move on to the news
+        setAccountAuthenticatorResult(intent.getExtras());
+        setResult(RESULT_OK, intent);
+        Toast.makeText(getApplicationContext(), R.string.account_save_success, Toast.LENGTH_SHORT)
+                .show();
+        finish();
     }
 }

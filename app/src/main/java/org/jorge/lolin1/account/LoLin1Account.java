@@ -110,14 +110,6 @@ public class LoLin1Account implements Parcelable {
         return mRealmEnum;
     }
 
-    private void saveAccount(@NonNull Context context) {
-        final AccountManager accountManager = AccountManager.get(context);
-        final Account account =
-                new Account(mUsername, AccountManagerSingleton.ACCOUNT_TYPE);
-        accountManager.setAuthToken(account, TOKEN_TYPE_PASSWORD, mPassword);
-        accountManager.setAuthToken(account, TOKEN_TYPE_REALM, mRealmEnum.name());
-    }
-
     public LoLin1Account(Parcel in) {
         mUsername = in.readString();
         mPassword = in.readString();
