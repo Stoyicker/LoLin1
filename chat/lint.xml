@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lint>
     <!-- DNSJava has its problems -->
-    <issue id="InvalidPackage" severity="ignore" />
+    <issue id="InvalidPackage" severity="ignore"/>
+    <!-- Unimportant -->
+    <issue id="TrulyRandom">
+        <ignore path="src/main/java/org/jivesoftware/spark/util/DummySSLSocketFactory.java"/>
+    </issue>
 </lint>

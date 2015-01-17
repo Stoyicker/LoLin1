@@ -1,7 +1,17 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/repo' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.14.3'
+    }
+}
+
 apply plugin: 'com.android.library'
 
 repositories {
-    jcenter()
+    maven { url 'https://maven.fabric.io/repo' }
 }
 
 android {
@@ -27,4 +37,8 @@ dependencies {
     compile 'org.jdom:jdom2:2.0.5'
     compile 'dnsjava:dnsjava:2.1.1'
     compile fileTree('libs')
+    compile('com.crashlytics.sdk.android:crashlytics:2.0.1@aar') {
+        transitive = true;
+    }
+    compile 'com.android.support:support-v4:21.0.3'
 }
