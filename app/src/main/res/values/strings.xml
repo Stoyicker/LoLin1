@@ -67,4 +67,8 @@
     <string name="auth_token_label">Secure access to a LoLin1 account</string>
     <string name="account_save_success">Account saved successfully</string>
     <string name="account_type" translatable="false">org.jorge.lolin1.2</string>
+    <string name="event_chat_overview" translatable="false">org.jorge.lolin1.CHAT_OVERVIEW_EVENT</string>
+    <string name="event_login_successful" translatable="false">org.jorge.lolin1.CHAT_LOGIN_SUCCESSFUL_EVENT</string>
+    <string name="event_login_failed" translatable="false">org.jorge.lolin1.CHAT_LOGIN_FAILED_EVENT</string>
+    <string name="event_message_received" translatable="false">org.jorge.lolin1.CHAT_MESSAGE_RECEIVED_EVENT</string>
 </resources>
