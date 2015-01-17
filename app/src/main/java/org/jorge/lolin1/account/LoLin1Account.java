@@ -6,6 +6,8 @@ import android.accounts.AuthenticatorException;
 import android.accounts.OperationCanceledException;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
 import com.crashlytics.android.Crashlytics;
@@ -38,7 +40,7 @@ import java.util.concurrent.Executors;
  * Created by Jorge Antonio Diaz-Benito Soriano.
  */
 
-public class LoLin1Account {  //TODO FIRST PRIORITY IMPLEMENT PARCELABLE
+public class LoLin1Account implements Parcelable {
 
     private final String mUsername, mPassword;
     private final Realm.RealmEnum mRealmEnum;
@@ -115,4 +117,32 @@ public class LoLin1Account {  //TODO FIRST PRIORITY IMPLEMENT PARCELABLE
         accountManager.setAuthToken(account, TOKEN_TYPE_PASSWORD, mPassword);
         accountManager.setAuthToken(account, TOKEN_TYPE_REALM, mRealmEnum.name());
     }
+
+    public LoLin1Account(Parcel in) {
+        mUsername = in.readString();
+        mPassword = in.readString();
+        mRealmEnum = Realm.RealmEnum.valueOf(in.readString().toUpperCase(Locale.ENGLISH));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mUsername);
+        dest.writeString(mPassword);
+        dest.writeString(mRealmEnum.name());
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public LoLin1Account createFromParcel(Parcel in) {
+            return new LoLin1Account(in);
+        }
+
+        public LoLin1Account[] newArray(int size) {
+            return new LoLin1Account[size];
+        }
+    };
 }
