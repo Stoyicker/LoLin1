@@ -127,6 +127,10 @@ public class Realm implements Parcelable {
                 mLocales = context.getResources().getStringArray(R.array
                         .realm_oce_languages);
                 break;
+            case NONE:
+                //Unused
+                mLocales = new String[]{};
+                break;
             default:
                 throw new IllegalArgumentException(realmId + " not recognized.");
         }

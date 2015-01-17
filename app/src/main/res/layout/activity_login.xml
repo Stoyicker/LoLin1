@@ -110,6 +110,7 @@
 
                     <com.gc.materialdesign.views.ProgressBarCircularIndeterminate
                         android:id="@+id/progress_bar"
+                        android:visibility="gone"
                         android:layout_width="@dimen/login_progressbar_square_side"
                         android:layout_height="@dimen/login_progressbar_square_side"
                         android:layout_margin="@dimen/login_progressbar_margin"
