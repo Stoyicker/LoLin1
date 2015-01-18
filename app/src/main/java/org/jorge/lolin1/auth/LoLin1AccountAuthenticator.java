@@ -19,12 +19,12 @@ public class LoLin1AccountAuthenticator extends AbstractAccountAuthenticator {
 
     public static final String ACCOUNT_DATA_REALM = "ACCOUNT_DATA_REALM";
     private final Context mContext;
-    public static final String TOKEN_GENERATION_JOINT = "AtnY8Y9vJAgE0t6cpG60"; //Generated
-    // with Random.org
+    private final String ACCOUNT_TYPE_LOLIN1;
 
     public LoLin1AccountAuthenticator(Context context) {
         super(context);
         mContext = context;
+        ACCOUNT_TYPE_LOLIN1 = mContext.getString(R.string.account_type);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class LoLin1AccountAuthenticator extends AbstractAccountAuthenticator {
             throws NetworkErrorException {
         final Intent intent = new Intent(mContext, LoginActivity.class);
         intent.putExtra(LoginActivity.KEY_ACCOUNT_TYPE, accountType);
-        intent.putExtra(LoginActivity.KEY_NEW_ACCOUNT, Boolean.TRUE);
+        intent.putExtra(LoginActivity.KEY_NEW_LOLIN1_ACCOUNT, Boolean.TRUE);
         intent.putExtra(LoginActivity.KEY_RESPONSE, response);
         final Bundle bundle = new Bundle();
         bundle.putParcelable(AccountManager.KEY_INTENT, intent);
@@ -54,17 +54,16 @@ public class LoLin1AccountAuthenticator extends AbstractAccountAuthenticator {
     @Override
     public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account,
                                String authTokenType, Bundle options) throws NetworkErrorException {
-        AccountManager accountManager = AccountManager.get(mContext);
-        String username, password;
+        final AccountManager accountManager = AccountManager.get(mContext);
+        final String username, password;
         final Bundle bundle = new Bundle();
 
         username = accountManager.peekAuthToken(account, authTokenType);
         if (!TextUtils.isEmpty(username)) {
             password = accountManager.getPassword(account);
             bundle.putString(AccountManager.KEY_ACCOUNT_NAME, username);
-            bundle.putString(AccountManager.KEY_ACCOUNT_TYPE, authTokenType);
-            bundle.putString(AccountManager.KEY_AUTH_TOKEN_LABEL,
-                    username + TOKEN_GENERATION_JOINT + password);
+            bundle.putString(AccountManager.KEY_PASSWORD, password);
+            bundle.putString(AccountManager.KEY_ACCOUNT_TYPE, ACCOUNT_TYPE_LOLIN1);
         } else {
             final Intent intent = new Intent(mContext, LoginActivity.class);
             intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);

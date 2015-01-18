@@ -46,7 +46,7 @@ import java.util.Locale;
 public class LoginActivity extends AccountAuthenticatorActivity {
 
     public static final String KEY_ACCOUNT_TYPE = "KEY_ACCOUNT_TYPE";
-    public static final String KEY_NEW_ACCOUNT = "KEY_NEW_ACCOUNT";
+    public static final String KEY_NEW_LOLIN1_ACCOUNT = "KEY_NEW_LOLIN1_ACCOUNT";
     public static final String KEY_RESPONSE = "KEY_RESPONSE";
     private EditText mUserNameField, mPasswordField;
     private Spinner mRealmSpinner;
@@ -101,7 +101,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                attemptAddCredentials();
+                addAccount();
             }
         });
 
@@ -115,7 +115,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
                         .getAction() == KeyEvent
                         .ACTION_DOWN &&
                         event.getKeyCode() == KeyEvent.KEYCODE_ENTER))) {
-                    attemptAddCredentials();
+                    addAccount();
                     return Boolean.TRUE;
                 }
                 return Boolean.FALSE;
@@ -125,7 +125,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         mPasswordField.setOnEditorActionListener(listener);
     }
 
-    private synchronized void attemptAddCredentials() {
+    private synchronized void addAccount() {
         final String userName, password;
 
         if (TextUtils.isEmpty(userName = mUserNameField.getText().toString()) || TextUtils.isEmpty
@@ -144,7 +144,9 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         parameters.putExtra(AccountManager.KEY_PASSWORD, password);
         parameters.putExtra(AccountManager.KEY_USERDATA, mRealmSpinner.getSelectedItem().toString
                 ());
+        parameters.putExtra(KEY_NEW_LOLIN1_ACCOUNT, Boolean.TRUE);
         saveAccount(parameters);
+        finish();
     }
 
     private void saveAccount(Intent intent) {
@@ -153,16 +155,16 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         final String accountPassword = intent.getStringExtra(AccountManager.KEY_PASSWORD);
         final String accountRealm = intent.getStringExtra(AccountManager.KEY_USERDATA);
         final Account account =
-                new Account(accountName, AccountManager.KEY_ACCOUNT_TYPE);
-        accountManager.setUserData(account, LoLin1AccountAuthenticator.ACCOUNT_DATA_REALM,
-                accountRealm.toUpperCase(Locale.ENGLISH));
-        if (intent.getBooleanExtra(KEY_NEW_ACCOUNT, Boolean.FALSE)) {
-            accountManager.addAccountExplicitly(account, accountPassword, null);
+                new Account(accountName, getResources().getString(R.string.account_type));
+        if (intent.getBooleanExtra(KEY_NEW_LOLIN1_ACCOUNT, Boolean.FALSE)) {
+            final Bundle userData = new Bundle();
+            userData.putString(LoLin1AccountAuthenticator.ACCOUNT_DATA_REALM,
+                    accountRealm.toUpperCase(Locale.ENGLISH));
+            accountManager.addAccountExplicitly(account, accountPassword, userData);
         }
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
         Toast.makeText(getApplicationContext(), R.string.account_save_success, Toast.LENGTH_SHORT)
                 .show();
-        finish();
     }
 }

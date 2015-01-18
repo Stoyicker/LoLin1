@@ -100,7 +100,7 @@
 
         <service
             android:name=".service.LoLin1AccountAuthenticatorService"
-            android:permission="android.permission.GET_ACCOUNTS">
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator"/>
             </intent-filter>
