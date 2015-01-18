@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
@@ -35,6 +37,8 @@ import org.jorge.lolin1.io.prefs.PreferenceAssistant;
 
 public class SettingsPreferenceFragment extends PreferenceFragment {
 
+    private Context mContext;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,11 +50,11 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
         final ListPreference langPreference = (ListPreference) findPreference(PreferenceAssistant
                 .PREF_LANG);
 
-        final Context context = LoLin1Application.getInstance().getContext();
-        final Resources resources = context.getResources();
+        mContext = LoLin1Application.getInstance().getContext();
+        final Resources resources = mContext.getResources();
 
         final Integer entriesArray, valuesArray;
-        final LoLin1Account account = LoLin1AccountAuthenticator.loadAccount(context);
+        final LoLin1Account account = LoLin1AccountAuthenticator.loadAccount(mContext);
 
         final Realm.RealmEnum realmEnum = account == null ? Realm.RealmEnum.NONE : account
                 .getRealmEnum();
@@ -104,6 +108,20 @@ public class SettingsPreferenceFragment extends PreferenceFragment {
         langPreference.setEntries(resources.getStringArray(entriesArray));
         langPreference.setEntryValues(resources.getStringArray(valuesArray));
         langPreference.setDefaultValue(resources.getStringArray(valuesArray)[0]);
+
+        langPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                final Boolean ret = !PreferenceAssistant.readSharedString(mContext,
+                        PreferenceAssistant.PREF_LANG, "null").contentEquals(newValue.toString());
+
+                if (ret)
+                    Toast.makeText(mContext, R.string.locale_change_confirmation,
+                            Toast.LENGTH_SHORT).show();
+
+                return ret;
+            }
+        });
     }
 
     @Override

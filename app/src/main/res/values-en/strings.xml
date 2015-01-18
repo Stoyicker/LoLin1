@@ -53,4 +53,5 @@
     <string name="language_pl_pl">Polish</string>
     <string name="language_el_gr">Greek</string>
     <string name="language_ro_ro">Romanian</string>
+    <string name="locale_change_confirmation">The language switch will take effect upon application restart</string>
 </resources>
