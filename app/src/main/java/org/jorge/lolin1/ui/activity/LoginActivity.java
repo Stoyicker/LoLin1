@@ -22,6 +22,7 @@ import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.auth.LoLin1AccountAuthenticator;
 import org.jorge.lolin1.datamodel.LoLin1Account;
+import org.jorge.lolin1.service.ChatIntentService;
 
 import java.util.Locale;
 
@@ -99,6 +100,8 @@ public class LoginActivity extends AccountAuthenticatorActivity {
 
         final View mLoginButton = findViewById(R.id.account_login_button);
 
+        stopChatServiceIfAlreadyRunning(mContext);
+
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -124,6 +127,13 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         });
 
         mPasswordField.setOnEditorActionListener(listener);
+    }
+
+    private void stopChatServiceIfAlreadyRunning(Context context) {
+        Intent intent = new Intent(context, ChatIntentService.class);
+        if (ChatIntentService.isLoggedIn()) {
+            stopService(intent);
+        }
     }
 
     private synchronized void addAccount() {

@@ -55,7 +55,6 @@ public class InitialActivity extends ActionBarActivity {
         flushCacheIfNecessary(context);
         initDatabase(context);
         scheduleFeedServices(context);
-        stopChatServiceIfAlreadyRunning(context);
 
         launchFirstActivity(context);
     }
@@ -114,13 +113,6 @@ public class InitialActivity extends ActionBarActivity {
         if ((cacheDir = context.getCacheDir()).length() >
                 CACHE_SIZE_LIMIT_BYTES) {
             FileOperations.recursivelyDelete(cacheDir);
-        }
-    }
-
-    private void stopChatServiceIfAlreadyRunning(Context context) {
-        Intent intent = new Intent(context, ChatIntentService.class);
-        if (ChatIntentService.isLoggedIn()) {
-            stopService(intent);
         }
     }
 }
