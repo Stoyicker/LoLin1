@@ -28,6 +28,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
@@ -53,6 +56,7 @@ public class MainActivity extends ActionBarActivity implements Interface
     private Fragment[] mContentFragments;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Stack<Integer> mNavigatedIndexesStack;
+    private SlidingUpPanelLayout mSlidingLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,34 @@ public class MainActivity extends ActionBarActivity implements Interface
         //TODO Pass the right user data, probably through a Bundle from the LoginActivity
         setupNavigationDrawer(toolbar, "http://ddragon.leagueoflegends.com/cdn/4.20" +
                 ".1/img/profileicon/547.png", "Stoyicker", "EUW");
+
+        mSlidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        mSlidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View view, float v) {
+                //Unused
+            }
+
+            @Override
+            public void onPanelCollapsed(View view) {
+                MainActivity.this.mNavigationDrawerFragment.unlockDrawer();
+            }
+
+            @Override
+            public void onPanelExpanded(View view) {
+                MainActivity.this.mNavigationDrawerFragment.lockDrawerClosed();
+            }
+
+            @Override
+            public void onPanelAnchored(View view) {
+                MainActivity.this.mNavigationDrawerFragment.lockDrawerClosed();
+            }
+
+            @Override
+            public void onPanelHidden(View view) {
+                MainActivity.this.mNavigationDrawerFragment.unlockDrawer();
+            }
+        });
 
         mContext = LoLin1Application.getInstance().getApplicationContext();
         if (mContentFragments == null)

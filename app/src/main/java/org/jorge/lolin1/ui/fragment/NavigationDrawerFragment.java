@@ -315,4 +315,12 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     public int getPosition() {
         return ((NavigationDrawerAdapter) mDrawerList.getAdapter()).getSelectedPosition();
     }
+
+    public void lockDrawerClosed() {
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    public void unlockDrawer() {
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
 }

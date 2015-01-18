@@ -37,4 +37,5 @@
     <string name="login_error_empty_username_or_password">How do you want to log in without username and password?</string>
     <string name="auth_token_label">Secure access to a LoLin1 account</string>
     <string name="account_save_success">Account saved successfully</string>
+    <string name="chat_title">Chat</string>
 </resources>

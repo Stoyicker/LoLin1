@@ -71,4 +71,5 @@
     <string name="event_login_successful" translatable="false">org.jorge.lolin1.CHAT_LOGIN_SUCCESSFUL_EVENT</string>
     <string name="event_login_failed" translatable="false">org.jorge.lolin1.CHAT_LOGIN_FAILED_EVENT</string>
     <string name="event_message_received" translatable="false">org.jorge.lolin1.CHAT_MESSAGE_RECEIVED_EVENT</string>
+    <string name="chat_title">Chat</string>
 </resources>

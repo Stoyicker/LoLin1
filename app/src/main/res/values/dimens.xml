@@ -55,7 +55,8 @@
     <dimen name="realm_list_dropdown_item_padding">8dp</dimen>
     <dimen name="realm_list_text">16sp</dimen>
     <dimen name="realm_dropdown_width">100dp</dimen>
-    <dimen name="login_progressbar_margin">12dp</dimen>
-    <dimen name="login_progressbar_square_side">32dp</dimen>
+    <dimen name="chat_margin">12dp</dimen>
+    <dimen name="login_progressbar_square_side">36dp</dimen>
     <dimen name="standard_card_elevation">8dp</dimen>
+    <dimen name="chat_title_text">18sp</dimen>
 </resources>

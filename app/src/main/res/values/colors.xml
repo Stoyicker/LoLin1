@@ -55,4 +55,5 @@
     <color name="article_reader_default_image_background">@android:color/white</color>
     <color name="login_card_background">#88000000</color>
     <color name="login_credential_hint">#AAFFFFFF</color>
+    <color name="material_deep_purple_900">#311B92</color>
 </resources>
