@@ -34,9 +34,9 @@ public abstract class NetworkOperations {
 
     private static final OkHttpClient client = new OkHttpClient();
 
-    public static Response doJSONRequest(@NonNull URL url) throws IOException {
+    public static Response performGETRequest(@NonNull URL url) throws IOException {
         if (Utils.isMainThread()) {
-            throw new IllegalStateException("Attempted call to doJSONRequest on main thread!");
+            throw new IllegalStateException("Attempted call to performGETRequest on main thread!");
         }
 
         Request request = new Request.Builder().url(url).build();

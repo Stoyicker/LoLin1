@@ -44,7 +44,7 @@ abstract class FeedHarvestService extends IntentService {
                     Response resp;
                     JSONArray array;
                     try {
-                        resp = NetworkOperations.doJSONRequest(source);
+                        resp = NetworkOperations.performGETRequest(source);
                         if (resp.code() == SERVER_UPDATING_STATUS_CODE)
                             throw new IOException("Server is updating");
                         array = new JSONArray(resp.body().string());

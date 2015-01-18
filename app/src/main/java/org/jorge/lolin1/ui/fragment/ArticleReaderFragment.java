@@ -46,6 +46,7 @@ import com.melnykov.fab.FloatingActionButton;
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
+import org.jorge.lolin1.datamodel.LoLin1Account;
 import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.database.SQLiteDAO;
 import org.jorge.lolin1.ui.util.StickyParallaxNotifyingScrollView;
@@ -55,13 +56,15 @@ import java.util.concurrent.Executors;
 
 public class ArticleReaderFragment extends Fragment {
 
+    public static final String KEY_ACCOUNT = "KEY_ACCOUNT";
     private Context mContext;
     private int mDefaultImageId;
     private String TAG;
     private FeedArticle mArticle;
-    public static final String ARTICLE_KEY = "ARTICLE";
+    public static final String KEY_ARTICLE = "ARTICLE";
     private ActionBarActivity mActivity;
     private Drawable mActionBarBackgroundDrawable;
+    private LoLin1Account mAccount;
     private final Drawable.Callback mDrawableCallback = new Drawable.Callback() {
         @Override
         public void invalidateDrawable(Drawable who) {
@@ -84,7 +87,7 @@ public class ArticleReaderFragment extends Fragment {
 
     public static Fragment newInstance(Context context, FeedArticle article, Class c) {
         Bundle args = new Bundle();
-        args.putParcelable(ArticleReaderFragment.ARTICLE_KEY, article);
+        args.putParcelable(ArticleReaderFragment.KEY_ARTICLE, article);
         int errorResId = R.drawable.feed_article_image_placeholder;
         args.putInt(FeedListFragment.ERROR_RES_ID_KEY, errorResId);
 
@@ -97,13 +100,15 @@ public class ArticleReaderFragment extends Fragment {
         super.onAttach(activity);
         mContext = LoLin1Application.getInstance().getContext();
         mActivity = (ActionBarActivity) activity;
-        Bundle args = getArguments();
+        final Bundle args = getArguments();
         if (args == null)
             throw new IllegalStateException("ArticleReader created without arguments");
-        mArticle = args.getParcelable(ARTICLE_KEY);
+        mArticle = args.getParcelable(KEY_ARTICLE);
         TAG = mArticle.getUrl();
-        mDefaultImageId = getArguments().getInt(FeedListFragment.ERROR_RES_ID_KEY);
+        mDefaultImageId = args.getInt(FeedListFragment.ERROR_RES_ID_KEY);
+        mAccount = args.getParcelable(KEY_ACCOUNT);
     }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -185,8 +190,9 @@ public class ArticleReaderFragment extends Fragment {
                 }
 
                 private void markArticleAsRead(FeedArticle article) {
-                    //TODO Pass the right data
-                    final Realm r = Realm.getInstanceByRealmId(Realm.RealmEnum.EUW);
+                    final Realm r = Realm.getInstanceByRealmId(ArticleReaderFragment.this
+                            .mAccount.getRealmEnum());
+                    //TODO Implement locale handling
                     final String l = r.getLocales()[0];
                     new AsyncTask<Object, Void, Void>() {
                         @Override

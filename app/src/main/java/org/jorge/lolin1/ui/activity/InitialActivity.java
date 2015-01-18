@@ -37,6 +37,7 @@ import org.jorge.lolin1.io.backup.LoLin1BackupAgent;
 import org.jorge.lolin1.io.database.SQLiteDAO;
 import org.jorge.lolin1.io.file.FileOperations;
 import org.jorge.lolin1.receiver.FeedScheduleBroadcastReceiver;
+import org.jorge.lolin1.service.ChatIntentService;
 
 import java.io.File;
 
@@ -54,6 +55,7 @@ public class InitialActivity extends ActionBarActivity {
         flushCacheIfNecessary(context);
         initDatabase(context);
         scheduleFeedServices(context);
+        stopChatServiceIfAlreadyRunning(context);
 
         launchFirstActivity(context);
     }
@@ -112,6 +114,13 @@ public class InitialActivity extends ActionBarActivity {
         if ((cacheDir = context.getCacheDir()).length() >
                 CACHE_SIZE_LIMIT_BYTES) {
             FileOperations.recursivelyDelete(cacheDir);
+        }
+    }
+
+    private void stopChatServiceIfAlreadyRunning(Context context) {
+        Intent intent = new Intent(context, ChatIntentService.class);
+        if (ChatIntentService.isLoggedIn()) {
+            stopService(intent);
         }
     }
 }

@@ -32,12 +32,11 @@ import org.jorge.lolin1.io.database.SQLiteDAO;
 
 public class NewsListFragment extends FeedListFragment {
 
-    public static Fragment newInstance(Context context) {
+    public static Fragment newInstance(Context context, Realm accRealm) {
         Bundle args = new Bundle();
         args.putString(FeedListFragment.TAG_KEY, NewsListFragment.class.getName());
         args.putInt(FeedListFragment.ERROR_RES_ID_KEY, R.drawable.feed_article_image_placeholder);
-        //TODO Pass the right account data
-        Realm accRealm = Realm.getInstanceByRealmId(Realm.RealmEnum.EUW);
+        //TODO Implement locale handling
         String accLocale = accRealm.getLocales()[0];
         args.putString(FeedListFragment.TABLE_NAME_KEY, SQLiteDAO.getNewsTableName
                 (accRealm, accLocale));

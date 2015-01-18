@@ -12,6 +12,8 @@ package com.github.theholywaffle.lolchatapi;
 
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
+
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -23,7 +25,8 @@ import java.io.StringReader;
 import java.util.Date;
 
 /**
- * This and all the files in the module have been developed by Bert De Geyter (https://github.com/TheHolyWaffle) and are protected by the Apache GPLv3 license.
+ * This and all the files in the module have been developed by Bert De Geyter (https://github
+ * .com/TheHolyWaffle) and are protected by the Apache GPLv3 license.
  */
 public class LolStatus {
 
@@ -33,7 +36,7 @@ public class LolStatus {
         II,
         III,
         IV,
-        V;
+        V
     }
 
     public enum GameStatus {
@@ -145,8 +148,8 @@ public class LolStatus {
             if (!found) {
                 Log.wtf("debug", "XMLProperty \"" + e.getName()
                         + "\" not implemented yet!");
-//                Crashlytics.log(Log.ERROR, "debug", "XMLProperty \"" + e.getName()
-//                        + "\" not implemented yet!");
+                Crashlytics.log(Log.ERROR, "debug", "XMLProperty \"" + e.getName()
+                        + "\" not implemented yet!");
             }
         }
     }

@@ -51,7 +51,7 @@ public class ChatIntentService extends IntentService {
     public static final String ACTION_CONNECT = "CONNECT", ACTION_DISCONNECT = "DISCONNECT";
     public static final String KEY_MESSAGE_CONTENTS = "MESSAGE_CONTENTS";
     public static final String KEY_MESSAGE_SOURCE = "SOURCE_FRIEND";
-    private static final String EXTRA_KEY_LOLIN1_ACCOUNT = "EXTRA_KEY_LOLIN1_ACCOUNT";
+    public static final String EXTRA_KEY_LOLIN1_ACCOUNT = "EXTRA_KEY_LOLIN1_ACCOUNT";
     private final IBinder mBinder = new ChatBinder();
     private static LoLChat api;
     private SmackAndroid mSmackAndroid;
@@ -63,7 +63,7 @@ public class ChatIntentService extends IntentService {
     }
 
     @SuppressWarnings("unused")
-    static List<Friend> getOnlineFriends() {
+    public static List<Friend> getOnlineFriends() {
         return api.getOnlineFriends();
     }
 
@@ -125,7 +125,7 @@ public class ChatIntentService extends IntentService {
                     launchBroadcastLoginSuccessful();
                     setUpChatOverviewListener();
                 } else {
-                    launchBroadcastLoginUnsuccessful();
+                    launchBroadcastLoginFailed();
                 }
                 return null;
             }
@@ -207,7 +207,7 @@ public class ChatIntentService extends IntentService {
         sendLocalBroadcast(intent);
     }
 
-    private void launchBroadcastLoginUnsuccessful() {
+    private void launchBroadcastLoginFailed() {
         Intent intent = new Intent();
         intent.setAction(getString(R.string.event_login_failed));
         sendLocalBroadcast(intent);
@@ -228,7 +228,7 @@ public class ChatIntentService extends IntentService {
             Crashlytics.logException(e);
             e.printStackTrace(System.err);
             if (!(e instanceof SSLException)) {
-                launchBroadcastLoginUnsuccessful();
+                launchBroadcastLoginFailed();
             }
             return Boolean.FALSE;
         }

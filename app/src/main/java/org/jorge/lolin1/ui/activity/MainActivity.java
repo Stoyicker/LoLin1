@@ -19,12 +19,15 @@
 
 package org.jorge.lolin1.ui.activity;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,9 +37,12 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
+import org.jorge.lolin1.chat.FriendManager;
 import org.jorge.lolin1.datamodel.FeedArticle;
+import org.jorge.lolin1.datamodel.LoLin1Account;
 import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.database.SQLiteDAO;
+import org.jorge.lolin1.service.ChatIntentService;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter;
 import org.jorge.lolin1.ui.fragment.ArticleReaderFragment;
 import org.jorge.lolin1.ui.fragment.CommunityListFragment;
@@ -44,6 +50,7 @@ import org.jorge.lolin1.ui.fragment.NavigationDrawerFragment;
 import org.jorge.lolin1.ui.fragment.NewsListFragment;
 import org.jorge.lolin1.ui.fragment.SchoolListFragment;
 import org.jorge.lolin1.util.Interface;
+import org.jorge.lolin1.util.Utils;
 
 import java.util.Stack;
 import java.util.concurrent.Executors;
@@ -56,7 +63,9 @@ public class MainActivity extends ActionBarActivity implements Interface
     private Fragment[] mContentFragments;
     private NavigationDrawerFragment mNavigationDrawerFragment;
     private Stack<Integer> mNavigatedIndexesStack;
-    private SlidingUpPanelLayout mSlidingLayout;
+    private LoLin1Account mAccount;
+    private BroadcastReceiver mChatBroadcastReceiver;
+    private Boolean mAlreadyInited = Boolean.FALSE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +80,14 @@ public class MainActivity extends ActionBarActivity implements Interface
 
         getSupportActionBar().setHomeButtonEnabled(Boolean.TRUE);
 
+        mAccount = getIntent().getParcelableExtra(EXTRA_KEY_LOLIN1_ACCOUNT);
+
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.navigation_drawer_fragment);
-        //TODO Pass the right user data, probably through a Bundle from the LoginActivity
-        setupNavigationDrawer(toolbar, "http://ddragon.leagueoflegends.com/cdn/4.20" +
-                ".1/img/profileicon/547.png", "Stoyicker", "EUW");
+        setupNavigationDrawer(toolbar, mAccount);
 
-        mSlidingLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+        final SlidingUpPanelLayout mSlidingLayout = (SlidingUpPanelLayout) findViewById(R.id
+                .sliding_layout);
         mSlidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View view, float v) {
@@ -106,8 +116,64 @@ public class MainActivity extends ActionBarActivity implements Interface
         });
 
         mContext = LoLin1Application.getInstance().getApplicationContext();
+
+        initChat();
+
         if (mContentFragments == null)
             showInitialFragment();
+    }
+
+    private void initChat() {
+        final View thisView = findViewById(android.R.id.content);
+        registerLocalBroadcastReceiver();
+        if (mAlreadyInited) {
+            if (!Utils.isInternetReachable()) {
+                thisView.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //TODO showViewNoConnection();
+                    }
+                });
+            } else {
+                if (!ChatIntentService.isLoggedIn()) {
+                    thisView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            //TODO showViewLoading();
+                        }
+                    });
+                    runChat();
+                } else {
+                    thisView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            //TODO showViewConnected();
+                        }
+                    });
+                }
+            }
+            return;
+        }
+        final Runnable viewRunnable;
+        if (!Utils.isInternetReachable()) {
+            viewRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    //TODO showViewNoConnection();
+                }
+            };
+        } else {
+            viewRunnable = new Runnable() {
+                @Override
+                public void run() {
+                    //TODO showViewLoading();
+                }
+            };
+            if (!ChatIntentService.isLoggedIn()) {
+                runChat();
+            }
+        }
+        thisView.post(viewRunnable);
     }
 
     private void showInitialFragment() {
@@ -121,7 +187,8 @@ public class MainActivity extends ActionBarActivity implements Interface
 
     private Fragment findNewsListFragment() {
         if (mContentFragments[0] == null)
-            mContentFragments[0] = NewsListFragment.newInstance(mContext);
+            mContentFragments[0] = NewsListFragment.newInstance(mContext, Realm
+                    .getInstanceByRealmId(mAccount.getRealmEnum()));
         return mContentFragments[0];
     }
 
@@ -160,7 +227,6 @@ public class MainActivity extends ActionBarActivity implements Interface
      *                in the ArticleReaderFragment constructor.
      */
     private void launchArticleReader(FeedArticle article, Class c) {
-
         //Link-type post auto-parsing
         if (article.getPreviewText().contentEquals("null")) {
             article.requestBrowseToAction(mContext);
@@ -169,10 +235,9 @@ public class MainActivity extends ActionBarActivity implements Interface
             final Class communityClassName = CommunityListFragment.class;
             final Class schoolClassName = SchoolListFragment.class;
             String tableName;
-            //TODO Pass the right data
-            final Realm r = Realm.getInstanceByRealmId(Realm.RealmEnum.EUW);
+            final Realm r = Realm.getInstanceByRealmId(mAccount.getRealmEnum());
             if (c == newsClassName) {
-                //TODO Pass the right data
+                //TODO Pass the right data (implement locale handling)
                 final String l = r.getLocales()[0];
                 tableName = SQLiteDAO.getNewsTableName(r, l);
             } else if (c == communityClassName) {
@@ -197,8 +262,9 @@ public class MainActivity extends ActionBarActivity implements Interface
 
         Intent intent = new Intent(mContext, ArticleReaderActivity.class);
 
-        intent.putExtra(ArticleReaderFragment.ARTICLE_KEY, article);
+        intent.putExtra(ArticleReaderFragment.KEY_ARTICLE, article);
         intent.putExtra(ArticleReaderActivity.READER_LIST_FRAGMENT_CLASS, c);
+        intent.putExtra(ArticleReaderFragment.KEY_ACCOUNT, mAccount);
 
         startActivity(intent);
         overridePendingTransition(R.anim.move_in_from_bottom, R.anim.move_out_to_bottom);
@@ -270,12 +336,99 @@ public class MainActivity extends ActionBarActivity implements Interface
         });
     }
 
-    public void setupNavigationDrawer(Toolbar toolbar, String userPhotoId, String userName,
-                                      String realm) {
+    public void setupNavigationDrawer(Toolbar toolbar, LoLin1Account acc) {
         mNavigationDrawerFragment.setup(R.id.navigation_drawer_fragment,
-                (DrawerLayout) findViewById(R.id.navigation_drawer), toolbar, userPhotoId,
-                userName, realm);
+                (DrawerLayout) findViewById(R.id.navigation_drawer), toolbar, acc);
     }
 
+    private void runChat() {
+        Intent intent = new Intent(getApplicationContext(), ChatIntentService.class);
+        if (ChatIntentService.isLoggedIn()) {
+            stopService(intent);
+        }
+        Intent chatConnectIntent = new Intent(getApplicationContext(), ChatIntentService.class);
+        chatConnectIntent.setAction(ChatIntentService.ACTION_CONNECT);
+        chatConnectIntent.putExtra(ChatIntentService.EXTRA_KEY_LOLIN1_ACCOUNT, mAccount);
+        startService(chatConnectIntent);
+    }
+
+    private void registerLocalBroadcastReceiver() {
+        if (mChatBroadcastReceiver != null) {
+            return;
+        }
+        mChatBroadcastReceiver = new ChatOverviewBroadcastReceiver();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        intentFilter.addAction(mContext.getString(R.string.event_login_failed));
+        intentFilter.addAction(mContext.getString(R.string.event_chat_overview));
+        intentFilter.addAction(mContext.getString(R.string.event_login_successful));
+        intentFilter.addAction(mContext.getString(R.string.event_message_received));
+        LocalBroadcastManager.getInstance(getApplicationContext())
+                .registerReceiver(mChatBroadcastReceiver, intentFilter);
+    }
+
+    private void stopChatService() {
+        Intent chatDisconnectIntent = new Intent(getApplicationContext(), ChatIntentService.class);
+        chatDisconnectIntent.setAction(ChatIntentService.ACTION_DISCONNECT);
+        startService(chatDisconnectIntent);
+        mAlreadyInited = Boolean.FALSE;
+        stopService(new Intent(getApplicationContext(), ChatIntentService.class));
+    }
+
+    private synchronized void requestChatListRefresh() {
+        FriendManager.getInstance().updateOnlineFriends();
+        //TODO ((ChatOverviewSupportFragment) mPagerAdapter.getItem(0)).notifyChatEvent();
+    }
+
+    public class ChatOverviewBroadcastReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, final Intent intent) {
+            String action = intent.getAction();
+            if (action.contentEquals(context.getString(R.string.event_chat_overview))) {
+                MainActivity.this.requestChatListRefresh();
+            } else {
+                final View thisView =
+                        findViewById(android.R.id.content);
+                if (action.contentEquals("android.net.conn.CONNECTIVITY_CHANGE")) {
+                    if (!Utils.isInternetReachable()) {
+                        thisView.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                //TODO showViewNoConnection();
+                            }
+                        });
+                        if (ChatIntentService.isLoggedIn()) {
+                            stopChatService();
+                        }
+                    } else {
+                        MainActivity.this.runChat();
+                    }
+                } else if (action.contentEquals(context.getString(R.string.event_login_failed))) {
+                    thisView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            //TODO showViewWrongCredentials(); or such
+                        }
+                    });
+                    if (ChatIntentService.isLoggedIn()) {
+                        stopChatService();
+                    }
+                } else if (action.contentEquals(context.getString(R.string
+                        .event_login_successful))) {
+                    MainActivity.this.mAlreadyInited = Boolean.TRUE;
+                    FriendManager.getInstance().updateOnlineFriends();
+                    thisView.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mNavigationDrawerFragment.asyncLoadUserImage(mAccount);
+                            //TODO showViewConnected(); or such
+                        }
+                    });
+                }
+            }
+
+        }
+    }
 
 }

@@ -13,6 +13,7 @@ package com.github.theholywaffle.lolchatapi;
 import android.content.Context;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.listeners.FriendListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
@@ -47,7 +48,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This and all the files in the module have been developed by Bert De Geyter (https://github.com/TheHolyWaffle) and are protected by the Apache GPLv3 license.
+ * This and all the files in the module have been developed by Bert De Geyter (https://github
+ * .com/TheHolyWaffle) and are protected by the Apache GPLv3 license.
  */
 public class LoLChat {
 
@@ -114,8 +116,6 @@ public class LoLChat {
             connection.connect();
         } catch (XMPPException | SmackException e) {
             Log.wtf("debug", "Failed to connect to " + connection.getHost(), e);
-//            Crashlytics.log(Log.ERROR, "debug", "Failed to connect to " + connection.getHost());
-//            Crashlytics.logException(e);
         }
         addListeners();
         new Thread(new Runnable() {
@@ -231,7 +231,6 @@ public class LoLChat {
                     });
                 } else {
                     Log.wtf("debug", "Friend is null in chat creation");
-//                    Crashlytics.log(Log.ERROR, "debug", "Friend is null in chat creation");
                 }
 
             }
@@ -389,11 +388,9 @@ public class LoLChat {
             }
         } catch (SASLErrorException e) {
             Log.wtf("debug", e);
-            Log.d("debug", "Wrong credentials");
             return Boolean.FALSE; //Wrong credentials
         } catch (XMPPException | SmackException e) {
             Log.wtf("debug", e);
-//            Crashlytics.logException(e);
         }
         return connection.isAuthenticated();
     }
@@ -459,7 +456,7 @@ public class LoLChat {
             connection.sendPacket(newPresence);
         } catch (SmackException.NotConnectedException e) {
             Log.wtf("debug", "e");
-//            Crashlytics.logException(e);
+            Crashlytics.logException(e);
         }
     }
 

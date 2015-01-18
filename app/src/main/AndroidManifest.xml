@@ -52,6 +52,7 @@
             android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.APP_MESSAGING"/>
             </intent-filter>
         </activity>
         <activity

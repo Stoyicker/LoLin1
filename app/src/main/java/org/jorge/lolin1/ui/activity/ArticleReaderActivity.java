@@ -50,7 +50,7 @@ public class ArticleReaderActivity extends ActionBarActivity {
         setSupportActionBar(toolbar);
 
         if (mArticleReaderFragment == null) {
-            FeedArticle article = extras.getParcelable(ArticleReaderFragment.ARTICLE_KEY);
+            FeedArticle article = extras.getParcelable(ArticleReaderFragment.KEY_ARTICLE);
             Class c = (Class) extras.getSerializable(ArticleReaderActivity
                     .READER_LIST_FRAGMENT_CLASS);
             mArticleReaderFragment = ArticleReaderFragment.newInstance(context, article, c);

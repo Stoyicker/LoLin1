@@ -72,4 +72,7 @@
     <string name="event_login_failed" translatable="false">org.jorge.lolin1.CHAT_LOGIN_FAILED_EVENT</string>
     <string name="event_message_received" translatable="false">org.jorge.lolin1.CHAT_MESSAGE_RECEIVED_EVENT</string>
     <string name="chat_title">Chat</string>
+    <string name="profile_icon_url_pattern" translatable="false">http://ddragon.leagueoflegends.com/cdn/%s/img/profileicon/%s.png</string>
+    <string name="realm_info_url_pattern" translatable="false">http://ddragon.leagueoflegends.com/realms/%s.json</string>
+    <string name="profile_icon_id_url_pattern" translatable="false">http://lolin1-feed-parser.herokuapp.com/services/profileiconid?username=%s&amp;realm=%s</string>
 </resources>

@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,23 +26,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.squareup.picasso.Callback;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
+import org.jorge.lolin1.datamodel.LoLin1Account;
+import org.jorge.lolin1.io.net.NetworkOperations;
 import org.jorge.lolin1.io.prefs.PreferenceAssistant;
 import org.jorge.lolin1.ui.activity.SettingsActivity;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter.NavigationItem;
 import org.jorge.lolin1.util.PicassoUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Queue;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
 
 /**
  * @author poliveira
@@ -158,7 +169,7 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
     }
 
     public void setup(int fragmentId, DrawerLayout drawerLayout, Toolbar toolbar,
-                      String userImageUrl, String userName, String realm) {
+                      LoLin1Account acc) {
         mFragmentContainerView = mActivity.findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
         mActionBarDrawerToggle = new ActionBarDrawerToggle(mActivity, mDrawerLayout, toolbar,
@@ -212,20 +223,146 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
 
         mUserImageView = (ImageView) mDrawerLayout.findViewById(R.id.user_photo);
-        PicassoUtils.loadInto(mContext, userImageUrl, new Callback() {
+
+        ((TextView) mDrawerLayout.findViewById(R.id.user_name)).setText(acc.getUsername());
+        ((TextView) mDrawerLayout.findViewById(R.id.realm_name)).setText(acc.getRealmEnum().name
+                ().toUpperCase(Locale.ENGLISH));
+    }
+
+    public void asyncLoadUserImage(LoLin1Account acc) {
+        new AsyncTask<Object, Void, String>() {
+
+            private ImageView iv;
+            private String realm
+                    ,
+                    imageId
+                    ,
+                    username;
+            private final String PROFILE_ICON_URL_PATTERN = NavigationDrawerFragment.this
+                    .mContext.getString(R.string.profile_icon_url_pattern)
+                    ,
+                    REALM_INFO_URL_PATTERN = NavigationDrawerFragment.this
+                            .mContext.getString(R.string.realm_info_url_pattern)
+                    ,
+                    USER_INFO_URL_PATTERN = NavigationDrawerFragment.this
+                            .mContext.getString(R.string.profile_icon_id_url_pattern);
+
+            final String KEY_CONTENTS = "CONTENTS";
+            final Bundle mVersionBundle = new Bundle()
+                    ,
+                    mIdBundle = new Bundle();
+
             @Override
-            public void onSuccess() {
-                mUserImageView.setVisibility(View.VISIBLE);
+            protected String doInBackground(Object... params) {
+                iv = (ImageView) params[0];
+                realm = (String) params[1];
+                username = (String) params[2];
+
+                final CountDownLatch urlBuilderLatch = new CountDownLatch(2);
+
+                findProfileIconVersion(urlBuilderLatch);
+                findProfileIconId(urlBuilderLatch);
+
+                try {
+                    urlBuilderLatch.await();
+                } catch (InterruptedException e) {
+                    //Should never happen
+                    Crashlytics.logException(e);
+                }
+
+                return String.format(Locale.ENGLISH, PROFILE_ICON_URL_PATTERN,
+                        mVersionBundle.getString(KEY_CONTENTS), mIdBundle.getString(KEY_CONTENTS));
+            }
+
+            private void findProfileIconVersion(CountDownLatch latch) {
+                new AsyncTask<Object, Void, String>() {
+
+                    private CountDownLatch countDownLatch;
+                    private String realm;
+                    private Bundle retBag;
+
+                    @Override
+                    protected String doInBackground(Object... params) {
+                        countDownLatch = (CountDownLatch) params[0];
+                        realm = (String) params[1];
+                        retBag = (Bundle) params[2];
+
+                        try {
+                            return new JSONObject(NetworkOperations.performGETRequest(new URL(String
+                                    .format(Locale.ENGLISH,
+                                            REALM_INFO_URL_PATTERN, realm))).body().string())
+                                    .getJSONObject("n")
+                                    .getString("profileicon");
+                            //If the body is malformed Picasso will find an error and hide the
+                            // ImageView,
+                            // so it's fine
+                        } catch (IOException | JSONException e) {
+                            return "null";
+                        }
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        retBag.putString(KEY_CONTENTS, s);
+                        countDownLatch.countDown();
+                    }
+                }.executeOnExecutor(Executors.newSingleThreadExecutor(), latch, realm,
+                        mVersionBundle);
+            }
+
+            private void findProfileIconId(CountDownLatch latch) {
+                new AsyncTask<Object, Void, String>() {
+
+                    private CountDownLatch countDownLatch;
+                    private String realm;
+                    private Bundle retBag;
+                    private String username;
+
+                    @Override
+                    protected String doInBackground(Object... params) {
+                        countDownLatch = (CountDownLatch) params[0];
+                        username = (String) params[1];
+                        realm = (String) params[2];
+                        retBag = (Bundle) params[3];
+
+                        try {
+                            return new JSONObject(NetworkOperations.performGETRequest(new URL(String
+                                            .format(Locale.ENGLISH, USER_INFO_URL_PATTERN, username,
+                                                    realm))
+                            ).body().string()).getJSONObject(username.toLowerCase(Locale.ENGLISH)
+                            ).getString
+                                    ("profileIconId");
+                        } catch (JSONException | IOException e) {
+                            return "null";
+                        }
+                    }
+
+                    @Override
+                    protected void onPostExecute(String s) {
+                        retBag.putString(KEY_CONTENTS, s);
+                        countDownLatch.countDown();
+                    }
+                }.executeOnExecutor(Executors.newSingleThreadExecutor(), latch, username, realm,
+                        mIdBundle);
             }
 
             @Override
-            public void onError() {
-                mUserImageView.setVisibility(View.GONE);
-            }
-        }, mUserImageView, TAG);
+            protected void onPostExecute(String imageUrl) {
+                PicassoUtils.loadInto(mContext, imageUrl, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        iv.setVisibility(View.VISIBLE);
+                    }
 
-        ((TextView) mDrawerLayout.findViewById(R.id.user_name)).setText(userName);
-        ((TextView) mDrawerLayout.findViewById(R.id.realm_name)).setText(realm);
+                    @Override
+                    public void onError() {
+                        if (iv.isShown())
+                            iv.setVisibility(View.GONE);
+                    }
+                }, iv, TAG);
+            }
+        }.executeOnExecutor(Executors.newSingleThreadExecutor(), mUserImageView,
+                acc.getRealmEnum().name().toUpperCase(Locale.ENGLISH), acc.getUsername());
     }
 
     public void closeDrawer(Runnable... runnables) {

@@ -12,6 +12,7 @@ package com.github.theholywaffle.lolchatapi.wrapper;
 
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.github.theholywaffle.lolchatapi.LoLChat;
 
 import org.jivesoftware.smack.RosterEntry;
@@ -25,7 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This and all the files in the module have been developed by Bert De Geyter (https://github.com/TheHolyWaffle) and are protected by the Apache GPLv3 license.
+ * This and all the files in the module have been developed by Bert De Geyter (https://github
+ * .com/TheHolyWaffle) and are protected by the Apache GPLv3 license.
  */
 public class FriendGroup extends Wrapper<RosterGroup> {
 
@@ -40,9 +42,10 @@ public class FriendGroup extends Wrapper<RosterGroup> {
     public void addFriend(Friend friend) {
         try {
             get().addEntry(friend.get());
-        } catch (XMPPException | SmackException.NoResponseException | SmackException.NotConnectedException e) {
+        } catch (XMPPException | SmackException.NoResponseException | SmackException
+                .NotConnectedException e) {
             Log.wtf("debug", e);
-//            Crashlytics.logException(e);
+            Crashlytics.logException(e);
         }
     }
 
@@ -90,7 +93,7 @@ public class FriendGroup extends Wrapper<RosterGroup> {
             get().setName(name);
         } catch (SmackException.NotConnectedException e) {
             Log.wtf("debug", e);
-//            Crashlytics.logException(e);
+            Crashlytics.logException(e);
         }
     }
 

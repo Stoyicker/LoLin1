@@ -11,14 +11,15 @@
 package com.github.theholywaffle.lolchatapi;
 
 /**
- * This and all the files in the module have been developed by Bert De Geyter (https://github.com/TheHolyWaffle) and are protected by the Apache GPLv3 license.
+ * This and all the files in the module have been developed by Bert De Geyter (https://github
+ * .com/TheHolyWaffle) and are protected by the Apache GPLv3 license.
  */
 public enum ChatServer {
 
     //Chat suggestions taken from http://leagueoflegends.wikia.com/wiki/Talk:XMPP_Chat
 
     EUW("chat.euw1.lol.riotgames.com"),
-    NA("chat.na1.lol.riotgames.com"),
+    NA("chat.na2.lol.riotgames.com"),
     EUNE("chat.eun1.lol.riotgames.com"),
     TR("chat.tr.lol.riotgames.com"),
     RU("chat.ru.lol.riotgames.com"),
