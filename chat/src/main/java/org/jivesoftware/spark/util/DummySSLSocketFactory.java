@@ -45,7 +45,8 @@ import javax.net.ssl.X509TrustManager;
  * An SSL socket factory that will let any certifacte past, even if it's expired or
  * not singed by a root CA.
  * <p/>
- * This and all the files in the module have been developed by Bert De Geyter (https://github.com/TheHolyWaffle) and are protected by the Apache GPLv3 license.
+ * This and all the files in the module have been developed by Bert De Geyter (https://github
+ * .com/TheHolyWaffle) and are protected by the Apache GPLv3 license.
  */
 public class DummySSLSocketFactory extends SSLSocketFactory {
 
@@ -59,9 +60,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
                     new TrustManager[]{new DummyTrustManager()},
                     new java.security.SecureRandom());
             factory = sslcontent.getSocketFactory();
-        } catch (NoSuchAlgorithmException e) {
-            Log.wtf("debug", e);
-        } catch (KeyManagementException e) {
+        } catch (NoSuchAlgorithmException | KeyManagementException e) {
             Log.wtf("debug", e);
         }
     }
@@ -86,7 +85,8 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
                 return ret;
             }
         };
-//It's necessary to run the task in an executor because the main one is already full and if we add this one a livelock will occur
+//It's necessary to run the task in an executor because the main one is already full and if we
+// add this one a livelock will occur
         ExecutorService socketCreationExecutor = Executors.newFixedThreadPool(1);
         socketCreationTask.executeOnExecutor(socketCreationExecutor, socket, s, i, flag);
         Object returned;
@@ -94,7 +94,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
             returned = socketCreationTask.get();
         } catch (InterruptedException | ExecutionException e) {
             Log.wtf("debug", e);
-            throw new IOException();//Provoke a fail
+            throw new IOException("Failure intentionally provoked. See log above.");
         }
 
         if (returned instanceof Exception) {
@@ -120,7 +120,8 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
                 return ret;
             }
         };
-//It's necessary to run the task in an executor because the main one is already full and if we add this one a livelock will occur
+//It's necessary to run the task in an executor because the main one is already full and if we
+// add this one a livelock will occur
         ExecutorService socketCreationExecutor = Executors.newFixedThreadPool(1);
         socketCreationTask.executeOnExecutor(socketCreationExecutor, inaddr, i, inaddr2, j);
         Object returned;
@@ -128,7 +129,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
             returned = socketCreationTask.get();
         } catch (InterruptedException | ExecutionException e) {
             Log.wtf("debug", e);
-            throw new IOException();//Provoke a fail
+            throw new IOException("Failure intentionally provoked. See log above.");
         }
 
         if (returned instanceof Exception) {
@@ -152,7 +153,8 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
                 return ret;
             }
         };
-//It's necessary to run the task in an executor because the main one is already full and if we add this one a livelock will occur
+//It's necessary to run the task in an executor because the main one is already full and if we
+// add this one a livelock will occur
         ExecutorService socketCreationExecutor = Executors.newFixedThreadPool(1);
         socketCreationTask.executeOnExecutor(socketCreationExecutor, inaddr, i);
         Object returned;
@@ -160,7 +162,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
             returned = socketCreationTask.get();
         } catch (InterruptedException | ExecutionException e) {
             Log.wtf("debug", e);
-            throw new IOException();//Provoke a fail
+            throw new IOException("Failure intentionally provoked. See log above.");
         }
 
         if (returned instanceof Exception) {
@@ -185,7 +187,8 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
                 return ret;
             }
         };
-//It's necessary to run the task in an executor because the main one is already full and if we add this one a livelock will occur
+//It's necessary to run the task in an executor because the main one is already full and if we
+// add this one a livelock will occur
         ExecutorService socketCreationExecutor = Executors.newFixedThreadPool(1);
         socketCreationTask.executeOnExecutor(socketCreationExecutor, s, i, inaddr, j);
         Object returned;
@@ -193,7 +196,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
             returned = socketCreationTask.get();
         } catch (InterruptedException | ExecutionException e) {
             Log.wtf("debug", e);
-            throw new IOException();//Provoke a fail
+            throw new IOException("Failure intentionally provoked. See log above.");
         }
 
         if (returned instanceof Exception) {
@@ -217,7 +220,8 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
                 return ret;
             }
         };
-//It's necessary to run the task in an executor because the main one is already full and if we add this one a livelock will occur
+//It's necessary to run the task in an executor because the main one is already full and if we
+// add this one a livelock will occur
         ExecutorService socketCreationExecutor = Executors.newFixedThreadPool(1);
         socketCreationTask.executeOnExecutor(socketCreationExecutor, s, i);
         Object returned;
@@ -225,7 +229,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
             returned = socketCreationTask.get();
         } catch (InterruptedException | ExecutionException e) {
             Log.wtf("debug", e);
-            throw new IOException();//Provoke a fail
+            throw new IOException("Failure intentionally provoked. See log above.");
         }
 
         if (returned instanceof Exception) {

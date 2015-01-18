@@ -387,7 +387,6 @@ public class LoLChat {
                 connection.login(username, "AIR_" + password);
             }
         } catch (SASLErrorException e) {
-            Log.wtf("debug", e);
             return Boolean.FALSE; //Wrong credentials
         } catch (XMPPException | SmackException e) {
             Log.wtf("debug", e);
@@ -456,7 +455,6 @@ public class LoLChat {
             connection.sendPacket(newPresence);
         } catch (SmackException.NotConnectedException e) {
             Log.wtf("debug", "e");
-            Crashlytics.logException(e);
         }
     }
 
