@@ -39,17 +39,17 @@
         <item>@string/realm_ru</item>
         <item>@string/realm_oce</item>
     </string-array>
-    <string-array name="realm_na_languages">
+    <string-array name="realm_na_locales">
         <item>@string/locale_en_us</item>
     </string-array>
-    <string-array name="realm_euw_languages">
+    <string-array name="realm_euw_locales">
         <item>@string/locale_en_us</item>
         <item>@string/locale_de_de</item>
         <item>@string/locale_es_es</item>
         <item>@string/locale_fr_fr</item>
         <item>@string/locale_it_it</item>
     </string-array>
-    <string-array name="realm_eune_languages">
+    <string-array name="realm_eune_locales">
         <item>@string/locale_en_us</item>
         <item>@string/locale_pl_pl</item>
         <item>@string/locale_el_gr</item>
@@ -57,22 +57,58 @@
         <item>@string/locale_cs_cz</item>
         <item>@string/locale_hu_hu</item>
     </string-array>
-    <string-array name="realm_br_languages">
+    <string-array name="realm_br_locales">
         <item>@string/locale_pt_pt</item>
     </string-array>
-    <string-array name="realm_lan_languages">
+    <string-array name="realm_lan_locales">
         <item>@string/locale_es_es</item>
     </string-array>
-    <string-array name="realm_las_languages">
+    <string-array name="realm_las_locales">
         <item>@string/locale_es_es</item>
     </string-array>
-    <string-array name="realm_tr_languages">
+    <string-array name="realm_tr_locales">
         <item>@string/locale_tr_tr</item>
     </string-array>
-    <string-array name="realm_ru_languages">
+    <string-array name="realm_ru_locales">
         <item>@string/locale_ru_ru</item>
     </string-array>
-    <string-array name="realm_oce_languages">
+    <string-array name="realm_oce_locales">
         <item>@string/locale_en_us</item>
+    </string-array>
+    <string-array name="realm_na_languages">
+        <item>@string/language_en_us</item>
+    </string-array>
+    <string-array name="realm_euw_languages">
+        <item>@string/language_en_us</item>
+        <item>@string/language_de_de</item>
+        <item>@string/language_es_es</item>
+        <item>@string/language_fr_fr</item>
+        <item>@string/language_it_it</item>
+    </string-array>
+    <string-array name="realm_eune_languages">
+        <item>@string/language_en_us</item>
+        <item>@string/language_pl_pl</item>
+        <item>@string/language_el_gr</item>
+        <item>@string/language_ro_ro</item>
+        <item>@string/language_cs_cz</item>
+        <item>@string/language_hu_hu</item>
+    </string-array>
+    <string-array name="realm_br_languages">
+        <item>@string/language_pt_pt</item>
+    </string-array>
+    <string-array name="realm_lan_languages">
+        <item>@string/language_es_es</item>
+    </string-array>
+    <string-array name="realm_las_languages">
+        <item>@string/language_es_es</item>
+    </string-array>
+    <string-array name="realm_tr_languages">
+        <item>@string/language_tr_tr</item>
+    </string-array>
+    <string-array name="realm_ru_languages">
+        <item>@string/language_ru_ru</item>
+    </string-array>
+    <string-array name="realm_oce_languages">
+        <item>@string/language_en_us</item>
     </string-array>
 </resources>

@@ -16,7 +16,9 @@ package com.github.theholywaffle.lolchatapi;
  */
 public enum ChatServer {
 
-    //Chat suggestions taken from http://leagueoflegends.wikia.com/wiki/Talk:XMPP_Chat
+    //Chat suggestions taken from https://github
+    // .com/TheHolyWaffle/League-of-Legends-XMPP-Chat-Library/blob/master/src/main/java/com
+    // /github/theholywaffle/lolchatapi/ChatServer.java
 
     EUW("chat.euw1.lol.riotgames.com"),
     NA("chat.na2.lol.riotgames.com"),

@@ -20,5 +20,10 @@
 TODO When preferences are added, add them to values/arrays.xml backupable_preference_keys if they
 should be backed up
 -->
-<PreferenceScreen>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/pref_cat_general">
+        <ListPreference
+            android:key="PREF_LANG"
+            android:title="@string/pref_title_lang"/>
+    </PreferenceCategory>
 </PreferenceScreen>

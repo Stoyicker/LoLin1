@@ -29,6 +29,9 @@ import android.view.MenuInflater;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.database.SQLiteDAO;
+import org.jorge.lolin1.io.prefs.PreferenceAssistant;
+
+import java.util.Arrays;
 
 public class NewsListFragment extends FeedListFragment {
 
@@ -36,8 +39,13 @@ public class NewsListFragment extends FeedListFragment {
         Bundle args = new Bundle();
         args.putString(FeedListFragment.TAG_KEY, NewsListFragment.class.getName());
         args.putInt(FeedListFragment.ERROR_RES_ID_KEY, R.drawable.feed_article_image_placeholder);
-        //TODO Implement locale handling
-        String accLocale = accRealm.getLocales()[0];
+        String accLocale = PreferenceAssistant.readSharedString(context,
+                PreferenceAssistant.PREF_LANG, null);
+        if (accLocale == null || !Arrays.asList(accRealm.getLocales()).contains(accLocale)) {
+            accLocale = accRealm.getLocales()[0];
+            PreferenceAssistant.writeSharedString(context, PreferenceAssistant.PREF_LANG,
+                    accLocale);
+        }
         args.putString(FeedListFragment.TABLE_NAME_KEY, SQLiteDAO.getNewsTableName
                 (accRealm, accLocale));
         args.putSerializable(FeedListFragment.LM_KEY, LayoutManagerEnum.GRID);

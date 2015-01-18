@@ -49,9 +49,11 @@ import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.datamodel.LoLin1Account;
 import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.database.SQLiteDAO;
+import org.jorge.lolin1.io.prefs.PreferenceAssistant;
 import org.jorge.lolin1.ui.util.StickyParallaxNotifyingScrollView;
 import org.jorge.lolin1.util.PicassoUtils;
 
+import java.util.Arrays;
 import java.util.concurrent.Executors;
 
 public class ArticleReaderFragment extends Fragment {
@@ -192,8 +194,14 @@ public class ArticleReaderFragment extends Fragment {
                 private void markArticleAsRead(FeedArticle article) {
                     final Realm r = Realm.getInstanceByRealmId(ArticleReaderFragment.this
                             .mAccount.getRealmEnum());
-                    //TODO Implement locale handling
-                    final String l = r.getLocales()[0];
+                    String l = PreferenceAssistant.readSharedString(mContext,
+                            PreferenceAssistant.PREF_LANG, null);
+                    if (l == null || !Arrays.asList(r.getLocales()).contains(l)) {
+                        l = r.getLocales()[0];
+                        PreferenceAssistant.writeSharedString(mContext,
+                                PreferenceAssistant.PREF_LANG,
+                                l);
+                    }
                     new AsyncTask<Object, Void, Void>() {
                         @Override
                         protected Void doInBackground(Object... params) {

@@ -38,4 +38,19 @@
     <string name="auth_token_label">Secure access to a LoLin1 account</string>
     <string name="account_save_success">Account saved successfully</string>
     <string name="chat_title">Chat</string>
+    <string name="pref_cat_general">General</string>
+    <string name="pref_title_lang">Language</string>
+    <string name="language_hu_hu">Hungarian</string>
+    <string name="language_es_es">Spanish</string>
+    <string name="language_tr_tr">Turkish</string>
+    <string name="language_ru_ru">Russian</string>
+    <string name="language_en_us">English</string>
+    <string name="language_pt_pt">Portuguese</string>
+    <string name="language_cs_cz">Czech</string>
+    <string name="language_de_de">German</string>
+    <string name="language_fr_fr">French</string>
+    <string name="language_it_it">Italian</string>
+    <string name="language_pl_pl">Polish</string>
+    <string name="language_el_gr">Greek</string>
+    <string name="language_ro_ro">Romanian</string>
 </resources>

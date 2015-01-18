@@ -93,39 +93,39 @@ public class Realm implements Parcelable {
         switch (realmId) {
             case NA:
                 mLocales = context.getResources().getStringArray(R.array
-                        .realm_na_languages);
+                        .realm_na_locales);
                 break;
             case EUW:
                 mLocales = context.getResources().getStringArray(R.array
-                        .realm_euw_languages);
+                        .realm_euw_locales);
                 break;
             case EUNE:
                 mLocales = context.getResources().getStringArray(R.array
-                        .realm_eune_languages);
+                        .realm_eune_locales);
                 break;
             case BR:
                 mLocales = context.getResources().getStringArray(R.array
-                        .realm_br_languages);
+                        .realm_br_locales);
                 break;
             case LAN:
                 mLocales = context.getResources().getStringArray(R.array
-                        .realm_lan_languages);
+                        .realm_lan_locales);
                 break;
             case LAS:
                 mLocales = context.getResources().getStringArray(R.array
-                        .realm_las_languages);
+                        .realm_las_locales);
                 break;
             case TR:
                 mLocales = context.getResources().getStringArray(R.array
-                        .realm_tr_languages);
+                        .realm_tr_locales);
                 break;
             case RU:
                 mLocales = context.getResources().getStringArray(R.array
-                        .realm_ru_languages);
+                        .realm_ru_locales);
                 break;
             case OCE:
                 mLocales = context.getResources().getStringArray(R.array
-                        .realm_oce_languages);
+                        .realm_oce_locales);
                 break;
             case NONE:
                 //Unused
