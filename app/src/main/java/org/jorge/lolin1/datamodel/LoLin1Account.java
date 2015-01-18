@@ -34,6 +34,13 @@ public class LoLin1Account implements Parcelable {
     private final String mUsername, mPassword;
     private final Realm.RealmEnum mRealmEnum;
 
+    public LoLin1Account(@NonNull String _userName, @NonNull String _password,
+                         @NonNull String _realm) {
+        mUsername = _userName;
+        mPassword = _password;
+        mRealmEnum = Realm.RealmEnum.valueOf(_realm.toUpperCase(Locale.ENGLISH));
+    }
+
     public LoLin1Account(@NonNull Context context, @NonNull final Account account) {
         final AccountManager accountManager = AccountManager.get(context);
         mUsername = account.name;

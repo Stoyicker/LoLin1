@@ -21,6 +21,7 @@ import android.widget.Toast;
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.auth.LoLin1AccountAuthenticator;
+import org.jorge.lolin1.datamodel.LoLin1Account;
 
 import java.util.Locale;
 
@@ -48,10 +49,10 @@ public class LoginActivity extends AccountAuthenticatorActivity {
     public static final String KEY_ACCOUNT_TYPE = "KEY_ACCOUNT_TYPE";
     public static final String KEY_NEW_LOLIN1_ACCOUNT = "KEY_NEW_LOLIN1_ACCOUNT";
     public static final String KEY_RESPONSE = "KEY_RESPONSE";
+    static final String LAUNCH_APP = "LAUNCH_APP";
     private EditText mUserNameField, mPasswordField;
     private Spinner mRealmSpinner;
     private Context mContext;
-    private View mLoginButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +97,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
             }
         });
 
-        mLoginButton = findViewById(R.id.account_login_button);
+        final View mLoginButton = findViewById(R.id.account_login_button);
 
         mLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +148,16 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         parameters.putExtra(KEY_NEW_LOLIN1_ACCOUNT, Boolean.TRUE);
         saveAccount(parameters);
         finish();
+        if (getIntent().getBooleanExtra(LoginActivity.LAUNCH_APP, Boolean.FALSE)) {
+            final LoLin1Account acc = new LoLin1Account(parameters.getStringExtra(AccountManager
+                    .KEY_ACCOUNT_NAME), parameters.getStringExtra(AccountManager.KEY_PASSWORD),
+                    parameters.getStringExtra(AccountManager.KEY_USERDATA));
+            final Intent nextActivityIntent;
+            nextActivityIntent = new Intent(mContext, MainActivity.class);
+            nextActivityIntent.putExtra(MainActivity.EXTRA_KEY_LOLIN1_ACCOUNT, acc);
+            finish();
+            startActivity(nextActivityIntent);
+        }
     }
 
     private void saveAccount(Intent intent) {

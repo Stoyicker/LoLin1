@@ -30,8 +30,8 @@ import com.crashlytics.android.Crashlytics;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
-import org.jorge.lolin1.datamodel.LoLin1Account;
 import org.jorge.lolin1.auth.LoLin1AccountAuthenticator;
+import org.jorge.lolin1.datamodel.LoLin1Account;
 import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.backup.LoLin1BackupAgent;
 import org.jorge.lolin1.io.database.SQLiteDAO;
@@ -91,11 +91,12 @@ public class InitialActivity extends ActionBarActivity {
         if ((acc = LoLin1AccountAuthenticator.loadAccount(context)) != null) {
             nextActivityIntent = new Intent(context, MainActivity.class);
             nextActivityIntent.putExtra(MainActivity.EXTRA_KEY_LOLIN1_ACCOUNT, acc);
-        } else
+        } else {
             nextActivityIntent = new Intent(context, LoginActivity.class);
+            nextActivityIntent.putExtra(LoginActivity.LAUNCH_APP, Boolean.TRUE);
+        }
         finish();
         startActivity(nextActivityIntent);
-        //TODO If I show the login activity I want to know when it finishes to go to news
     }
 
     private Context initContext() {
