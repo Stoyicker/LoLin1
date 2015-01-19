@@ -91,4 +91,8 @@
     <string name="language_el_gr">Greek</string>
     <string name="language_ro_ro">Romanian</string>
     <string name="locale_change_confirmation">The language switch will take effect upon application restart</string>
+    <string name="chat_status_loading_content_description">Loading…</string>
+    <string name="chat_status_logged_in_content_description">Logged in</string>
+    <string name="chat_status_no_connection_content_description">Unable to connect</string>
+    <string name="chat_status_wrong_credentials_content_description">The credentials seem to be wrong</string>
 </resources>

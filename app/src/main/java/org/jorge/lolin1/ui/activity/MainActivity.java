@@ -32,6 +32,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -42,6 +43,7 @@ import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.datamodel.LoLin1Account;
 import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.database.SQLiteDAO;
+import org.jorge.lolin1.io.prefs.PreferenceAssistant;
 import org.jorge.lolin1.service.ChatIntentService;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter;
 import org.jorge.lolin1.ui.fragment.ArticleReaderFragment;
@@ -52,6 +54,7 @@ import org.jorge.lolin1.ui.fragment.SchoolListFragment;
 import org.jorge.lolin1.util.Interface;
 import org.jorge.lolin1.util.Utils;
 
+import java.util.Arrays;
 import java.util.Stack;
 import java.util.concurrent.Executors;
 
@@ -66,6 +69,8 @@ public class MainActivity extends ActionBarActivity implements Interface
     private LoLin1Account mAccount;
     private BroadcastReceiver mChatBroadcastReceiver;
     private Boolean mAlreadyInited = Boolean.FALSE;
+    private View mLoginProgress;
+    private ImageView mLoginStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +93,8 @@ public class MainActivity extends ActionBarActivity implements Interface
 
         final SlidingUpPanelLayout mSlidingLayout = (SlidingUpPanelLayout) findViewById(R.id
                 .sliding_layout);
+        mLoginProgress = findViewById(R.id.progress_bar);
+        mLoginStatus = (ImageView) findViewById(R.id.login_status_image);
         mSlidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View view, float v) {
@@ -117,10 +124,15 @@ public class MainActivity extends ActionBarActivity implements Interface
 
         mContext = LoLin1Application.getInstance().getApplicationContext();
 
+        setupChatView();
         initChat();
 
         if (mContentFragments == null)
             showInitialFragment();
+    }
+
+    private void setupChatView() {
+        //TODO setupChatView
     }
 
     private void initChat() {
@@ -131,7 +143,7 @@ public class MainActivity extends ActionBarActivity implements Interface
                 thisView.post(new Runnable() {
                     @Override
                     public void run() {
-                        //TODO showViewNoConnection();
+                        showChatViewNoConnection();
                     }
                 });
             } else {
@@ -139,7 +151,7 @@ public class MainActivity extends ActionBarActivity implements Interface
                     thisView.post(new Runnable() {
                         @Override
                         public void run() {
-                            //TODO showViewLoading();
+                            showChatViewLoading();
                         }
                     });
                     runChat();
@@ -147,7 +159,7 @@ public class MainActivity extends ActionBarActivity implements Interface
                     thisView.post(new Runnable() {
                         @Override
                         public void run() {
-                            //TODO showViewConnected();
+                            showChatViewConnected();
                         }
                     });
                 }
@@ -159,14 +171,14 @@ public class MainActivity extends ActionBarActivity implements Interface
             viewRunnable = new Runnable() {
                 @Override
                 public void run() {
-                    //TODO showViewNoConnection();
+                    showChatViewNoConnection();
                 }
             };
         } else {
             viewRunnable = new Runnable() {
                 @Override
                 public void run() {
-                    //TODO showViewLoading();
+                    showChatViewLoading();
                 }
             };
             if (!ChatIntentService.isLoggedIn()) {
@@ -174,6 +186,37 @@ public class MainActivity extends ActionBarActivity implements Interface
             }
         }
         thisView.post(viewRunnable);
+    }
+
+    private void showChatViewLoading() {
+        mLoginStatus.setVisibility(View.GONE);
+        mLoginStatus.setContentDescription(getString(R.string
+                .chat_status_loading_content_description));
+        mLoginProgress.setVisibility(View.VISIBLE);
+    }
+
+    private void showChatViewConnected() {
+        mLoginProgress.setVisibility(View.GONE);
+        mLoginStatus.setVisibility(View.VISIBLE);
+        mLoginStatus.setContentDescription(getString(R.string
+                .chat_status_logged_in_content_description));
+        mLoginStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_logged_in));
+    }
+
+    private void showChatViewNoConnection() {
+        mLoginProgress.setVisibility(View.GONE);
+        mLoginStatus.setVisibility(View.VISIBLE);
+        mLoginStatus.setContentDescription(getString(R.string
+                .chat_status_no_connection_content_description));
+        mLoginStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_error));
+    }
+
+    private void showChatViewWrongCredentials() {
+        mLoginProgress.setVisibility(View.GONE);
+        mLoginStatus.setVisibility(View.VISIBLE);
+        mLoginStatus.setContentDescription(getString(R.string
+                .chat_status_wrong_credentials_content_description));
+        mLoginStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_warning));
     }
 
     private void showInitialFragment() {
@@ -237,8 +280,14 @@ public class MainActivity extends ActionBarActivity implements Interface
             String tableName;
             final Realm r = Realm.getInstanceByRealmId(mAccount.getRealmEnum());
             if (c == newsClassName) {
-                //TODO Pass the right data (implement locale handling)
-                final String l = r.getLocales()[0];
+                String l = PreferenceAssistant.readSharedString(mContext,
+                        PreferenceAssistant.PREF_LANG, null);
+                if (l == null || !Arrays.asList(r.getLocales()).contains(l)) {
+                    l = r.getLocales()[0];
+                    PreferenceAssistant.writeSharedString(mContext,
+                            PreferenceAssistant.PREF_LANG,
+                            l);
+                }
                 tableName = SQLiteDAO.getNewsTableName(r, l);
             } else if (c == communityClassName) {
                 tableName = SQLiteDAO.getCommunityTableName();
@@ -395,7 +444,7 @@ public class MainActivity extends ActionBarActivity implements Interface
                         thisView.post(new Runnable() {
                             @Override
                             public void run() {
-                                //TODO showViewNoConnection();
+                                showChatViewNoConnection();
                             }
                         });
                         if (ChatIntentService.isLoggedIn()) {
@@ -408,7 +457,7 @@ public class MainActivity extends ActionBarActivity implements Interface
                     thisView.post(new Runnable() {
                         @Override
                         public void run() {
-                            //TODO showViewWrongCredentials(); or such
+                            showChatViewWrongCredentials();
                         }
                     });
                     if (ChatIntentService.isLoggedIn()) {
@@ -422,7 +471,8 @@ public class MainActivity extends ActionBarActivity implements Interface
                         @Override
                         public void run() {
                             mNavigationDrawerFragment.asyncLoadUserImage(mAccount);
-                            //TODO showViewConnected(); or such
+                            showChatViewConnected();
+                            //TODO Load the friends
                         }
                     });
                 }
