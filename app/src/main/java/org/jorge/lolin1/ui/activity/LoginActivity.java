@@ -171,7 +171,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
     }
 
     private void saveAccount(Intent intent) {
-        AccountManager accountManager = AccountManager.get(getApplicationContext());
+        AccountManager accountManager = AccountManager.get(mContext);
         final String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
         final String accountPassword = intent.getStringExtra(AccountManager.KEY_PASSWORD);
         final String accountRealm = intent.getStringExtra(AccountManager.KEY_USERDATA);
@@ -185,7 +185,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
         }
         setAccountAuthenticatorResult(intent.getExtras());
         setResult(RESULT_OK, intent);
-        Toast.makeText(getApplicationContext(), R.string.account_save_success, Toast.LENGTH_SHORT)
+        Toast.makeText(mContext, R.string.account_save_success, Toast.LENGTH_SHORT)
                 .show();
     }
 }

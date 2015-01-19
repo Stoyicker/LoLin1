@@ -19,7 +19,10 @@
  */
 package org.jivesoftware.spark.util;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import java.io.IOException;
@@ -35,7 +38,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import javax.net.SocketFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManager;
@@ -51,8 +53,13 @@ import javax.net.ssl.X509TrustManager;
 public class DummySSLSocketFactory extends SSLSocketFactory {
 
     private SSLSocketFactory factory;
+    private final String mChatEventString;
+    private final Context mContext;
 
-    public DummySSLSocketFactory() {
+    public DummySSLSocketFactory(Context context, String chatEventString) {
+
+        mContext = context;
+        mChatEventString = chatEventString;
 
         try {
             SSLContext sslcontent = SSLContext.getInstance("TLS");
@@ -61,13 +68,13 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
                     new java.security.SecureRandom());
             factory = sslcontent.getSocketFactory();
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
-            Log.wtf("debug", e);
+            Log.wtf("F1 :" + getClass().getName(), e);
         }
     }
 
-    public static SocketFactory getDefault() {
-        return new DummySSLSocketFactory();
-    }
+//    public static SocketFactory getDefault() {
+//        return new DummySSLSocketFactory();
+//    }
 
     public Socket createSocket(Socket socket, String s, int i, boolean flag)
             throws IOException {
@@ -79,7 +86,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
                     ret = factory.createSocket((Socket) params[0], (String) params[1],
                             (int) params[2], (boolean) params[3]);
                 } catch (Exception e) {
-                    Log.wtf("debug", e);
+                    Log.wtf("F2 :" + getClass().getName(), e);
                     ret = e;
                 }
                 return ret;
@@ -93,7 +100,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
         try {
             returned = socketCreationTask.get();
         } catch (InterruptedException | ExecutionException e) {
-            Log.wtf("debug", e);
+            Log.wtf("F3 :" + getClass().getName(), e);
             throw new IOException("Failure intentionally provoked. See log above.");
         }
 
@@ -114,7 +121,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
                     ret = factory.createSocket((InetAddress) params[0], (int) params[1],
                             (InetAddress) params[2], (int) params[3]);
                 } catch (Exception e) {
-                    Log.wtf("debug", e);
+                    Log.wtf("F4 :" + getClass().getName(), e);
                     ret = e;
                 }
                 return ret;
@@ -128,7 +135,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
         try {
             returned = socketCreationTask.get();
         } catch (InterruptedException | ExecutionException e) {
-            Log.wtf("debug", e);
+            Log.wtf("F5 :" + getClass().getName(), e);
             throw new IOException("Failure intentionally provoked. See log above.");
         }
 
@@ -147,7 +154,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
                 try {
                     ret = factory.createSocket((InetAddress) params[0], (int) params[1]);
                 } catch (Exception e) {
-                    Log.wtf("debug", e);
+                    Log.wtf("F6 :" + getClass().getName(), e);
                     ret = e;
                 }
                 return ret;
@@ -161,7 +168,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
         try {
             returned = socketCreationTask.get();
         } catch (InterruptedException | ExecutionException e) {
-            Log.wtf("debug", e);
+            Log.wtf("F7 :" + getClass().getName(), e);
             throw new IOException("Failure intentionally provoked. See log above.");
         }
 
@@ -181,7 +188,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
                     ret = factory.createSocket((String) params[0], (int) params[1],
                             (InetAddress) params[2], (int) params[3]);
                 } catch (Exception e) {
-                    Log.wtf("debug", e);
+                    Log.wtf("F8 :" + getClass().getName(), e);
                     ret = e;
                 }
                 return ret;
@@ -195,7 +202,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
         try {
             returned = socketCreationTask.get();
         } catch (InterruptedException | ExecutionException e) {
-            Log.wtf("debug", e);
+            Log.wtf("F9 :" + getClass().getName(), e);
             throw new IOException("Failure intentionally provoked. See log above.");
         }
 
@@ -206,6 +213,16 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
         }
     }
 
+    private void sendLocalBroadcast(Intent intent) {
+        LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
+    }
+
+    private void launchBroadcastChatEvent() {
+        Intent intent = new Intent();
+        intent.setAction(mChatEventString);
+        sendLocalBroadcast(intent);
+    }
+
     public Socket createSocket(String s, int i) throws IOException {
         AsyncTask<Object, Void, Object> socketCreationTask = new AsyncTask<Object, Void, Object>() {
             @Override
@@ -214,7 +231,8 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
                 try {
                     ret = factory.createSocket((String) params[0], (int) params[1]);
                 } catch (Exception e) {
-                    Log.wtf("debug", e);
+                    Log.wtf("F10 :" + getClass().getName(), e);
+                    launchBroadcastChatEvent();
                     ret = e;
                 }
                 return ret;
@@ -228,7 +246,7 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
         try {
             returned = socketCreationTask.get();
         } catch (InterruptedException | ExecutionException e) {
-            Log.wtf("debug", e);
+            Log.wtf("F11 :" + getClass().getName(), e);
             throw new IOException("Failure intentionally provoked. See log above.");
         }
 
@@ -254,10 +272,12 @@ public class DummySSLSocketFactory extends SSLSocketFactory {
  */
 class DummyTrustManager implements X509TrustManager {
 
+    @SuppressWarnings("unused")
     public boolean isClientTrusted(X509Certificate[] cert) {
         return true;
     }
 
+    @SuppressWarnings("unused")
     public boolean isServerTrusted(X509Certificate[] cert) {
         try {
             cert[0].checkValidity();

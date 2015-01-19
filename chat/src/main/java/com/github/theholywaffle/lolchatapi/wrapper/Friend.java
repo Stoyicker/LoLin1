@@ -60,13 +60,13 @@ public class Friend extends Wrapper<RosterEntry> implements Comparable {
                 con.getRoster().removeEntry(get());
             } catch (SmackException.NotLoggedInException | SmackException.NotConnectedException |
                     SmackException.NoResponseException e) {
-                Log.wtf("debug", e);
+                Log.wtf(getClass().getName(), e);
             }
-            return true;
+            return Boolean.TRUE;
         } catch (XMPPException e) {
-            Log.wtf("debug", e);
+            Log.wtf(getClass().getName(), e);
         }
-        return false;
+        return Boolean.FALSE;
     }
 
     private Chat getChat() {
@@ -133,7 +133,7 @@ public class Friend extends Wrapper<RosterEntry> implements Comparable {
             try {
                 return new LolStatus(status);
             } catch (JDOMException | IOException e) {
-                Log.wtf("debug", e);
+                Log.wtf(getClass().getName(), e);
             }
         }
         return new LolStatus();
@@ -163,7 +163,7 @@ public class Friend extends Wrapper<RosterEntry> implements Comparable {
         try {
             getChat().sendMessage(message);
         } catch (XMPPException | SmackException.NotConnectedException e) {
-            Log.wtf("debug", e);
+            Log.wtf(getClass().getName(), e);
         }
     }
 
@@ -183,7 +183,7 @@ public class Friend extends Wrapper<RosterEntry> implements Comparable {
         try {
             getChat().sendMessage(message);
         } catch (XMPPException | SmackException.NotConnectedException e) {
-            Log.wtf("debug", e);
+            Log.wtf(getClass().getName(), e);
         }
     }
 

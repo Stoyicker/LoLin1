@@ -2,6 +2,7 @@ package org.jorge.lolin1.service;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.IBinder;
@@ -17,6 +18,7 @@ import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
 import org.jivesoftware.smack.SmackAndroid;
 import org.jivesoftware.smack.SmackException;
+import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.LoLin1Account;
 
@@ -138,32 +140,32 @@ public class ChatIntentService extends IntentService {
 
             @Override
             public void onFriendLeave(Friend friend) {
-                ChatIntentService.this.launchBroadcastFriendEvent();
+                ChatIntentService.this.launchBroadcastChatEvent();
             }
 
             @Override
             public void onFriendJoin(Friend friend) {
-                ChatIntentService.this.launchBroadcastFriendEvent();
+                ChatIntentService.this.launchBroadcastChatEvent();
             }
 
             @Override
             public void onFriendAvailable(Friend friend) {
-                ChatIntentService.this.launchBroadcastFriendEvent();
+                ChatIntentService.this.launchBroadcastChatEvent();
             }
 
             @Override
             public void onFriendAway(Friend friend) {
-                ChatIntentService.this.launchBroadcastFriendEvent();
+                ChatIntentService.this.launchBroadcastChatEvent();
             }
 
             @Override
             public void onFriendBusy(Friend friend) {
-                ChatIntentService.this.launchBroadcastFriendEvent();
+                ChatIntentService.this.launchBroadcastChatEvent();
             }
 
             @Override
             public void onFriendStatusChange(Friend friend) {
-                ChatIntentService.this.launchBroadcastFriendEvent();
+                ChatIntentService.this.launchBroadcastChatEvent();
             }
         });
 
@@ -213,7 +215,7 @@ public class ChatIntentService extends IntentService {
         sendLocalBroadcast(intent);
     }
 
-    private void launchBroadcastFriendEvent() {
+    private void launchBroadcastChatEvent() {
         Intent intent = new Intent();
         intent.setAction(getString(R.string.event_chat_overview));
         sendLocalBroadcast(intent);
@@ -223,7 +225,8 @@ public class ChatIntentService extends IntentService {
         ChatServer chatServer;
         chatServer = ChatServer.valueOf(acc.getRealmEnum().name().toUpperCase(Locale.ENGLISH));
         try {
-            api = new LoLChat(chatServer, Boolean.FALSE);
+            api = new LoLChat(LoLin1Application.getInstance().getContext(),
+                    ConnectivityManager.CONNECTIVITY_ACTION, chatServer, Boolean.FALSE);
         } catch (IOException e) {
             Crashlytics.logException(e);
             e.printStackTrace(System.err);

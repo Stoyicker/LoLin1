@@ -13,7 +13,6 @@ package com.github.theholywaffle.lolchatapi;
 import android.content.Context;
 import android.util.Log;
 
-import com.crashlytics.android.Crashlytics;
 import com.github.theholywaffle.lolchatapi.listeners.ChatListener;
 import com.github.theholywaffle.lolchatapi.listeners.FriendListener;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
@@ -70,7 +69,8 @@ public class LoLChat {
      *                             ignore all friend requests. NOTE: automatic accepting of
      *                             requests causes the name of the new friend to be null.
      */
-    public LoLChat(ChatServer server, boolean acceptFriendRequests) throws IOException {
+    public LoLChat(Context context, String eventBroadcastString, ChatServer server,
+                   boolean acceptFriendRequests) throws IOException {
         Roster.setDefaultSubscriptionMode(
                 acceptFriendRequests ? SubscriptionMode.accept_all : SubscriptionMode.manual);
         ConnectionConfiguration config = new ConnectionConfiguration(server.host, 5223, "pvp.net");
@@ -109,13 +109,13 @@ public class LoLChat {
         SASLAuthentication.supportSASLMechanism("EAP-AES128");
         SASLAuthentication.supportSASLMechanism("EAP-AES128-PLUS");
         config.setSecurityMode(ConnectionConfiguration.SecurityMode.enabled);
-        config.setSocketFactory(new DummySSLSocketFactory());
+        config.setSocketFactory(new DummySSLSocketFactory(context, eventBroadcastString));
         config.setCompressionEnabled(true);
         connection = new XMPPTCPConnection(config);
         try {
             connection.connect();
         } catch (XMPPException | SmackException e) {
-            Log.wtf("debug", "Failed to connect to " + connection.getHost(), e);
+            Log.wtf(getClass().getName(), "Failed to connect to " + connection.getHost(), e);
         }
         addListeners();
         new Thread(new Runnable() {
@@ -389,7 +389,7 @@ public class LoLChat {
         } catch (SASLErrorException e) {
             return Boolean.FALSE; //Wrong credentials
         } catch (XMPPException | SmackException e) {
-            Log.wtf("debug", e);
+            Log.wtf(getClass().getName(), e);
         }
         return connection.isAuthenticated();
     }
@@ -454,7 +454,7 @@ public class LoLChat {
         try {
             connection.sendPacket(newPresence);
         } catch (SmackException.NotConnectedException e) {
-            Log.wtf("debug", "e");
+            Log.wtf(getClass().getName(), "e");
         }
     }
 
@@ -462,7 +462,7 @@ public class LoLChat {
         try {
             connection.getRoster().reload();
         } catch (SmackException.NotLoggedInException | SmackException.NotConnectedException e) {
-            Log.wtf("debug", e);
+            Log.wtf(getClass().getName(), e);
         }
     }
 }

@@ -24,15 +24,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
@@ -45,6 +49,7 @@ import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.database.SQLiteDAO;
 import org.jorge.lolin1.io.prefs.PreferenceAssistant;
 import org.jorge.lolin1.service.ChatIntentService;
+import org.jorge.lolin1.ui.adapter.ChatAdapter;
 import org.jorge.lolin1.ui.adapter.NavigationDrawerAdapter;
 import org.jorge.lolin1.ui.fragment.ArticleReaderFragment;
 import org.jorge.lolin1.ui.fragment.CommunityListFragment;
@@ -71,6 +76,8 @@ public class MainActivity extends ActionBarActivity implements Interface
     private Boolean mAlreadyInited = Boolean.FALSE;
     private View mLoginProgress;
     private ImageView mLoginStatus;
+    private ChatAdapter mChatAdapter;
+    private TextView mEmptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +129,7 @@ public class MainActivity extends ActionBarActivity implements Interface
             }
         });
 
-        mContext = LoLin1Application.getInstance().getApplicationContext();
+        mContext = LoLin1Application.getInstance().getContext();
 
         setupChatView();
         initChat();
@@ -132,7 +139,13 @@ public class MainActivity extends ActionBarActivity implements Interface
     }
 
     private void setupChatView() {
-        //TODO setupChatView
+        final RecyclerView chatRecyclerView = (RecyclerView) findViewById(R.id.chat_recycler_view);
+        chatRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        chatRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        mEmptyView = (TextView) findViewById(android.R.id.empty);
+        mChatAdapter =
+                new ChatAdapter(mEmptyView);
+        chatRecyclerView.setAdapter(mChatAdapter);
     }
 
     private void initChat() {
@@ -193,6 +206,7 @@ public class MainActivity extends ActionBarActivity implements Interface
         mLoginStatus.setContentDescription(getString(R.string
                 .chat_status_loading_content_description));
         mLoginProgress.setVisibility(View.VISIBLE);
+        mEmptyView.setText(getString(R.string.chat_friend_list_empty_loading));
     }
 
     private void showChatViewConnected() {
@@ -201,6 +215,8 @@ public class MainActivity extends ActionBarActivity implements Interface
         mLoginStatus.setContentDescription(getString(R.string
                 .chat_status_logged_in_content_description));
         mLoginStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_logged_in));
+        mEmptyView.setOnClickListener(null);
+        mEmptyView.setText(getString(R.string.chat_friend_list_empty_no_online_friends));
     }
 
     private void showChatViewNoConnection() {
@@ -209,6 +225,16 @@ public class MainActivity extends ActionBarActivity implements Interface
         mLoginStatus.setContentDescription(getString(R.string
                 .chat_status_no_connection_content_description));
         mLoginStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_error));
+        mEmptyView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Utils.isInternetReachable() && !ChatIntentService.isLoggedIn()) {
+                    showChatViewLoading();
+                    MainActivity.this.runChat();
+                }
+            }
+        });
+        mEmptyView.setText(getString(R.string.chat_friend_list_empty_no_connection));
     }
 
     private void showChatViewWrongCredentials() {
@@ -217,6 +243,8 @@ public class MainActivity extends ActionBarActivity implements Interface
         mLoginStatus.setContentDescription(getString(R.string
                 .chat_status_wrong_credentials_content_description));
         mLoginStatus.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_warning));
+        mEmptyView.setOnClickListener(null);
+        mEmptyView.setText(getString(R.string.chat_friend_list_empty_wrong_credentials));
     }
 
     private void showInitialFragment() {
@@ -391,11 +419,11 @@ public class MainActivity extends ActionBarActivity implements Interface
     }
 
     private void runChat() {
-        Intent intent = new Intent(getApplicationContext(), ChatIntentService.class);
+        Intent intent = new Intent(mContext, ChatIntentService.class);
         if (ChatIntentService.isLoggedIn()) {
             stopService(intent);
         }
-        Intent chatConnectIntent = new Intent(getApplicationContext(), ChatIntentService.class);
+        Intent chatConnectIntent = new Intent(mContext, ChatIntentService.class);
         chatConnectIntent.setAction(ChatIntentService.ACTION_CONNECT);
         chatConnectIntent.putExtra(ChatIntentService.EXTRA_KEY_LOLIN1_ACCOUNT, mAccount);
         startService(chatConnectIntent);
@@ -407,26 +435,26 @@ public class MainActivity extends ActionBarActivity implements Interface
         }
         mChatBroadcastReceiver = new ChatOverviewBroadcastReceiver();
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         intentFilter.addAction(mContext.getString(R.string.event_login_failed));
         intentFilter.addAction(mContext.getString(R.string.event_chat_overview));
         intentFilter.addAction(mContext.getString(R.string.event_login_successful));
         intentFilter.addAction(mContext.getString(R.string.event_message_received));
-        LocalBroadcastManager.getInstance(getApplicationContext())
+        LocalBroadcastManager.getInstance(mContext)
                 .registerReceiver(mChatBroadcastReceiver, intentFilter);
     }
 
     private void stopChatService() {
-        Intent chatDisconnectIntent = new Intent(getApplicationContext(), ChatIntentService.class);
+        Intent chatDisconnectIntent = new Intent(mContext, ChatIntentService.class);
         chatDisconnectIntent.setAction(ChatIntentService.ACTION_DISCONNECT);
         startService(chatDisconnectIntent);
         mAlreadyInited = Boolean.FALSE;
-        stopService(new Intent(getApplicationContext(), ChatIntentService.class));
+        stopService(new Intent(mContext, ChatIntentService.class));
     }
 
     private synchronized void requestChatListRefresh() {
         FriendManager.getInstance().updateOnlineFriends();
-        //TODO ((ChatOverviewSupportFragment) mPagerAdapter.getItem(0)).notifyChatEvent();
+        mChatAdapter.notifyFriendSetChanged();
     }
 
     public class ChatOverviewBroadcastReceiver extends BroadcastReceiver {
@@ -439,7 +467,7 @@ public class MainActivity extends ActionBarActivity implements Interface
             } else {
                 final View thisView =
                         findViewById(android.R.id.content);
-                if (action.contentEquals("android.net.conn.CONNECTIVITY_CHANGE")) {
+                if (action.contentEquals(ConnectivityManager.CONNECTIVITY_ACTION)) {
                     if (!Utils.isInternetReachable()) {
                         thisView.post(new Runnable() {
                             @Override
@@ -466,13 +494,13 @@ public class MainActivity extends ActionBarActivity implements Interface
                 } else if (action.contentEquals(context.getString(R.string
                         .event_login_successful))) {
                     MainActivity.this.mAlreadyInited = Boolean.TRUE;
-                    FriendManager.getInstance().updateOnlineFriends();
+//                    FriendManager.getInstance().updateOnlineFriends();
                     thisView.post(new Runnable() {
                         @Override
                         public void run() {
                             mNavigationDrawerFragment.asyncLoadUserImage(mAccount);
                             showChatViewConnected();
-                            //TODO Load the friends
+                            mChatAdapter.notifyFriendSetChanged();
                         }
                     });
                 }

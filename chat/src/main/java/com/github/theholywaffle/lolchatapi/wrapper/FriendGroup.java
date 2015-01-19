@@ -43,7 +43,7 @@ public class FriendGroup extends Wrapper<RosterGroup> {
             get().addEntry(friend.get());
         } catch (XMPPException | SmackException.NoResponseException | SmackException
                 .NotConnectedException e) {
-            Log.wtf("debug", e);
+            Log.wtf(getClass().getName(), e);
         }
     }
 
@@ -90,7 +90,7 @@ public class FriendGroup extends Wrapper<RosterGroup> {
         try {
             get().setName(name);
         } catch (SmackException.NotConnectedException e) {
-            Log.wtf("debug", e);
+            Log.wtf(getClass().getName(), e);
         }
     }
 
