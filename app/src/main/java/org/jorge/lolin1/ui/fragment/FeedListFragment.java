@@ -48,7 +48,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.crashlytics.android.Crashlytics;
-import com.melnykov.fab.FloatingActionButton;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
@@ -251,9 +250,7 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
             reCalculateDualPaneDimensions();
         } else {
             final Integer BASE_TOP_PADDING = mNewsView.getPaddingTop();
-            mNewsView.setOnScrollListener(new FloatingActionButton
-                    .FabRecyclerOnViewScrollListener() {
-
+            mNewsView.setOnScrollListener(new RecyclerView.OnScrollListener() {
                 final Integer MIN_SCROLL_TOGGLE_ACTION_BAR = mContext.getResources().getInteger(R.
                         integer.min_scroll_toggle_action_bar);
 
