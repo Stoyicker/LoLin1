@@ -16,11 +16,11 @@
   ~
   ~ Created by Jorge Antonio Diaz-Benito Soriano.
   -->
-<org.jorge.lolin1.ui.util.ChainableSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                      android:id="@+id/refreshable_layout"
-                                                      android:layout_width="match_parent"
-                                                      android:layout_height="match_parent"
-                                                      android:animateLayoutChanges="true">
+<org.jorge.lolin1.ui.component.ChainableSwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                           android:id="@+id/refreshable_layout"
+                                                           android:layout_width="match_parent"
+                                                           android:layout_height="match_parent"
+                                                           android:animateLayoutChanges="true">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -45,4 +45,4 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </FrameLayout>
-</org.jorge.lolin1.ui.util.ChainableSwipeRefreshLayout>
+</org.jorge.lolin1.ui.component.ChainableSwipeRefreshLayout>

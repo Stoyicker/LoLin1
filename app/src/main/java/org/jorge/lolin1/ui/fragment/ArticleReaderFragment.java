@@ -50,7 +50,7 @@ import org.jorge.lolin1.datamodel.LoLin1Account;
 import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.database.SQLiteDAO;
 import org.jorge.lolin1.io.prefs.PreferenceAssistant;
-import org.jorge.lolin1.ui.util.StickyParallaxNotifyingScrollView;
+import org.jorge.lolin1.ui.component.StickyParallaxNotifyingScrollView;
 import org.jorge.lolin1.util.PicassoUtils;
 
 import java.util.Arrays;

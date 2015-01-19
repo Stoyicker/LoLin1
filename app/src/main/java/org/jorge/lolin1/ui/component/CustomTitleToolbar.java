@@ -1,4 +1,4 @@
-package org.jorge.lolin1.ui.util;
+package org.jorge.lolin1.ui.component;
 
 import android.content.Context;
 import android.support.v7.widget.Toolbar;

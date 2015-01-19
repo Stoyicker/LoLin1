@@ -53,8 +53,8 @@ import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.ui.adapter.FeedAdapter;
-import org.jorge.lolin1.ui.util.ChainableSwipeRefreshLayout;
-import org.jorge.lolin1.ui.util.StickyParallaxNotifyingScrollView;
+import org.jorge.lolin1.ui.component.ChainableSwipeRefreshLayout;
+import org.jorge.lolin1.ui.component.StickyParallaxNotifyingScrollView;
 import org.jorge.lolin1.util.Interface;
 import org.jorge.lolin1.util.PicassoUtils;
 
@@ -73,8 +73,6 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
     private int mDefaultImageId;
     protected ActionBarActivity mActivity;
     private Interface.IOnFeedArticleClickedListener mCallback;
-    private Boolean mActionBarIsShowingOrShown = Boolean.TRUE;
-    private final Object mActionBarLock = new Object();
     private LayoutManagerEnum mLMIndicator;
     private Boolean mIsDualPane = Boolean.FALSE;
     private FeedArticle lastClickedArticle;
@@ -248,32 +246,6 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
                         mContext, this, mDefaultImageId, TAG, mTableName, ret);
         if (mIsDualPane) {
             reCalculateDualPaneDimensions();
-        } else {
-            final Integer BASE_TOP_PADDING = mNewsView.getPaddingTop();
-            mNewsView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-                final Integer MIN_SCROLL_TOGGLE_ACTION_BAR = mContext.getResources().getInteger(R.
-                        integer.min_scroll_toggle_action_bar);
-
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    ActionBar actionBar = mActivity.getSupportActionBar();
-                    synchronized (mActionBarLock) {
-                        if (actionBar != null)
-                            if (dy > MIN_SCROLL_TOGGLE_ACTION_BAR && mActionBarIsShowingOrShown) {
-                                mNewsView.setPadding(0, 0, 0, 0);
-                                actionBar.hide();
-                                mActionBarIsShowingOrShown = Boolean.FALSE;
-                            } else if ((dy < -1 * MIN_SCROLL_TOGGLE_ACTION_BAR || !mNewsView
-                                    .canScrollVertically(-1)) && !mActionBarIsShowingOrShown) {
-                                mNewsView.setPadding(0, BASE_TOP_PADDING, 0, 0);
-                                actionBar.show();
-                                mActionBarIsShowingOrShown = Boolean.TRUE;
-                                if (!mNewsView.canScrollVertically(-1))
-                                    mNewsView.smoothScrollToPosition(0);
-                            }
-                    }
-                }
-            });
         }
 
         return ret;
