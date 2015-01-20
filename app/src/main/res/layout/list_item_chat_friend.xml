@@ -27,7 +27,7 @@
             <TextView
                 android:id="@+id/user_name"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="left|center_vertical"
                 android:ellipsize="marquee"
                 android:maxLines="1"
@@ -36,7 +36,7 @@
             <TextView
                 android:id="@+id/user_status"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="left|center_vertical"
                 android:ellipsize="marquee"
                 style="@style/AppTheme.ChatFriendStatusStyle"/>

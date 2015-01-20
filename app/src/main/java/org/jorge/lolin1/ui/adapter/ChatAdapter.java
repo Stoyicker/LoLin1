@@ -1,11 +1,13 @@
 package org.jorge.lolin1.ui.adapter;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -109,16 +111,47 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         final TextView userNameView, statusView;
         final ImageView profileImageView;
+        //Expand logic taken from Google code sample at https://developer.android
+        // .com/training/material/lists-cards.html
+        private int mOriginalHeight = 0;
+        private boolean mIsViewExpanded = Boolean.FALSE;
 
         public ViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             userNameView = (TextView) itemView.findViewById(R.id.user_name);
             statusView = (TextView) itemView.findViewById(R.id.user_status);
             profileImageView = (ImageView) itemView.findViewById(R.id.user_image);
+        }
+
+        @Override
+        public void onClick(final View view) {
+            if (mOriginalHeight == 0) {
+                mOriginalHeight = view.getHeight();
+            }
+            ValueAnimator valueAnimator;
+            if (!mIsViewExpanded) {
+                mIsViewExpanded = Boolean.TRUE;
+                valueAnimator = ValueAnimator.ofInt(mOriginalHeight,
+                        mOriginalHeight + (int) (mOriginalHeight * 1.5));
+            } else {
+                mIsViewExpanded = Boolean.FALSE;
+                valueAnimator = ValueAnimator.ofInt(mOriginalHeight +
+                        (int) (mOriginalHeight * 1.5), mOriginalHeight);
+            }
+            valueAnimator.setDuration(150);
+            valueAnimator.setInterpolator(new LinearInterpolator());
+            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    view.getLayoutParams().height = (Integer) animation.getAnimatedValue();
+                    view.requestLayout();
+                }
+            });
+            valueAnimator.start();
         }
     }
 }

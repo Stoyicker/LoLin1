@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:clickable="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -69,7 +70,7 @@
             android:id="@+id/chat_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:requiresFadingEdge="none"
+            android:requiresFadingEdge="vertical"
             android:fadeScrollbars="true"
             android:scrollbars="vertical"
             android:scrollbarStyle="insideInset"/>

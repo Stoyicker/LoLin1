@@ -31,6 +31,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -100,12 +101,13 @@ public class MainActivity extends ActionBarActivity implements Interface
                 .findFragmentById(R.id.navigation_drawer_fragment);
         setupNavigationDrawer(toolbar, mAccount);
 
-        final SlidingUpPanelLayout mSlidingLayout = (SlidingUpPanelLayout) findViewById(R.id
+        final SlidingUpPanelLayout slidingLayout = (SlidingUpPanelLayout) findViewById(R.id
                 .sliding_layout);
         mLoginProgress = findViewById(R.id.progress_bar);
         mLoginStatus = (ImageView) findViewById(R.id.login_status_image);
         final TextView chatActionView = (TextView) findViewById(R.id.chat_view_action);
-        mSlidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+        slidingLayout.setDragView(chatActionView);
+        slidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View view, float v) {
                 //Unused
@@ -153,6 +155,7 @@ public class MainActivity extends ActionBarActivity implements Interface
         mChatAdapter =
                 new ChatAdapter(mContext, mEmptyView, mTag);
         chatRecyclerView.setAdapter(mChatAdapter);
+        chatRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override
