@@ -61,7 +61,14 @@
             android:orientation="vertical"
             android:visibility="gone">
 
-            <!-- TODO MESSAGE LIST HERE -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/chat_room_message_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/chat_message_list_height"
+                android:requiresFadingEdge="none"
+                android:fadeScrollbars="true"
+                android:scrollbars="vertical"
+                android:scrollbarStyle="insideInset"/>
 
             <EditText
                 android:id="@android:id/inputArea"

@@ -1,5 +1,8 @@
 package org.jorge.lolin1.chat;
 
+import android.os.AsyncTask;
+import android.util.Log;
+
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
 import org.jorge.lolin1.service.ChatIntentService;
@@ -8,6 +11,7 @@ import org.jorge.lolin1.util.Utils;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.TreeSet;
+import java.util.concurrent.Executors;
 
 
 /**
@@ -52,12 +56,26 @@ public class FriendManager {
     }
 
     public Friend findFriendByName(String friendName) {
-        for (Friend f : ONLINE_FRIENDS)
+        for (Friend f : ONLINE_FRIENDS) {
+            Log.d("debug", "Name: " + f.getName() + " compared against " + friendName);
             if (f.getName().contentEquals(friendName)) {
                 return f;
             }
+        }
         return null;
     }
+
+    public void requestSendMessage(String message, String friendName) {
+        new AsyncTask<String, Void, Void>() {
+            @Override
+            protected Void doInBackground(String... params) {
+                final Friend target = findFriendByName(params[1]);
+                target.sendMessage(params[0]);
+                return null;
+            }
+        }.executeOnExecutor(Executors.newSingleThreadExecutor(), message, friendName);
+    }
+
 
     public synchronized void updateOnlineFriends() {
         Collection<Friend> onlineFriends = ChatIntentService.getOnlineFriends();

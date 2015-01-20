@@ -61,4 +61,10 @@
     <dimen name="chat_title_text">18sp</dimen>
     <dimen name="chat_card_padding">12dp</dimen>
     <dimen name="chat_card_image_left_margin">8dp</dimen>
+    <dimen name="chat_message_contents_margin">4dp</dimen>
+    <dimen name="chat_message_contents_left_padding">8dp</dimen>
+    <dimen name="chat_message_timestamp_margin">4dp</dimen>
+    <dimen name="chat_friend_username_text">18sp</dimen>
+    <dimen name="chat_friend_status_text">14sp</dimen>
+    <dimen name="chat_message_list_height">150dp</dimen>
 </resources>
