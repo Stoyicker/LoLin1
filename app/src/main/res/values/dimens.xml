@@ -59,4 +59,6 @@
     <dimen name="login_progressbar_square_side">36dp</dimen>
     <dimen name="standard_card_elevation">8dp</dimen>
     <dimen name="chat_title_text">18sp</dimen>
+    <dimen name="chat_card_padding">12dp</dimen>
+    <dimen name="chat_card_image_left_margin">8dp</dimen>
 </resources>

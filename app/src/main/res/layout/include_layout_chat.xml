@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical"
     android:padding="@dimen/chat_padding"
     android:background="@color/material_grey_300">
@@ -12,8 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:paddingBottom="@dimen/chat_padding"
-        android:animateLayoutChanges="true">
+        android:paddingBottom="@dimen/chat_padding">
 
         <com.gc.materialdesign.views.ProgressBarCircularIndeterminate
             android:id="@+id/progress_bar"

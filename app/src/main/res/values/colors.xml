@@ -57,4 +57,5 @@
     <color name="login_credential_hint">#AAFFFFFF</color>
     <color name="material_deep_purple_900">#311B92</color>
     <color name="material_grey_300">#E0E0E0</color>
+    <color name="material_green_900">#1B5E20</color>
 </resources>

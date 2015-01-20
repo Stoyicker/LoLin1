@@ -57,6 +57,7 @@ import org.jorge.lolin1.ui.fragment.NavigationDrawerFragment;
 import org.jorge.lolin1.ui.fragment.NewsListFragment;
 import org.jorge.lolin1.ui.fragment.SchoolListFragment;
 import org.jorge.lolin1.util.Interface;
+import org.jorge.lolin1.util.PicassoUtils;
 import org.jorge.lolin1.util.Utils;
 
 import java.util.Arrays;
@@ -78,6 +79,7 @@ public class MainActivity extends ActionBarActivity implements Interface
     private ImageView mLoginStatus;
     private ChatAdapter mChatAdapter;
     private TextView mEmptyView;
+    private String mTag = getClass().getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -144,8 +146,14 @@ public class MainActivity extends ActionBarActivity implements Interface
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mEmptyView = (TextView) findViewById(android.R.id.empty);
         mChatAdapter =
-                new ChatAdapter(mEmptyView);
+                new ChatAdapter(mContext, mEmptyView, mTag);
         chatRecyclerView.setAdapter(mChatAdapter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        PicassoUtils.cancel(mContext, mTag);
     }
 
     private void initChat() {
@@ -494,13 +502,12 @@ public class MainActivity extends ActionBarActivity implements Interface
                 } else if (action.contentEquals(context.getString(R.string
                         .event_login_successful))) {
                     MainActivity.this.mAlreadyInited = Boolean.TRUE;
-//                    FriendManager.getInstance().updateOnlineFriends();
                     thisView.post(new Runnable() {
                         @Override
                         public void run() {
                             mNavigationDrawerFragment.asyncLoadUserImage(mAccount);
+                            requestChatListRefresh();
                             showChatViewConnected();
-                            mChatAdapter.notifyFriendSetChanged();
                         }
                     });
                 }

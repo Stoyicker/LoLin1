@@ -1,5 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          android:layout_width="match_parent"
-          android:text="Holahola"
-          android:layout_height="match_parent"/>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:animateLayoutChanges="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/chat_card_padding">
+
+        <org.jorge.lolin1.ui.component.CircularImageView
+            android:id="@+id/user_image"
+            android:src="@drawable/ic_launcher"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/chat_card_image_left_margin"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/user_image"
+            android:layout_alignParentLeft="true">
+
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center_vertical"
+                android:ellipsize="marquee"
+                android:maxLines="1"
+                style="@style/AppTheme.ChatFriendUserNameStyle"/>
+
+            <TextView
+                android:id="@+id/user_status"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="left|center_vertical"
+                android:ellipsize="marquee"
+                style="@style/AppTheme.ChatFriendStatusStyle"/>
+        </LinearLayout>
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

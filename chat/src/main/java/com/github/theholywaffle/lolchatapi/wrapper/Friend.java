@@ -230,6 +230,7 @@ public class Friend extends Wrapper<RosterEntry> implements Comparable {
         else anotherValue = 3;
 
         return thisValue == anotherValue ? getName().toLowerCase(Locale.ENGLISH).compareTo((
-                (Friend) another).getName().toLowerCase(Locale.ENGLISH)) : anotherValue - thisValue;
+                (Friend) another).getName().toLowerCase(Locale.ENGLISH)) : anotherValue -
+                thisValue;
     }
 }

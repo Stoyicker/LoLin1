@@ -28,6 +28,7 @@ public final class PreferenceAssistant {
     public static final String PREF_PULL_TO_REFRESH_LEARNED = "PREF_PULL_TO_REFRESH_LEARNED";
     public static final String PREF_USER_LEARNED_DRAWER = "PREF_USER_LEARNED_DRAWER";
     public static final String PREF_LANG = "PREF_LANG";
+    public static final String PREF_LAST_PROFILE_ICON_VERSION = "PREF_LAST_PROFILE_ICON_VERSION";
 
     private PreferenceAssistant() {
         throw new UnsupportedOperationException("Do not instantiate " + getClass().getName());

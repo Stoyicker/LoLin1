@@ -17,7 +17,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -235,8 +234,6 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
             private ImageView iv;
             private String realm
                     ,
-                    imageId
-                    ,
                     username;
             private final String PROFILE_ICON_URL_PATTERN = NavigationDrawerFragment.this
                     .mContext.getString(R.string.profile_icon_url_pattern)
@@ -269,6 +266,10 @@ public class NavigationDrawerFragment extends Fragment implements NavigationDraw
                     //Should never happen
                     Crashlytics.logException(e);
                 }
+
+                PreferenceAssistant.writeSharedString(mContext,
+                        PreferenceAssistant.PREF_LAST_PROFILE_ICON_VERSION,
+                        mVersionBundle.getString(KEY_CONTENTS));
 
                 return String.format(Locale.ENGLISH, PROFILE_ICON_URL_PATTERN,
                         mVersionBundle.getString(KEY_CONTENTS), mIdBundle.getString(KEY_CONTENTS));

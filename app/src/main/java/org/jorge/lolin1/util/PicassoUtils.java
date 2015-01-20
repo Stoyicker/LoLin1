@@ -22,9 +22,18 @@ package org.jorge.lolin1.util;
 import android.content.Context;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 public abstract class PicassoUtils {
+
+    public static void loadInto(Context context, String path, ImageView target,
+                                Object tag) {
+        Picasso.with(context)
+                .load(path)
+                .tag(tag)
+                .into(target);
+    }
 
     public static void loadInto(Context context, String path, int errorResId, ImageView target,
                                 Object tag) {
@@ -33,6 +42,25 @@ public abstract class PicassoUtils {
                 .error(errorResId)
                 .tag(tag)
                 .into(target);
+    }
+
+    public static void loadInto(final Context context, final String path, final String errorPath,
+                                final ImageView target,
+                                final Object tag) {
+        Picasso.with(context)
+                .load(path)
+                .tag(tag)
+                .into(target, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError() {
+                        PicassoUtils.loadInto(context, errorPath, target, tag);
+                    }
+                });
     }
 
     public static void loadInto(Context context, String path, com.squareup.picasso.Callback
