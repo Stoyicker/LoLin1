@@ -164,7 +164,7 @@ public class LoginActivity extends AccountAuthenticatorActivity {
                     parameters.getStringExtra(AccountManager.KEY_USERDATA));
             final Intent nextActivityIntent;
             nextActivityIntent = new Intent(mContext, MainActivity.class);
-            nextActivityIntent.putExtra(MainActivity.EXTRA_KEY_LOLIN1_ACCOUNT, acc);
+            nextActivityIntent.putExtra(MainActivity.KEY_LOLIN1_ACCOUNT, acc);
             finish();
             startActivity(nextActivityIntent);
         }

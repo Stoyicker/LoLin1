@@ -31,13 +31,13 @@ import com.crashlytics.android.Crashlytics;
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.auth.LoLin1AccountAuthenticator;
+import org.jorge.lolin1.chat.ChatHistoryManager;
 import org.jorge.lolin1.datamodel.LoLin1Account;
 import org.jorge.lolin1.datamodel.Realm;
 import org.jorge.lolin1.io.backup.LoLin1BackupAgent;
 import org.jorge.lolin1.io.database.SQLiteDAO;
 import org.jorge.lolin1.io.file.FileOperations;
 import org.jorge.lolin1.receiver.FeedScheduleBroadcastReceiver;
-import org.jorge.lolin1.service.ChatIntentService;
 
 import java.io.File;
 
@@ -55,8 +55,13 @@ public class InitialActivity extends ActionBarActivity {
         flushCacheIfNecessary(context);
         initDatabase(context);
         scheduleFeedServices(context);
+        initChatHistoryManager(context);
 
         launchFirstActivity(context);
+    }
+
+    private void initChatHistoryManager(Context context) {
+        ChatHistoryManager.setup(context);
     }
 
     private void scheduleFeedServices(Context context) {
@@ -91,7 +96,7 @@ public class InitialActivity extends ActionBarActivity {
         final LoLin1Account acc;
         if ((acc = LoLin1AccountAuthenticator.loadAccount(context)) != null) {
             nextActivityIntent = new Intent(context, MainActivity.class);
-            nextActivityIntent.putExtra(MainActivity.EXTRA_KEY_LOLIN1_ACCOUNT, acc);
+            nextActivityIntent.putExtra(MainActivity.KEY_LOLIN1_ACCOUNT, acc);
         } else {
             nextActivityIntent = new Intent(context, LoginActivity.class);
             nextActivityIntent.putExtra(LoginActivity.LAUNCH_APP, Boolean.TRUE);

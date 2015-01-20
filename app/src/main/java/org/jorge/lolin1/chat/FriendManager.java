@@ -1,10 +1,10 @@
 package org.jorge.lolin1.chat;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
+import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.service.ChatIntentService;
 import org.jorge.lolin1.util.Utils;
 
@@ -57,7 +57,6 @@ public class FriendManager {
 
     public Friend findFriendByName(String friendName) {
         for (Friend f : ONLINE_FRIENDS) {
-            Log.d("debug", "Name: " + f.getName() + " compared against " + friendName);
             if (f.getName().contentEquals(friendName)) {
                 return f;
             }
@@ -79,6 +78,10 @@ public class FriendManager {
 
     public synchronized void updateOnlineFriends() {
         Collection<Friend> onlineFriends = ChatIntentService.getOnlineFriends();
+        ONLINE_FRIENDS.removeAll(onlineFriends);
+        for (Friend x : ONLINE_FRIENDS) //These are the ones that went offline since the last check
+            ChatNotificationManager.dismissNotificationsForFriend(LoLin1Application.getInstance()
+                    .getContext(), x.getName());
         ONLINE_FRIENDS.clear();
         if (!ChatIntentService.isLoggedIn() || !Utils.isInternetReachable())
             return;

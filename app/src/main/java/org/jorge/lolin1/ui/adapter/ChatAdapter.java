@@ -1,13 +1,11 @@
 package org.jorge.lolin1.ui.adapter;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.LruCache;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +20,10 @@ import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
 import org.jorge.lolin1.R;
 import org.jorge.lolin1.anim.ExpandableViewHoldersUtil;
-import org.jorge.lolin1.chat.ChatMessageWrapper;
+import org.jorge.lolin1.chat.ChatHistoryManager;
+import org.jorge.lolin1.chat.ChatNotificationManager;
 import org.jorge.lolin1.chat.FriendManager;
+import org.jorge.lolin1.datamodel.ChatMessageWrapper;
 import org.jorge.lolin1.io.prefs.PreferenceAssistant;
 import org.jorge.lolin1.util.PicassoUtils;
 
@@ -43,7 +43,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private final ExpandableViewHoldersUtil.KeepOneH<ViewHolder> keepOne = new
             ExpandableViewHoldersUtil
                     .KeepOneH<>();
-    private final LruCache<String, ChatRoomAdapter> mChatAdapterCache;
 
     public ChatAdapter(Context context, View emptyView, String tag) {
         mEmptyView = emptyView;
@@ -56,12 +55,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                         BASE_PROFILE_ICON_URL, PreferenceAssistant.readSharedString(mContext,
                                 PreferenceAssistant.PREF_LAST_PROFILE_ICON_VERSION, "null"),
                         "0");
-        final int memClass = ((ActivityManager) context.getSystemService(
-                Context.ACTIVITY_SERVICE)).getMemoryClass();
-
-// Use 1/8th of the available memory for this memory cache.
-        final int cacheSize = 1024 * 1024 * memClass / 8;
-        mChatAdapterCache = new LruCache<>(cacheSize);
     }
 
     @Override
@@ -156,7 +149,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             mMessageRecyclerView = (RecyclerView) mChatArea.findViewById(R.id
                     .chat_room_message_recycler_view);
             mMessageRecyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-            mMessageRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+            final LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+            layoutManager.setStackFromEnd(Boolean.TRUE);
+            mMessageRecyclerView.setLayoutManager(layoutManager);
             mMessageRecyclerView.setHasFixedSize(Boolean.FALSE);
             mMessageRecyclerView.setItemAnimator(new DefaultItemAnimator());
             mInputArea.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -167,15 +162,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                             .getAction() == KeyEvent
                             .ACTION_DOWN &&
                             event.getKeyCode() == KeyEvent.KEYCODE_ENTER))) {
-                        final String messageText;
-                        if (!TextUtils.isEmpty(messageText = mInputArea.getText().toString()))
+                        final String messageText, friendName;
+                        if (!TextUtils.isEmpty(messageText = mInputArea.getText().toString())) {
                             FriendManager.getInstance().requestSendMessage(messageText,
-                                    userNameView.getText().toString());
-                        mChatRoomAdapter.addItem(new ChatMessageWrapper(messageText,
-                                System.currentTimeMillis()));
-                        mChatRoomAdapter.notifyItemAdded();
-                        mInputArea.setText("");
-                        return Boolean.TRUE;
+                                    friendName = userNameView.getText().toString());
+                            ChatHistoryManager.addMessageToFriendChat(new ChatMessageWrapper
+                                    (messageText,
+                                            System.currentTimeMillis()), FriendManager.getInstance()
+                                    .findFriendByName(friendName));
+                            mInputArea.setText("");
+                            return Boolean.TRUE;
+                        }
                     }
                     return Boolean.FALSE;
                 }
@@ -185,11 +182,9 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         private void setupChatRoomAdapter() { //Must be called here because before it is unknown
             // who the friend is
             final String friendName = userNameView.getText().toString();
-            mChatRoomAdapter = ChatAdapter.this.mChatAdapterCache.get(friendName);
-            if (mChatRoomAdapter == null) {
-                mChatRoomAdapter = new ChatRoomAdapter();
-                mChatAdapterCache.put(friendName, mChatRoomAdapter);
-            }
+            mChatRoomAdapter = ChatHistoryManager.getChatRoomByFriend(FriendManager.getInstance()
+                    .findFriendByName(friendName), mMessageRecyclerView);
+            ChatNotificationManager.dismissNotificationsForFriend(mContext, friendName);
             mMessageRecyclerView.setAdapter(mChatRoomAdapter);
         }
 

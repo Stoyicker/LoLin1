@@ -70,6 +70,10 @@ public class ExpandableViewHoldersUtil {
                 ExpandableViewHoldersUtil.closeH(holder, holder.getExpandView(), Boolean.FALSE);
         }
 
+        public Boolean isOpened(VH holder) {
+            return _opened == holder.getPosition();
+        }
+
         @SuppressWarnings("unchecked")
         public void toggle(VH holder) {
             if (_opened == holder.getPosition()) {

@@ -1,5 +1,6 @@
 package org.jorge.lolin1.ui.adapter;
 
+import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -8,17 +9,23 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.jorge.lolin1.R;
-import org.jorge.lolin1.chat.ChatMessageWrapper;
+import org.jorge.lolin1.datamodel.ChatMessageWrapper;
 
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHolder> {
 
     private static final Integer MESSAGE_TYPE_SENT_BY_ME = 0, MESSAGE_TYPE_SENT_BY_OTHER = 1;
     private final List<ChatMessageWrapper> mData = new LinkedList<>();
     private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("HH:mm");
+    private final RecyclerView mRecyclerView;
+
+    public ChatRoomAdapter(RecyclerView recyclerView) {
+        mRecyclerView = recyclerView;
+    }
 
     @Override
     public ChatRoomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -71,7 +78,21 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHo
     }
 
     public void notifyItemAdded() {
-        notifyItemChanged(mData.size() - 1);
+        new AsyncTask<Void, Void, Void>() {
+
+            final Integer lastPos = mData.size() - 1;
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void aVoid) {
+                notifyItemChanged(lastPos);
+                mRecyclerView.smoothScrollToPosition(lastPos);
+            }
+        }.executeOnExecutor(Executors.newSingleThreadExecutor());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

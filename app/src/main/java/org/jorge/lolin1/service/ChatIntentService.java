@@ -1,6 +1,7 @@
 package org.jorge.lolin1.service;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
@@ -20,7 +21,11 @@ import org.jivesoftware.smack.SmackAndroid;
 import org.jivesoftware.smack.SmackException;
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
+import org.jorge.lolin1.chat.ChatHistoryManager;
+import org.jorge.lolin1.chat.ChatNotificationManager;
+import org.jorge.lolin1.datamodel.ChatMessageWrapper;
 import org.jorge.lolin1.datamodel.LoLin1Account;
+import org.jorge.lolin1.util.Utils;
 
 import java.io.IOException;
 import java.util.List;
@@ -53,7 +58,7 @@ public class ChatIntentService extends IntentService {
     public static final String ACTION_CONNECT = "CONNECT", ACTION_DISCONNECT = "DISCONNECT";
     public static final String KEY_MESSAGE_CONTENTS = "MESSAGE_CONTENTS";
     public static final String KEY_MESSAGE_SOURCE = "SOURCE_FRIEND";
-    public static final String EXTRA_KEY_LOLIN1_ACCOUNT = "EXTRA_KEY_LOLIN1_ACCOUNT";
+    public static final String EXTRA_KEY_LOLIN1_ACCOUNT = "KEY_LOLIN1_ACCOUNT";
     private final IBinder mBinder = new ChatBinder();
     private static LoLChat api;
     private SmackAndroid mSmackAndroid;
@@ -169,24 +174,49 @@ public class ChatIntentService extends IntentService {
             }
         });
 
-        api.addChatListener(new ChatListener() {
-            @Override
-            public void onMessage(Friend friend, String message) {
-// TODO On message received listener
-// ChatMessageWrapper messageWrapper = new ChatMessageWrapper(message,
-//                        System.currentTimeMillis(), friend);
-//
-//                ChatBundleManager.addMessageToFriendChat(messageWrapper, friend);
-//
-//                launchBroadcastMessageReceived(message, friend.getName());
-//
-//                if (!LoLin1Utils.getCurrentForegroundActivityClass(getApplicationContext())
-//                        .contentEquals((ChatRoomActivity.class.getName()))) {
-//                    ChatNotificationManager.createOrUpdateMessageReceivedNotification
-//                            (getApplicationContext(), message, friend);
-//                }
-            }
-        });
+        api.addChatListener(
+                new ChatListener() {
+                    @Override
+                    public void onMessage(Friend friend, String message) {
+                        final Context context = LoLin1Application.getInstance()
+                                .getContext();
+
+                        ChatMessageWrapper messageWrapper = new ChatMessageWrapper
+                                (message,
+                                        System.currentTimeMillis(), friend);
+
+                        ChatHistoryManager.addMessageToFriendChat(messageWrapper,
+                                friend);
+
+                        launchBroadcastMessageReceived(message, friend.getName());
+
+                        new AsyncTask<Object, Void, Boolean>() {
+
+                            private Context mContext;
+                            private String mMessage;
+                            private Friend mFriend;
+
+                            @Override
+                            protected Boolean doInBackground(Object... params) {
+                                mContext = (Context) params[0];
+                                mMessage = (String) params[1];
+                                mFriend = (Friend) params[2];
+
+                                return Utils.isRunningOnForeground(mContext);
+                            }
+
+                            @Override
+                            protected void onPostExecute(Boolean isOnForeground) {
+                                if (!isOnForeground)
+                                    ChatNotificationManager
+                                            .createOrUpdateMessageReceivedNotification
+                                                    (mContext, mMessage, mFriend);
+                            }
+                        }.executeOnExecutor(Executors
+                                .newSingleThreadExecutor(), context, message, friend);
+                    }
+                }
+        );
     }
 
     @SuppressWarnings("unused")

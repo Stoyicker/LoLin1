@@ -43,6 +43,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import org.jorge.lolin1.LoLin1Application;
 import org.jorge.lolin1.R;
+import org.jorge.lolin1.auth.LoLin1AccountAuthenticator;
 import org.jorge.lolin1.chat.FriendManager;
 import org.jorge.lolin1.datamodel.FeedArticle;
 import org.jorge.lolin1.datamodel.LoLin1Account;
@@ -68,7 +69,8 @@ import java.util.concurrent.Executors;
 public class MainActivity extends ActionBarActivity implements Interface
         .IOnFeedArticleClickedListener, NavigationDrawerAdapter.NavigationDrawerCallbacks {
 
-    public static final String EXTRA_KEY_LOLIN1_ACCOUNT = "EXTRA_KEY_LOLIN1_ACCOUNT";
+    public static final String KEY_LOLIN1_ACCOUNT = "KEY_LOLIN1_ACCOUNT";
+    public static final String KEY_OPEN_CHAT = "KEY_OPEN_CHAT";
     private Context mContext;
     private Fragment[] mContentFragments;
     private NavigationDrawerFragment mNavigationDrawerFragment;
@@ -81,6 +83,7 @@ public class MainActivity extends ActionBarActivity implements Interface
     private ChatAdapter mChatAdapter;
     private TextView mEmptyView;
     private String mTag = getClass().getName();
+    private SlidingUpPanelLayout mSlidingLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,19 +98,24 @@ public class MainActivity extends ActionBarActivity implements Interface
 
         getSupportActionBar().setHomeButtonEnabled(Boolean.TRUE);
 
-        mAccount = getIntent().getParcelableExtra(EXTRA_KEY_LOLIN1_ACCOUNT);
+        mContext = LoLin1Application.getInstance().getContext();
+
+        mAccount = getIntent().getParcelableExtra(KEY_LOLIN1_ACCOUNT);
+        final Boolean comesFromNotification;
+        if (comesFromNotification = mAccount == null)
+            mAccount = LoLin1AccountAuthenticator.loadAccount(mContext);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.navigation_drawer_fragment);
         setupNavigationDrawer(toolbar, mAccount);
 
-        final SlidingUpPanelLayout slidingLayout = (SlidingUpPanelLayout) findViewById(R.id
+        mSlidingLayout = (SlidingUpPanelLayout) findViewById(R.id
                 .sliding_layout);
         mLoginProgress = findViewById(R.id.progress_bar);
         mLoginStatus = (ImageView) findViewById(R.id.login_status_image);
         final TextView chatActionView = (TextView) findViewById(R.id.chat_view_action);
-        slidingLayout.setDragView(chatActionView);
-        slidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+        mSlidingLayout.setDragView(chatActionView);
+        mSlidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View view, float v) {
                 //Unused
@@ -138,10 +146,14 @@ public class MainActivity extends ActionBarActivity implements Interface
             }
         });
 
-        mContext = LoLin1Application.getInstance().getContext();
-
         setupChatView();
-        initChat();
+        if (!comesFromNotification)
+            initChat();
+        else {
+            mNavigationDrawerFragment.asyncLoadUserImage(mAccount);
+            requestChatListRefresh();
+            showChatViewConnected();
+        }
 
         if (mContentFragments == null)
             showInitialFragment();
@@ -216,6 +228,11 @@ public class MainActivity extends ActionBarActivity implements Interface
             }
         }
         thisView.post(viewRunnable);
+
+        if (getIntent().getBooleanExtra(KEY_OPEN_CHAT, Boolean.FALSE) && !mSlidingLayout
+                .isPanelExpanded()) {
+            mSlidingLayout.expandPanel();
+        }
     }
 
     private void showChatViewLoading() {
@@ -525,5 +542,4 @@ public class MainActivity extends ActionBarActivity implements Interface
 
         }
     }
-
 }

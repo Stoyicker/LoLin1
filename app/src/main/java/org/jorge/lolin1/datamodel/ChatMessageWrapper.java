@@ -1,10 +1,12 @@
-package org.jorge.lolin1.chat;
+package org.jorge.lolin1.datamodel;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
+
+import org.jorge.lolin1.chat.FriendManager;
 
 import java.util.Date;
 

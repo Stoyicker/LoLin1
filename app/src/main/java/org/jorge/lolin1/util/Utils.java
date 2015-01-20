@@ -1,11 +1,14 @@
 package org.jorge.lolin1.util;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Looper;
 
 import org.jorge.lolin1.LoLin1Application;
+
+import java.util.List;
 
 /*
  * This file is part of LoLin1.
@@ -50,5 +53,27 @@ public abstract class Utils {
         ret = isWifiConnected || isDataConnected;
 
         return ret;
+    }
+
+    public static Boolean isRunningOnForeground(Context context) {
+        if (Utils.isMainThread())
+            throw new IllegalStateException("Cannot call isRunningOnForeground in the main thread" +
+                    ".");
+
+        final ActivityManager activityManager = (ActivityManager) context.getSystemService(Context
+                .ACTIVITY_SERVICE);
+        final List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
+                .getRunningAppProcesses();
+        if (appProcesses == null) {
+            return Boolean.FALSE;
+        }
+        final String packageName = context.getPackageName();
+        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            if (appProcess.importance == ActivityManager.RunningAppProcessInfo
+                    .IMPORTANCE_FOREGROUND && appProcess.processName.equals(packageName)) {
+                return Boolean.TRUE;
+            }
+        }
+        return Boolean.FALSE;
     }
 }
