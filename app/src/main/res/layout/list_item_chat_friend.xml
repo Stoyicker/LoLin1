@@ -58,8 +58,7 @@
             android:id="@+id/chat_expand_area"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/chat_room_message_recycler_view"
