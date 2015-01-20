@@ -3,6 +3,7 @@ package org.jorge.lolin1.chat;
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
 import org.jorge.lolin1.service.ChatIntentService;
+import org.jorge.lolin1.util.Utils;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -61,6 +62,8 @@ public class FriendManager {
     public synchronized void updateOnlineFriends() {
         Collection<Friend> onlineFriends = ChatIntentService.getOnlineFriends();
         ONLINE_FRIENDS.clear();
+        if (!ChatIntentService.isLoggedIn() || !Utils.isInternetReachable())
+            return;
         for (Friend f : onlineFriends) {
             if (f.getChatMode() != null && f.isOnline()) { //Prevention check
                 ONLINE_FRIENDS.add(f);

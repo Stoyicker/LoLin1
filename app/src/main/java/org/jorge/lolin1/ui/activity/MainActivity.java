@@ -485,6 +485,7 @@ public class MainActivity extends ActionBarActivity implements Interface
                         thisView.post(new Runnable() {
                             @Override
                             public void run() {
+                                MainActivity.this.requestChatListRefresh();
                                 showChatViewNoConnection();
                             }
                         });
