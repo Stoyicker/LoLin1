@@ -99,4 +99,6 @@
     <string name="chat_friend_list_empty_no_connection">It has not been possible to connect. Tap to retry.</string>
     <string name="chat_friend_list_empty_wrong_credentials">Your credentials seem to be wrong. You may want to go to the Account Manager and re-add your account.</string>
     <string name="chat_friend_list_empty_loading">Loading…</string>
+    <string name="chat_view_action_expand">Expand</string>
+    <string name="chat_view_action_collapse">Collapse</string>
 </resources>

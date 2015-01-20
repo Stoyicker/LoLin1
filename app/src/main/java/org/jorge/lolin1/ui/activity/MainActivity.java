@@ -104,6 +104,7 @@ public class MainActivity extends ActionBarActivity implements Interface
                 .sliding_layout);
         mLoginProgress = findViewById(R.id.progress_bar);
         mLoginStatus = (ImageView) findViewById(R.id.login_status_image);
+        final TextView chatActionView = (TextView) findViewById(R.id.chat_view_action);
         mSlidingLayout.setPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
             public void onPanelSlide(View view, float v) {
@@ -113,21 +114,25 @@ public class MainActivity extends ActionBarActivity implements Interface
             @Override
             public void onPanelCollapsed(View view) {
                 MainActivity.this.mNavigationDrawerFragment.unlockDrawer();
+                chatActionView.setText(R.string.chat_view_action_expand);
             }
 
             @Override
             public void onPanelExpanded(View view) {
                 MainActivity.this.mNavigationDrawerFragment.lockDrawerClosed();
+                chatActionView.setText(R.string.chat_view_action_collapse);
             }
 
             @Override
             public void onPanelAnchored(View view) {
                 MainActivity.this.mNavigationDrawerFragment.lockDrawerClosed();
+                chatActionView.setText(R.string.chat_view_action_collapse);
             }
 
             @Override
             public void onPanelHidden(View view) {
                 MainActivity.this.mNavigationDrawerFragment.unlockDrawer();
+                chatActionView.setText(R.string.chat_view_action_expand);
             }
         });
 

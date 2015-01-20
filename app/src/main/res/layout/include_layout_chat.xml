@@ -4,47 +4,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
     android:orientation="vertical"
     android:padding="@dimen/chat_padding"
     android:background="@color/material_grey_300">
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:paddingBottom="@dimen/chat_padding">
-
-        <com.gc.materialdesign.views.ProgressBarCircularIndeterminate
-            android:id="@+id/progress_bar"
-            android:layout_width="@dimen/login_progressbar_square_side"
-            android:layout_height="@dimen/login_progressbar_square_side"
-            android:layout_alignParentRight="true"
-            android:layout_alignWithParentIfMissing="true"
-            android:background="@color/material_blue_600"/>
-
-        <ImageView
-            android:id="@+id/login_status_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignWithParentIfMissing="true"
-            android:visibility="gone"
-            android:layout_alignParentTop="true"
-            tools:ignore="ContentDescription"/>
-        <!--The contentDescription will be given in Java-->
+        android:animateLayoutChanges="true">
 
         <TextView
-            android:id="@+id/chat_title_view"
-            android:layout_width="wrap_content"
+            android:id="@+id/chat_view_action"
+            android:gravity="center"
+            android:background="@null"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/chat_title"
-            style="@style/AppTheme.ChatTitleStyle"
-            android:layout_alignParentLeft="true"
-            android:layout_toLeftOf="@id/progress_bar"/>
-    </RelativeLayout>
+            android:textAllCaps="true"
+            android:text="@string/chat_view_action_expand"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:animateLayoutChanges="true"
+            android:paddingBottom="@dimen/chat_padding">
+
+            <com.gc.materialdesign.views.ProgressBarCircularIndeterminate
+                android:id="@+id/progress_bar"
+                android:layout_width="@dimen/login_progressbar_square_side"
+                android:layout_height="@dimen/login_progressbar_square_side"
+                android:layout_alignParentRight="true"
+                android:layout_alignWithParentIfMissing="true"
+                android:background="@color/material_blue_600"/>
+
+            <ImageView
+                android:id="@+id/login_status_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:animateLayoutChanges="true"
+                android:layout_alignWithParentIfMissing="true"
+                android:visibility="gone"
+                android:layout_alignParentTop="true"
+                tools:ignore="ContentDescription"/>
+            <!--The contentDescription will be given in Java-->
+
+            <TextView
+                android:id="@+id/chat_title_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/chat_title"
+                style="@style/AppTheme.ChatTitleStyle"
+                android:layout_alignParentLeft="true"
+                android:layout_toLeftOf="@id/progress_bar"/>
+        </RelativeLayout>
+    </FrameLayout>
 
     <FrameLayout
+        android:animateLayoutChanges="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -54,7 +71,8 @@
             android:layout_height="match_parent"
             android:requiresFadingEdge="none"
             android:fadeScrollbars="true"
-            android:scrollbars="vertical"/>
+            android:scrollbars="vertical"
+            android:scrollbarStyle="insideInset"/>
 
         <TextView
             android:id="@android:id/empty"
