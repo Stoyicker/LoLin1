@@ -65,7 +65,7 @@ public class FriendManager {
         if (!ChatIntentService.isLoggedIn() || !Utils.isInternetReachable())
             return;
         for (Friend f : onlineFriends) {
-            if (f.getChatMode() != null && f.isOnline()) { //Prevention check
+            if (f.getChatMode() != null && f.isOnline() && !f.isNull()) { //Prevention check
                 ONLINE_FRIENDS.add(f);
             }
         }

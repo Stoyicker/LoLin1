@@ -11,6 +11,7 @@
 package com.github.theholywaffle.lolchatapi.wrapper;
 
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.github.theholywaffle.lolchatapi.ChatMode;
@@ -229,8 +230,17 @@ public class Friend extends Wrapper<RosterEntry> implements Comparable {
             anotherValue = 2;
         else anotherValue = 3;
 
-        return thisValue == anotherValue ? getName().toLowerCase(Locale.ENGLISH).compareTo((
-                (Friend) another).getName().toLowerCase(Locale.ENGLISH)) : anotherValue -
-                thisValue;
+        try {
+            return thisValue == anotherValue ? getName().toLowerCase(Locale.ENGLISH).compareTo((
+                    (Friend) another).getName().toLowerCase(Locale.ENGLISH)) : anotherValue -
+                    thisValue;
+        } catch (NullPointerException e) {
+            return 1;
+        }
+    }
+
+    public Boolean isNull() {
+        final String name = getName();
+        return TextUtils.isEmpty(name) || name.contentEquals("null");
     }
 }

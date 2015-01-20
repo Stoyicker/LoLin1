@@ -1,19 +1,20 @@
 package org.jorge.lolin1.ui.adapter;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.theholywaffle.lolchatapi.wrapper.Friend;
 
 import org.jorge.lolin1.R;
+import org.jorge.lolin1.anim.ExpandableViewHoldersUtil;
 import org.jorge.lolin1.chat.FriendManager;
 import org.jorge.lolin1.io.prefs.PreferenceAssistant;
 import org.jorge.lolin1.util.PicassoUtils;
@@ -31,8 +32,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private final String mTag;
     private final String BASE_PROFILE_ICON_URL;
     private final String DEFAULT_PROFILE_IMG_URL;
+    ExpandableViewHoldersUtil.KeepOneH<ViewHolder> keepOne = new ExpandableViewHoldersUtil
+            .KeepOneH<>();
+    private final RecyclerView mRecyclerView;
 
-    public ChatAdapter(Context context, View emptyView, String tag) {
+    public ChatAdapter(Context context, View emptyView, String tag, RecyclerView recyclerView) {
         mEmptyView = emptyView;
         mContext = context;
         mTag = tag;
@@ -43,17 +47,20 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                         BASE_PROFILE_ICON_URL, PreferenceAssistant.readSharedString(mContext,
                                 PreferenceAssistant.PREF_LAST_PROFILE_ICON_VERSION, "null"),
                         "0");
+        mRecyclerView = recyclerView;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout
                 .list_item_chat_friend, parent, Boolean.FALSE);
-        return new ViewHolder(v);
+        return new ViewHolder(mContext, v, mRecyclerView);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int i) {
+        keepOne.bind(viewHolder, i);
+
         viewHolder.profileImageView.setImageDrawable(null);
         Friend item = getItem(i);
         if (item != null) {
@@ -111,47 +118,41 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View
+            .OnClickListener, ExpandableViewHoldersUtil.Expandable {
 
-        final TextView userNameView, statusView;
-        final ImageView profileImageView;
-        //Expand logic taken from Google code sample at https://developer.android
-        // .com/training/material/lists-cards.html
-        private int mOriginalHeight = 0;
-        private boolean mIsViewExpanded = Boolean.FALSE;
+        private final TextView userNameView, statusView;
+        private final ImageView profileImageView;
+        private final ViewGroup mChatArea;
+        private final RecyclerView mRecyclerView;
+        private final EditText mInputArea;
+        private final Context mContext;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(Context context, View itemView, RecyclerView recyclerView) {
             super(itemView);
             itemView.setOnClickListener(this);
             userNameView = (TextView) itemView.findViewById(R.id.user_name);
             statusView = (TextView) itemView.findViewById(R.id.user_status);
             profileImageView = (ImageView) itemView.findViewById(R.id.user_image);
+            mChatArea = (ViewGroup) itemView.findViewById(R.id.chat_expand_area);
+            mInputArea = (EditText) itemView.findViewById(android.R.id.inputArea);
+            mRecyclerView = recyclerView;
+            mContext = context;
         }
 
         @Override
         public void onClick(final View view) {
-            if (mOriginalHeight == 0) {
-                mOriginalHeight = view.getHeight();
-            }
-            ValueAnimator valueAnimator;
-            if (!mIsViewExpanded) {
-                mIsViewExpanded = Boolean.TRUE;
-                valueAnimator = ValueAnimator.ofInt(mOriginalHeight,
-                        mOriginalHeight + (int) (mOriginalHeight * 1.5));
-            } else {
-                mIsViewExpanded = Boolean.FALSE;
-                valueAnimator = ValueAnimator.ofInt(mOriginalHeight +
-                        (int) (mOriginalHeight * 1.5), mOriginalHeight);
-            }
-            valueAnimator.setDuration(150);
-            valueAnimator.setInterpolator(new LinearInterpolator());
-            valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    view.getLayoutParams().height = (Integer) animation.getAnimatedValue();
-                    view.requestLayout();
-                }
-            });
-            valueAnimator.start();
+            mRecyclerView.scrollToPosition(getPosition());
+            final InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
+                    Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mInputArea.getWindowToken(), 0);
+            mInputArea.clearFocus();
+            keepOne.toggle(this);
+        }
+
+        @Override
+        public View getExpandView() {
+            return mChatArea;
         }
     }
 }

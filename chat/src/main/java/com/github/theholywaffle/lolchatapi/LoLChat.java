@@ -230,7 +230,8 @@ public class LoLChat {
                         }
                     });
                 } else {
-                    Log.wtf("debug", "Friend is null in chat creation");
+                    Log.wtf(((LoLChat) LoLChat.this).getClass().getName(),
+                            "Friend is null in chat creation");
                 }
 
             }

@@ -148,7 +148,7 @@ public class LolStatus {
             if (!found) {
                 Log.wtf(getClass().getName(), "XMLProperty \"" + e.getName()
                         + "\" not implemented yet!");
-                Crashlytics.log(Log.ERROR, "debug", "XMLProperty \"" + e.getName()
+                Crashlytics.log(Log.ERROR, getClass().getName(), "XMLProperty \"" + e.getName()
                         + "\" not implemented yet!");
             }
         }
