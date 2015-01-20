@@ -67,7 +67,7 @@
                 android:id="@android:id/inputArea"
                 android:layout_width="match_parent"
                 android:imeOptions="actionSend"
-                android:layout_height="@dimen/chat_card_input_area_height"
+                android:layout_height="0dp"
                 android:inputType="textNoSuggestions"
                 android:layout_weight="1"
                 tools:ignore="InefficientWeight"/>

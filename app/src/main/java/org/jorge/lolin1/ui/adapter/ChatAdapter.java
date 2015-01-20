@@ -32,11 +32,11 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
     private final String mTag;
     private final String BASE_PROFILE_ICON_URL;
     private final String DEFAULT_PROFILE_IMG_URL;
-    ExpandableViewHoldersUtil.KeepOneH<ViewHolder> keepOne = new ExpandableViewHoldersUtil
-            .KeepOneH<>();
-    private final RecyclerView mRecyclerView;
+    private final ExpandableViewHoldersUtil.KeepOneH<ViewHolder> keepOne = new
+            ExpandableViewHoldersUtil
+                    .KeepOneH<>();
 
-    public ChatAdapter(Context context, View emptyView, String tag, RecyclerView recyclerView) {
+    public ChatAdapter(Context context, View emptyView, String tag) {
         mEmptyView = emptyView;
         mContext = context;
         mTag = tag;
@@ -47,14 +47,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
                         BASE_PROFILE_ICON_URL, PreferenceAssistant.readSharedString(mContext,
                                 PreferenceAssistant.PREF_LAST_PROFILE_ICON_VERSION, "null"),
                         "0");
-        mRecyclerView = recyclerView;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final View v = LayoutInflater.from(parent.getContext()).inflate(R.layout
                 .list_item_chat_friend, parent, Boolean.FALSE);
-        return new ViewHolder(mContext, v, mRecyclerView);
+        return new ViewHolder(mContext, v);
     }
 
     @Override
@@ -124,11 +123,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
         private final TextView userNameView, statusView;
         private final ImageView profileImageView;
         private final ViewGroup mChatArea;
-        private final RecyclerView mRecyclerView;
         private final EditText mInputArea;
         private final Context mContext;
 
-        public ViewHolder(Context context, View itemView, RecyclerView recyclerView) {
+        public ViewHolder(Context context, View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
             userNameView = (TextView) itemView.findViewById(R.id.user_name);
@@ -136,18 +134,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder> {
             profileImageView = (ImageView) itemView.findViewById(R.id.user_image);
             mChatArea = (ViewGroup) itemView.findViewById(R.id.chat_expand_area);
             mInputArea = (EditText) itemView.findViewById(android.R.id.inputArea);
-            mRecyclerView = recyclerView;
             mContext = context;
         }
 
         @Override
         public void onClick(final View view) {
-            mRecyclerView.scrollToPosition(getPosition());
             final InputMethodManager imm = (InputMethodManager) mContext.getSystemService(
                     Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(mInputArea.getWindowToken(), 0);
-            mInputArea.clearFocus();
             keepOne.toggle(this);
+            notifyItemChanged(getPosition());
+            mInputArea.clearFocus();
         }
 
         @Override

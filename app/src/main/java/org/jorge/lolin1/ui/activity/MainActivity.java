@@ -153,7 +153,7 @@ public class MainActivity extends ActionBarActivity implements Interface
         chatRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         mEmptyView = (TextView) findViewById(android.R.id.empty);
         mChatAdapter =
-                new ChatAdapter(mContext, mEmptyView, mTag, chatRecyclerView);
+                new ChatAdapter(mContext, mEmptyView, mTag);
         chatRecyclerView.setHasFixedSize(Boolean.FALSE);
         chatRecyclerView.setAdapter(mChatAdapter);
         chatRecyclerView.setItemAnimator(new DefaultItemAnimator());
