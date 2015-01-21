@@ -14,13 +14,15 @@ import org.jorge.lolin1.datamodel.ChatMessageWrapper;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.Executors;
 
 public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.ViewHolder> {
 
     private static final Integer MESSAGE_TYPE_SENT_BY_ME = 0, MESSAGE_TYPE_SENT_BY_OTHER = 1;
     private final List<ChatMessageWrapper> mData = new LinkedList<>();
-    private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("HH:mm");
+    private static final SimpleDateFormat TIMESTAMP_FORMAT = new SimpleDateFormat("HH:mm",
+            Locale.ENGLISH);
     private final RecyclerView mRecyclerView;
 
     public ChatRoomAdapter(RecyclerView recyclerView) {

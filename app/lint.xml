@@ -65,4 +65,7 @@
         <ignore path="src/main/res/drawable-hdpi/drawable_section3.png"/>
         <ignore path="src/main/res/drawable-mdpi/drawable_section3.png"/>
     </issue>
+    <issue id="IconColors">
+        <ignore path="src/main/res/drawable-*/ic_launcher.png"/>
+    </issue>
 </lint>

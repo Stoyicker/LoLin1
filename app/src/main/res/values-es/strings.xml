@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ This file is part of LoLin1.
+  ~
+  ~ LoLin1 is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ LoLin1 is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with LoLin1. If not, see <http://www.gnu.org/licenses/>.
+  ~
+  ~ Created by Jorge Antonio Diaz-Benito Soriano.
+  -->
+<resources>
+    <string name="title_section0">Noticias</string>
+    <string name="title_section1">Comunidad</string>
+    <string name="title_section2">Escuela de invocadores</string>
+    <string name="no_feed_articles">No hay noticias.</string>
+    <string name="open_in_browser">Abrir en el navegador</string>
+    <string name="drawer_close">Menú cerrado</string>
+    <string name="drawer_open">Menú abierto</string>
+    <string name="nav_drawer_aux_entry_help">Ayuda &amp; críticas</string>
+    <string name="nav_drawer_aux_entry_settings">Configuración</string>
+    <string name="pull_to_refresh">Tira para actualizar!</string>
+    <string name="login_background_content_description">Conectarse</string>
+    <string name="legal_jibber_jabber">%s no está avalada por Riot Games y no refleja los puntos de vista ni opiniones de Riot Games ni de nadie oficialmente envuelto en producir o gestionar League of Legends. League of Legends y Riot Games son marcas comerciales o registradas de Riot Games, Inc. League of Legends © Riot Games, Inc.</string>
+    <string name="account_login_title">Conexión de cuenta</string>
+    <string name="login_activity_username_hint">Usuario</string>
+    <string name="login_activity_password_hint">Contraseña</string>
+    <string name="account_login_button">Conectarse</string>
+    <string name="realm_prompt">Reino</string>
+    <string name="login_error_empty_username_or_password">¿Cómo pretendes conectarte sin usuario/contraseña?</string>
+    <string name="auth_token_label">Acceso seguro a una cuenta LoLin1</string>
+    <string name="account_save_success">Cuenta guardada con éxito</string>
+    <string name="chat_title">Chat</string>
+    <string name="pref_cat_general">General</string>
+    <string name="pref_title_lang">Idioma</string>
+    <string name="language_hu_hu">Húngaro</string>
+    <string name="language_es_es">Español</string>
+    <string name="language_tr_tr">Turco</string>
+    <string name="language_ru_ru">Ruso</string>
+    <string name="language_en_us">Inglés</string>
+    <string name="language_pt_pt">Portugués</string>
+    <string name="language_cs_cz">Checo</string>
+    <string name="language_de_de">Alemán</string>
+    <string name="language_fr_fr">Francés</string>
+    <string name="language_it_it">Italiano</string>
+    <string name="language_pl_pl">Polaco</string>
+    <string name="language_el_gr">Griego</string>
+    <string name="language_ro_ro">Rumano</string>
+    <string name="locale_change_confirmation">El cambio de idioma tendrá effecto cuando se reinicie la aplicación</string>
+    <string name="chat_status_loading_content_description">Cargando…</string>
+    <string name="chat_status_logged_in_content_description">Conectado</string>
+    <string name="chat_status_no_connection_content_description">No se ha podido conectar</string>
+    <string name="chat_status_wrong_credentials_content_description">Las credenciales parecen ser incorrectas</string>
+    <string name="chat_friend_list_empty_no_online_friends">No tienes amigos online. Aaaw, es una pena :(</string>
+    <string name="chat_friend_list_empty_no_connection">No se ha podido conectar. Toca para reintentarlo.</string>
+    <string name="chat_friend_list_empty_wrong_credentials">Tus credenciales parecen ser erróneas. Puede que quieras ir al Gestor de Cuentas y re-añadir tu cuenta.</string>
+    <string name="chat_friend_list_empty_loading">Cargando…</string>
+    <string name="chat_view_action_expand">Expandir</string>
+    <string name="chat_view_action_collapse">Cerrar</string>
+</resources>
