@@ -9,9 +9,9 @@ branches:
   only:
     - master
 before_install:
-    - echo "stub keystore" > lolin1.keystore
-    - echo "stub storage pwd" > lolin1storage.pwd
-    - echo "stub key pwd" > lolin1key.pwd
+    - echo "stub keystore" > cmpgplaykey.keystore
+    - echo "stub storage pwd" > cmpstorage.pwd
+    - echo "stub key pwd" > cmpkey.pwd
     - chmod +x gradlew
 script:
     - ./gradlew clean assembleGooglePlayTravis

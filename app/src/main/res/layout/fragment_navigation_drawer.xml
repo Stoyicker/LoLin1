@@ -42,7 +42,7 @@
             android:orientation="vertical"
             android:layout_marginLeft="@dimen/navigation_drawer_user_data_left_margin">
 
-            <org.jorge.lolin1.ui.component.CircularImageView
+            <org.jorge.cmp.ui.component.CircularImageView
                 android:id="@+id/user_photo"
                 android:layout_width="@dimen/navigation_drawer_user_photo_size"
                 android:layout_height="@dimen/navigation_drawer_user_photo_size"

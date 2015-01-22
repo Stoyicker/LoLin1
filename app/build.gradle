@@ -25,7 +25,7 @@ android {
 
     productFlavors {
         googlePlay {
-            applicationId "org.jorge.lolin1"
+            applicationId "org.jorge.cmp"
             minSdkVersion 15
             versionCode 38
             versionName "2.0"
@@ -34,10 +34,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile new File("lolin1gplaykey.keystore")
-            storePassword(new File("lolin1storage.pwd").text)
-            keyAlias("lolin1")
-            keyPassword new File("lolin1key.pwd").text
+            storeFile new File("cmpgplaykey.keystore")
+            storePassword(new File("cmpstorage.pwd").text)
+            keyAlias("cmp")
+            keyPassword new File("cmpkey.pwd").text
         }
     }
 

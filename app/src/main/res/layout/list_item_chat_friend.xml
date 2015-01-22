@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="@dimen/chat_card_padding">
 
-            <org.jorge.lolin1.ui.component.CircularImageView
+            <org.jorge.cmp.ui.component.CircularImageView
                 android:id="@+id/user_image"
                 android:src="@drawable/ic_launcher"
                 android:layout_width="wrap_content"

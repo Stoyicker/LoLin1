@@ -17,7 +17,7 @@
   ~ Created by Jorge Antonio Diaz-Benito Soriano on 07/11/2014.
   -->
 <resources>
-    <string name="app_name" translatable="false">LoLin1</string>
+    <string name="app_name" translatable="false">MySupport for League of Legends</string>
     <string name="title_section0">News</string>
     <string name="title_section1">Community</string>
     <string name="title_section2">Summoner\'s school</string>
@@ -66,11 +66,11 @@
     <string name="login_error_empty_username_or_password">How do you want to log in without username and password?</string>
     <string name="auth_token_label">Secure access to a LoLin1 account</string>
     <string name="account_save_success">Account saved successfully</string>
-    <string name="account_type" translatable="false">org.jorge.lolin1.acc_type</string>
-    <string name="event_chat_overview" translatable="false">org.jorge.lolin1.CHAT_OVERVIEW_EVENT</string>
-    <string name="event_login_successful" translatable="false">org.jorge.lolin1.CHAT_LOGIN_SUCCESSFUL_EVENT</string>
-    <string name="event_login_failed" translatable="false">org.jorge.lolin1.CHAT_LOGIN_FAILED_EVENT</string>
-    <string name="event_message_received" translatable="false">org.jorge.lolin1.CHAT_MESSAGE_RECEIVED_EVENT</string>
+    <string name="account_type" translatable="false">org.jorge.cmp.acc_type</string>
+    <string name="event_chat_overview" translatable="false">org.jorge.cmp.CHAT_OVERVIEW_EVENT</string>
+    <string name="event_login_successful" translatable="false">org.jorge.cmp.CHAT_LOGIN_SUCCESSFUL_EVENT</string>
+    <string name="event_login_failed" translatable="false">org.jorge.cmp.CHAT_LOGIN_FAILED_EVENT</string>
+    <string name="event_message_received" translatable="false">org.jorge.cmp.CHAT_MESSAGE_RECEIVED_EVENT</string>
     <string name="chat_title">Chat</string>
     <string name="profile_icon_url_pattern" translatable="false">http://ddragon.leagueoflegends.com/cdn/%s/img/profileicon/%s.png</string>
     <string name="realm_info_url_pattern" translatable="false">http://ddragon.leagueoflegends.com/realms/%s.json</string>

@@ -22,7 +22,7 @@
              android:layout_width="match_parent"
              android:layout_height="match_parent">
 
-    <org.jorge.lolin1.ui.component.StickyParallaxNotifyingScrollView
+    <org.jorge.cmp.ui.component.StickyParallaxNotifyingScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -84,7 +84,7 @@
 
             </FrameLayout>
         </LinearLayout>
-    </org.jorge.lolin1.ui.component.StickyParallaxNotifyingScrollView>
+    </org.jorge.cmp.ui.component.StickyParallaxNotifyingScrollView>
 
     <LinearLayout
         android:orientation="horizontal"
