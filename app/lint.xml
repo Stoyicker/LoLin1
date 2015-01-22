@@ -14,7 +14,7 @@
         <ignore path="src/main/res/layout/include_layout_chat.xml"/>
     </issue>
     <issue id="ClickableViewAccessibility">
-        <ignore path="src/main/java/org/jorge/lolin1/ui/adapter/NavigationDrawerAdapter.java"/>
+        <ignore path="src/main/java/org/jorge/cmp/ui/adapter/NavigationDrawerAdapter.java"/>
     </issue>
     <issue id="IconDipSize">
         <ignore path="src/main/res/drawable-xxxhdpi/ic_launcher.png"/>

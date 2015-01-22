@@ -9,7 +9,7 @@ branches:
   only:
     - master
 before_install:
-    - echo "stub keystore" > cmpgplaykey.keystore
+    - echo "stub keystore" > cmp.keystore
     - echo "stub storage pwd" > cmpstorage.pwd
     - echo "stub key pwd" > cmpkey.pwd
     - chmod +x gradlew

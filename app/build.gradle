@@ -34,10 +34,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile new File("cmpgplaykey.keystore")
+            storeFile new File("cmp.keystore")
             storePassword(new File("cmpstorage.pwd").text)
-            keyAlias("cmp")
-            keyPassword new File("cmpkey.pwd").text
+            keyAlias("cmp_alias")
+            keyPassword(new File("cmpkey.pwd").text)
         }
     }
 
