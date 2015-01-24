@@ -59,6 +59,7 @@ import java.util.concurrent.Executors;
 public class ArticleReaderFragment extends Fragment {
 
     public static final String KEY_ACCOUNT = "KEY_ACCOUNT";
+    private static Class mClass;
     private Context mContext;
     private int mDefaultImageId;
     private String TAG;
@@ -92,6 +93,7 @@ public class ArticleReaderFragment extends Fragment {
         args.putParcelable(ArticleReaderFragment.KEY_ARTICLE, article);
         int errorResId = R.drawable.feed_article_image_placeholder;
         args.putInt(FeedListFragment.ERROR_RES_ID_KEY, errorResId);
+        mClass = c;
 
         return ArticleReaderFragment.instantiate(context, ArticleReaderFragment.class.getName(),
                 args);
@@ -202,15 +204,34 @@ public class ArticleReaderFragment extends Fragment {
                                 PreferenceAssistant.PREF_LANG,
                                 l);
                     }
+                    final Class newsClass = NewsListFragment.class;
+                    final Class communityClass = CommunityListFragment.class;
+                    final Class schoolClass = SchoolListFragment.class;
+                    String tableName;
+                    if (mClass == newsClass) {
+                        if (l == null || !Arrays.asList(r.getLocales()).contains(l)) {
+                            l = r.getLocales()[0];
+                            PreferenceAssistant.writeSharedString(mContext,
+                                    PreferenceAssistant.PREF_LANG,
+                                    l);
+                        }
+                        tableName = SQLiteDAO.getNewsTableName(r, l);
+                    } else if (mClass == communityClass) {
+                        tableName = SQLiteDAO.getCommunityTableName();
+                    } else if (mClass == schoolClass) {
+                        tableName = SQLiteDAO.getSchoolTableName();
+                    } else {
+                        throw new IllegalArgumentException("Feed list fragment class " + mClass
+                                .getCanonicalName() + " not recognized.");
+                    }
                     new AsyncTask<Object, Void, Void>() {
                         @Override
                         protected Void doInBackground(Object... params) {
                             SQLiteDAO.getInstance().markArticleAsRead((FeedArticle) params[0],
-                                    SQLiteDAO.getNewsTableName((Realm) params[1],
-                                            (String) params[2]));
+                                    (String) params[1]);
                             return null;
                         }
-                    }.executeOnExecutor(Executors.newSingleThreadExecutor(), article, r, l);
+                    }.executeOnExecutor(Executors.newSingleThreadExecutor(), article, tableName);
                     article.markAsRead();
                 }
             });

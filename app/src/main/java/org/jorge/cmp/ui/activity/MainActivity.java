@@ -336,12 +336,12 @@ public class MainActivity extends ActionBarActivity implements Interface
         if (article.getPreviewText().contentEquals("null")) {
             article.requestBrowseToAction(mContext);
             article.markAsRead();
-            final Class newsClassName = NewsListFragment.class;
-            final Class communityClassName = CommunityListFragment.class;
-            final Class schoolClassName = SchoolListFragment.class;
+            final Class newsClass = NewsListFragment.class;
+            final Class communityClass = CommunityListFragment.class;
+            final Class schoolClass = SchoolListFragment.class;
             String tableName;
             final Realm r = Realm.getInstanceByRealmId(mAccount.getRealmEnum());
-            if (c == newsClassName) {
+            if (c == newsClass) {
                 String l = PreferenceAssistant.readSharedString(mContext,
                         PreferenceAssistant.PREF_LANG, null);
                 if (l == null || !Arrays.asList(r.getLocales()).contains(l)) {
@@ -351,9 +351,9 @@ public class MainActivity extends ActionBarActivity implements Interface
                             l);
                 }
                 tableName = SQLiteDAO.getNewsTableName(r, l);
-            } else if (c == communityClassName) {
+            } else if (c == communityClass) {
                 tableName = SQLiteDAO.getCommunityTableName();
-            } else if (c == schoolClassName) {
+            } else if (c == schoolClass) {
                 tableName = SQLiteDAO.getSchoolTableName();
             } else {
                 throw new IllegalArgumentException("Feed list fragment class " + c
@@ -363,11 +363,10 @@ public class MainActivity extends ActionBarActivity implements Interface
                 @Override
                 protected Void doInBackground(Object... params) {
                     SQLiteDAO.getInstance().markArticleAsRead((FeedArticle) params[0],
-                            SQLiteDAO.getNewsTableName((Realm) params[1],
-                                    (String) params[2]));
+                            (String) params[1]);
                     return null;
                 }
-            }.executeOnExecutor(Executors.newSingleThreadExecutor(), article, r, tableName);
+            }.executeOnExecutor(Executors.newSingleThreadExecutor(), article, tableName);
             return;
         }
 
