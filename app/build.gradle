@@ -48,7 +48,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled Boolean.FALSE
             proguardFiles 'proguard-rules.pro'
             zipAlignEnabled true
             signingConfig signingConfigs.release
