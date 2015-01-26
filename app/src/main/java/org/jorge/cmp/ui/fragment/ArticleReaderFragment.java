@@ -138,15 +138,6 @@ public class ArticleReaderFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            mActionBarBackgroundDrawable.setCallback(mDrawableCallback);
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(Boolean.TRUE);
@@ -170,6 +161,9 @@ public class ArticleReaderFragment extends Fragment {
         mActionBar.setDisplayHomeAsUpEnabled(Boolean.TRUE);
         mActionBarBackgroundDrawable = new ColorDrawable(mContext.getResources().getColor(R.color
                 .toolbar_background));
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            mActionBarBackgroundDrawable.setCallback(mDrawableCallback);
+        }
         mActionBar.setBackgroundDrawable(mActionBarBackgroundDrawable);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mOriginalElevation = mActionBar.getElevation();
