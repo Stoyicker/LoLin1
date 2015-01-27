@@ -27,8 +27,8 @@ android {
         googlePlay {
             applicationId "org.jorge.cmp"
             minSdkVersion 15
-            versionCode 40
-            versionName "2.02"
+            versionCode 41
+            versionName "2.03"
         }
     }
 
