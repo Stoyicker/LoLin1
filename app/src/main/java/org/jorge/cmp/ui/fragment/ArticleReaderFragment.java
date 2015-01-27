@@ -66,6 +66,7 @@ public class ArticleReaderFragment extends Fragment {
     private FeedArticle mArticle;
     public static final String KEY_ARTICLE = "ARTICLE";
     private ActionBarActivity mActivity;
+    @SuppressWarnings("FieldCanBeLocal")
     private Drawable mActionBarBackgroundDrawable;
     private LoLin1Account mAccount;
     private final Drawable.Callback mDrawableCallback = new Drawable.Callback() {
@@ -88,11 +89,13 @@ public class ArticleReaderFragment extends Fragment {
     private float mOriginalElevation;
     private FloatingActionButton mMarkAsReadFab;
 
-    public static Fragment newInstance(Context context, FeedArticle article, Class c) {
+    public static Fragment newInstance(Context context, FeedArticle article, Class c,
+                                       LoLin1Account acc) {
         Bundle args = new Bundle();
         args.putParcelable(ArticleReaderFragment.KEY_ARTICLE, article);
         int errorResId = R.drawable.feed_article_image_placeholder;
         args.putInt(FeedListFragment.ERROR_RES_ID_KEY, errorResId);
+        args.putParcelable(ArticleReaderFragment.KEY_ACCOUNT, acc);
         mClass = c;
 
         return ArticleReaderFragment.instantiate(context, ArticleReaderFragment.class.getName(),

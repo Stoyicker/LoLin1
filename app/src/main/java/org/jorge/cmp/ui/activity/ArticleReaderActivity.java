@@ -53,7 +53,8 @@ public class ArticleReaderActivity extends ActionBarActivity {
             FeedArticle article = extras.getParcelable(ArticleReaderFragment.KEY_ARTICLE);
             Class c = (Class) extras.getSerializable(ArticleReaderActivity
                     .READER_LIST_FRAGMENT_CLASS);
-            mArticleReaderFragment = ArticleReaderFragment.newInstance(context, article, c);
+            mArticleReaderFragment = ArticleReaderFragment.newInstance(context, article, c,
+                    (org.jorge.cmp.datamodel.LoLin1Account) extras.getParcelable(ArticleReaderFragment.KEY_ACCOUNT));
         }
         getSupportFragmentManager().beginTransaction().replace(R.id
                 .article_reader_fragment_container, mArticleReaderFragment)

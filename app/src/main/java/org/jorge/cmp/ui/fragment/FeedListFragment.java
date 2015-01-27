@@ -166,11 +166,6 @@ public class FeedListFragment extends Fragment implements Interface.IOnItemInter
         mCallback = (Interface.IOnFeedArticleClickedListener) activity;
         FEED_REFRESH_TIME_MILLIS = mContext.getResources().getInteger(R.integer
                 .feed_refresh_time_millis);
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
         if (mIsDualPane && Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
             mActionBarBackgroundDrawable.setCallback(mDrawableCallback);
