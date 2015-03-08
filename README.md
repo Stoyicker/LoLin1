@@ -15,11 +15,11 @@ League of Legends LoLin1 app for Android.
 
 Pull requests are welcome.
 
-[![News of your realm, in your language!](https://lh5.ggpht.com/mrMryFlOwALew1LopBYys1NfHGBaDpMGonv4-HxdD6uq3PIdo3qdWkBGxSRyThzPcg=h900-rw)](https://play.google.com/store/apps/details?id=org.jorge.cmp)
+[![News of your realm, in your language!](https://lh5.ggpht.com/mrMryFlOwALew1LopBYys1NfHGBaDpMGonv4-HxdD6uq3PIdo3qdWkBGxSRyThzPcg=h900-rw "Get it on Google Play")](https://play.google.com/store/apps/details?id=org.jorge.cmp)
 
-[![Card-style chat!](https://lh5.ggpht.com/zashuptqG7C7JR3e9uNdNTd3v6gsCekbP6n0GK58MGQHkPnl8Fgt18sFM8RpAi-clQ=h900-rw)](https://play.google.com/store/apps/details?id=org.jorge.cmp)
+[![Card-style chat!](https://lh5.ggpht.com/zashuptqG7C7JR3e9uNdNTd3v6gsCekbP6n0GK58MGQHkPnl8Fgt18sFM8RpAi-clQ=h900-rw "Get it on Google Play")](https://play.google.com/store/apps/details?id=org.jorge.cmp)
 
-[![And much more...](https://lh3.ggpht.com/EuOVsRxXDAoMNhN-N0pOwKG7O2vND3-XjIS_Mk-tm39lLKCk_b5iEhPwY8YuKmtKLQ=h900-rw)](https://play.google.com/store/apps/details?id=org.jorge.cmp)
+[![And much more...](https://lh3.ggpht.com/EuOVsRxXDAoMNhN-N0pOwKG7O2vND3-XjIS_Mk-tm39lLKCk_b5iEhPwY8YuKmtKLQ=h900-rw "Get it on Google Play")](https://play.google.com/store/apps/details?id=org.jorge.cmp)
 
 [![Get it on Google Play!](https://developer.android.com/images/brand/en_generic_rgb_wo_60.png "Get it on Google Play")](https://play.google.com/store/apps/details?id=org.jorge.cmp)
 
