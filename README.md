@@ -21,7 +21,7 @@ Pull requests are welcome.
 
 [![And much more...](https://lh3.ggpht.com/EuOVsRxXDAoMNhN-N0pOwKG7O2vND3-XjIS_Mk-tm39lLKCk_b5iEhPwY8YuKmtKLQ=h900-rw "Get it on Google Play")](https://play.google.com/store/apps/details?id=org.jorge.cmp)
 
-[![Get it on Google Play!](https://developer.android.com/images/brand/en_generic_rgb_wo_60.png "Get it on Google Play")](https://play.google.com/store/apps/details?id=org.jorge.cmp)
+<!---[![Get it on Google Play!](https://developer.android.com/images/brand/en_generic_rgb_wo_60.png "Get it on Google Play")](https://play.google.com/store/apps/details?id=org.jorge.cmp)--->
 
 LICENSE
 ================
